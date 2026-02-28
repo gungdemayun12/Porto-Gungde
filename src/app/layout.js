@@ -2,19 +2,25 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 
 export const metadata = {
-  title: "Portfolio | Gung De",
-  description: "My personal portfolio website",
+  title: "Portfolio | Gung Demayun",
+  description: "Gung Demayun — Web Developer & Designer portfolio showcasing projects, skills and experience.",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="pt-20">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="pt-14">
         <Navbar />
         {children}
       </body>
     </html>
   );
 }
-
-
