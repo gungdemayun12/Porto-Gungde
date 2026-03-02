@@ -208,7 +208,7 @@ function LanyardCard() {
             animate={{ opacity: [0.4, 0.9, 0.4] }}
             transition={{ repeat: Infinity, duration: 2 }}
           >
-            ↕ drag me
+            {"↕ drag me"}
           </motion.div>
         )}
       </motion.div>
@@ -775,7 +775,7 @@ export default function Home() {
             <div className="space-y-7" data-aos="fade-right" data-aos-delay="100">
               
               <div data-aos="fade-up" data-aos-delay="250">
-                <p className="text-gray-400 text-lg mb-1">Hello, I'm</p>
+                <p className="text-gray-400 text-lg mb-1">{"Hello, I'm"}</p>
                 <h1
                   className="text-5xl xl:text-6xl font-extrabold text-white leading-tight"
                   style={{ fontFamily: "'Orbitron', monospace" }}
@@ -799,11 +799,13 @@ export default function Home() {
                 className="text-gray-400 text-base leading-relaxed max-w-lg"
                 data-aos="fade-up" data-aos-delay="450"
               >
-                Passionate about crafting digital solutions that are{" "}
-                <span className="text-[#39ff14] font-semibold">creative</span>,{" "}
-                <span className="text-[#39ff14] font-semibold">innovative</span>, and{" "}
-                <span className="text-[#39ff14] font-semibold">impactful</span>.
-                Turning ideas into extraordinary digital experiences.
+                {"Passionate about crafting digital solutions that are "}
+                <span className="text-[#39ff14] font-semibold">creative</span>
+                {", "}
+                <span className="text-[#39ff14] font-semibold">innovative</span>
+                {", and "}
+                <span className="text-[#39ff14] font-semibold">impactful</span>
+                {". Turning ideas into extraordinary digital experiences."}
               </p>
 
               <div className="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="550">
@@ -845,10 +847,8 @@ export default function Home() {
             </div>
           </div>
 
-         
           <div className="lg:hidden flex flex-col items-center text-center pt-0" style={{ gap: "16px" }}>
 
-      
             <div
               data-aos="zoom-in-up"
               data-aos-delay="100"
@@ -864,7 +864,7 @@ export default function Home() {
             </div>
 
             <div data-aos="fade-up" data-aos-delay="200">
-              <p className="text-gray-400 text-base mb-1 mt-12">Hello, I'm</p>
+              <p className="text-gray-400 text-lg mb-1">{"Hello, I'm"}</p>
               <h1
                 className="text-4xl sm:text-5xl font-extrabold text-white leading-tight"
                 style={{ fontFamily: "'Orbitron', monospace" }}
@@ -882,10 +882,13 @@ export default function Home() {
             </div>
 
             <p className="text-gray-400 text-sm leading-relaxed max-w-sm" data-aos="fade-up" data-aos-delay="400">
-              Passionate about crafting digital solutions that are{" "}
-              <span className="text-[#39ff14] font-semibold">creative</span>,{" "}
-              <span className="text-[#39ff14] font-semibold">innovative</span>, and{" "}
-              <span className="text-[#39ff14] font-semibold">impactful</span>.
+              {"Passionate about crafting digital solutions that are "}
+              <span className="text-[#39ff14] font-semibold">creative</span>
+              {", "}
+              <span className="text-[#39ff14] font-semibold">innovative</span>
+              {", and "}
+              <span className="text-[#39ff14] font-semibold">impactful</span>
+              {"."}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs" data-aos="fade-up" data-aos-delay="500">
@@ -928,8 +931,12 @@ export default function Home() {
             >
               About <span style={{ color: "#39ff14" }}>Me</span>
             </h2>
-            <p className="mt-6 text-gray-400 text-base max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="100">
-              I'm a passionate web developer with experience in creating innovative and aesthetically crafted digital solutions.
+            <p
+              className="mt-6 text-gray-400 text-base max-w-2xl mx-auto"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              {"I'm a passionate web developer with experience in creating innovative and aesthetically crafted digital solutions."}
             </p>
           </div>
 
@@ -945,10 +952,7 @@ export default function Home() {
                 <h3 className="text-xl font-bold text-white">My Journey</h3>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                I've built real-world web applications ranging from POS systems and e-commerce platforms to
-                queue management systems and tour websites — each crafted with clean code and a focus on
-                user experience. My journey started with curiosity and grew into a passion for developing
-                digital solutions that are functional, visually engaging, and impactful.
+                {"I've built real-world web applications ranging from POS systems and e-commerce platforms to queue management systems and tour websites — each crafted with clean code and a focus on user experience. My journey started with curiosity and grew into a passion for developing digital solutions that are functional, visually engaging, and impactful."}
               </p>
               <div className="grid grid-cols-2 gap-4 mt-6">
                 {[
@@ -1082,7 +1086,7 @@ export default function Home() {
             <div data-aos="fade-left" data-aos-delay="200">
               <div className="flex items-center justify-center lg:justify-start gap-2 mb-6">
                 <Layers className="w-5 h-5 text-[#39ff14]" />
-                <h3 className="text-xl font-bold text-white">Tools & Office</h3>
+                <h3 className="text-xl font-bold text-white">{"Tools & Office"}</h3>
               </div>
               <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                 {OFFICE_SKILLS.map((skill, idx) => (
@@ -1263,7 +1267,7 @@ export default function Home() {
             className={`${anton.className} text-4xl sm:text-5xl font-bold text-white section-heading`}
             data-aos="fade-up"
           >
-            Let's <span style={{ color: "#39ff14" }}>Connect</span>
+            {"Let's"} <span style={{ color: "#39ff14" }}>Connect</span>
           </h2>
 
           <p
@@ -1271,8 +1275,7 @@ export default function Home() {
             data-aos="fade-up"
             data-aos-delay="100"
           >
-            Have a project in mind or want to discuss potential opportunities?
-            Whether it's a digital experience or creative collaboration, feel free to reach out!
+            {"Have a project in mind or want to discuss potential opportunities? Whether it's a digital experience or creative collaboration, feel free to reach out!"}
           </p>
 
           <div data-aos="fade-up" data-aos-delay="200">
@@ -1309,11 +1312,11 @@ export default function Home() {
 
           <div className="border-t border-[rgba(57,255,20,0.1)] pt-6">
             <p className="text-gray-600 text-xs tracking-widest">
-              © 2026{" "}
+              {"© 2026 "}
               <span style={{ color: "rgba(57,255,20,0.6)", fontFamily: "'Orbitron', monospace" }}>
                 GUNG DEMAYUN
               </span>
-              . ALL RIGHTS RESERVED.
+              {". ALL RIGHTS RESERVED."}
             </p>
           </div>
         </div>
