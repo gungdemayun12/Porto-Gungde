@@ -646,6 +646,16 @@ const PROJECTS = [
     category: "Full-Stack / Queue System",
   },
   {
+  title: "Gym Management System",
+  desc: "A web-based gym management system designed to help fitness centers manage members, membership packages, and revenue efficiently.",
+  longDesc:
+    "A web-based Gym Management System developed to streamline daily operations in fitness centers and gyms. The platform provides an integrated solution for managing gym members, membership packages, and overall business revenue within a centralized management system.\n\nAdministrators can register and manage member data, organize different gym membership packages, and monitor income generated from subscriptions and services. The system helps gym owners maintain structured member records while gaining clear insights into business performance and operational activity.\n\nTo enhance usability and user experience, the application also includes a Dark Mode feature that allows users to switch between light and dark interface themes, providing a more comfortable visual experience during extended use.",
+  tech: ["Laravel","Blade", "JavaScript", "Tailwind CSS", "MySQL"],
+  github: "https://github.com/gungdemayun12",
+  images: ["/gym1.webp","/gym2.webp","/gym3.webp","/gym4.webp","/gym5.webp"],
+  category: "Full-Stack / Management System",
+},
+  {
     title: "Mai Kebali Tour Website",
     desc: "A Bali tour and wedding booking website designed to promote and sell travel packages with integrated online checkout.",
     longDesc:
@@ -1330,3 +1340,7 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
