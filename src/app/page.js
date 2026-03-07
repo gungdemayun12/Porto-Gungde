@@ -651,7 +651,7 @@ const PROJECTS = [
   longDesc:
     "A web-based Gym Management System developed to streamline daily operations in fitness centers and gyms. The platform provides an integrated solution for managing gym members, membership packages, and overall business revenue within a centralized management system.\n\nAdministrators can register and manage member data, organize different gym membership packages, and monitor income generated from subscriptions and services. The system helps gym owners maintain structured member records while gaining clear insights into business performance and operational activity.\n\nTo enhance usability and user experience, the application also includes a Dark Mode feature that allows users to switch between light and dark interface themes, providing a more comfortable visual experience during extended use.",
   tech: ["Laravel","Blade", "JavaScript", "Tailwind CSS", "MySQL"],
-  github: "https://github.com/gungdemayun12",
+  github: "https://github.com/gungdemayun12/gym-management.git",
   images: ["/gym1.webp","/gym2.webp","/gym3.webp","/gym4.webp","/gym5.webp"],
   category: "Full-Stack / Management System",
 },
@@ -672,7 +672,7 @@ const PROJECTS = [
     longDesc:
       "A personal portfolio website built with Next.js, Tailwind CSS, and Framer Motion. Features a futuristic design with a neon green theme and matrix background effect. Key features include: an interactive ID card with a draggable lanyard effect, typing animation effect, an about me section with an education timeline, a project showcase with detail modals, and a contact page. Optimized for both mobile and desktop displays with smooth animations powered by AOS and Framer Motion.",
     tech: ["Next.js", "Tailwind CSS", "Framer Motion", "JavaScript"],
-    github: "https://github.com/gungdemayun12",
+    github: "https://github.com/gungdemayun12/Porto-Gungde.git",
     images: ["/portofolio.webp"],
     category: "Frontend / Portfolio",
   },
