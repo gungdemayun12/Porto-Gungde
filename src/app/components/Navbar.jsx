@@ -39,7 +39,7 @@ export default function Navbar() {
               className="text-xl font-bold text-white group-hover:text-[#39ff14] transition-all duration-300"
               style={{ fontFamily: "'Orbitron', monospace", letterSpacing: "0.1em" }}
             >
-              GM
+              Gungdev
             </span>
           </Link>
 
