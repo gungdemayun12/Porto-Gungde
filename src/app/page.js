@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useSpring } from "framer-motion";
 import {
   ArrowRight, Rocket, Github, Linkedin, Mail,
   BookOpen, GraduationCap, X, ExternalLink, ChevronLeft, ChevronRight,
@@ -114,9 +114,14 @@ function StaggerReveal({ children, className = "", delay = 0, stagger = 80 }) {
 
 function LanyardCard() {
   const cardRef = useRef(null);
-  const [currentY, setCurrentY] = useState(0);
-  const [dragging, setDragging] = useState(false);
+  const springY = useSpring(148, { stiffness: 200, damping: 18, mass: 1.2 });
+  const ropeLeft = useSpring(0, { stiffness: 260, damping: 22 });
+  const ropeRight = useSpring(0, { stiffness: 260, damping: 22 });
+  const [displayY, setDisplayY] = useState(148);
+  const [isDragging, setIsDragging] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const velocityRef = useRef(0);
+  const prevYRef = useRef(148);
 
   useEffect(() => {
     const check = () => setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
@@ -126,15 +131,38 @@ function LanyardCard() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    return springY.on("change", (v) => {
+      setDisplayY(v);
+      const dt = v - prevYRef.current;
+      velocityRef.current = dt;
+      prevYRef.current = v;
+    });
+  }, [springY]);
+
   const nailX = 110;
   const nailY = 8;
-  const cardTopY = 148 + currentY;
+  const cardTopY = displayY;
   const leftAttachX = 75;
   const rightAttachX = 145;
-  const slack = 30 + Math.abs(currentY) * 0.2;
+  const displacement = Math.max(0, cardTopY - 148);
 
-  const leftRopePath = `M ${nailX} ${nailY} C ${nailX - 10} ${nailY + slack}, ${leftAttachX + 10} ${cardTopY - slack * 0.5}, ${leftAttachX} ${cardTopY}`;
-  const rightRopePath = `M ${nailX} ${nailY} C ${nailX + 10} ${nailY + slack}, ${rightAttachX - 10} ${cardTopY - slack * 0.5}, ${rightAttachX} ${cardTopY}`;
+  const gravitySag = displacement * 0.35;
+  const leftSway = displacement * 0.08;
+  const rightSway = -displacement * 0.08;
+
+  const midLeftX = nailX - 15 + leftSway;
+  const midLeftY = nailY + 30 + gravitySag * 0.5;
+  const endLeftX = leftAttachX + displacement * 0.03;
+  const endLeftY = cardTopY - gravitySag * 0.15;
+
+  const midRightX = nailX + 15 + rightSway;
+  const midRightY = nailY + 30 + gravitySag * 0.5;
+  const endRightX = rightAttachX + displacement * 0.03;
+  const endRightY = cardTopY - gravitySag * 0.15;
+
+  const leftRopePath = `M ${nailX} ${nailY} C ${midLeftX} ${midLeftY}, ${endLeftX - 5} ${endLeftY - 10}, ${leftAttachX} ${cardTopY}`;
+  const rightRopePath = `M ${nailX} ${nailY} C ${midRightX} ${midRightY}, ${endRightX + 5} ${endRightY - 10}, ${rightAttachX} ${cardTopY}`;
 
   const cardBg = isDark
     ? "linear-gradient(160deg, #0d0d0d 0%, #111 60%, #0a1a0a 100%)"
@@ -154,7 +182,7 @@ function LanyardCard() {
   const dragTextColor = isDark ? "rgba(34,211,238,0.4)" : "rgba(30,120,10,0.5)";
 
   return (
-    <div className="relative flex flex-col items-center select-none" style={{ width: 220, height: 420 }}>
+    <div className="relative flex flex-col items-center select-none" style={{ width: 220, height: 600 }}>
       <div className="absolute z-30 flex flex-col items-center" style={{ top: 0, left: "50%", transform: "translateX(-50%)" }}>
         <div
           style={{
@@ -175,28 +203,51 @@ function LanyardCard() {
       </div>
 
       <svg
-        width="220" height="420" viewBox="0 0 220 420"
+        width="220" height="600" viewBox="0 0 220 600"
         className="absolute top-0 left-0 pointer-events-none z-10"
         style={{ overflow: "visible" }}
       >
         <path d={leftRopePath} fill="none" stroke="#22d3ee" strokeWidth="2.5" strokeLinecap="round" opacity="0.75" />
         <path d={rightRopePath} fill="none" stroke="#22d3ee" strokeWidth="2.5" strokeLinecap="round" opacity="0.75" />
-        <rect x="87" y={140 + currentY} width="46" height="9" rx="3" fill={connectorFill} stroke="#22d3ee" strokeWidth="1.5" />
+        <rect x="87" y={cardTopY - 8} width="46" height="9" rx="3" fill={connectorFill} stroke="#22d3ee" strokeWidth="1.5" />
       </svg>
 
       <motion.div
         ref={cardRef}
         drag="y"
-        dragConstraints={{ top: 0, bottom: 200 }}
-        dragElastic={0.1}
-        style={{ y: currentY, marginTop: 148, position: "relative", zIndex: 20 }}
-        onDragStart={() => setDragging(true)}
-        onDragEnd={() => {
-          setDragging(false);
-          setCurrentY(0);
+        dragConstraints={{ top: 148, bottom: 360 }}
+        dragElastic={0.4}
+        dragMomentum={true}
+        dragTransition={{
+          bounceStiffness: 180,
+          bounceDamping: 14,
+          power: 0.6,
+          timeConstant: 200,
         }}
-        onDrag={(_, info) => setCurrentY(info.offset.y)}
-        whileDrag={{ scale: 1.03 }}
+        style={{
+          y: displayY - 148,
+          marginTop: 148,
+          position: "relative",
+          zIndex: 20,
+        }}
+        onDragStart={() => {
+          setIsDragging(true);
+          springY.stop();
+        }}
+        onDrag={(_, info) => {
+          const newY = 148 + info.offset.y;
+          springY.set(newY);
+        }}
+        onDragEnd={(_, info) => {
+          setIsDragging(false);
+          const velocity = info.velocity.y;
+          const overshoot = velocity * 0.15;
+          springY.set(148 + overshoot);
+          setTimeout(() => {
+            springY.set(148);
+          }, 80);
+        }}
+        whileDrag={{ scale: 1.04, rotate: 0.5 }}
         className="lanyard-card"
       >
         <div
@@ -258,7 +309,7 @@ function LanyardCard() {
           </div>
         </div>
 
-        {!dragging && (
+        {!isDragging && (
           <div className="text-center mt-2 text-[10px] tracking-wide animate-pulse" style={{ color: dragTextColor }}>
             {"drag me"}
           </div>
@@ -354,6 +405,8 @@ function ProjectModal({ project, onClose }) {
   const [imgIdx, setImgIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const previewRef = useRef(null);
 
   useEffect(() => {
     if (lightboxOpen) return;
@@ -364,6 +417,21 @@ function ProjectModal({ project, onClose }) {
   }, [onClose, lightboxOpen]);
 
   const images = project.images || [];
+  const videos = project.videos || [];
+
+  const handlePlay = () => {
+    if (previewRef.current) {
+      previewRef.current.muted = false;
+      previewRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
+  };
+
+  const handlePause = () => {
+    if (previewRef.current) {
+      previewRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
 
   return (
     <>
@@ -382,38 +450,48 @@ function ProjectModal({ project, onClose }) {
             <X className="w-4 h-4 text-[#22d3ee]" />
           </button>
 
-          {images.length > 0 && (
-            <div className="relative w-full h-52 sm:h-64 rounded-t-2xl overflow-hidden bg-black group">
-              <Image src={images[imgIdx]} alt={project.title} fill className="object-cover cursor-pointer"
-                onClick={() => { setLightboxIndex(imgIdx); setLightboxOpen(true); }} />
-              <div
-                className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                style={{ background: "rgba(0,0,0,0.3)" }}
-                onClick={() => { setLightboxIndex(imgIdx); setLightboxOpen(true); }}
+          {videos.length > 0 && (
+            <div className="relative w-full h-52 sm:h-64 rounded-t-2xl overflow-hidden bg-black">
+              <video
+                ref={previewRef}
+                key={`video-${imgIdx}`}
+                className="absolute inset-0 w-full h-full object-cover"
+                playsInline
+                preload="metadata"
+                muted
               >
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-bold text-[#22d3ee] tracking-widest"
-                  style={{ background: "rgba(0,0,0,0.7)", border: "1px solid rgba(34,211,238,0.4)" }}>
-                  <ZoomIn className="w-3.5 h-3.5" /> CLICK TO ZOOM
-                </div>
-              </div>
-              {images.length > 1 && (
+                <source src={videos[imgIdx]?.src} type="video/mp4" />
+              </video>
+              {!isPlaying && (
+                <button
+                  onClick={handlePlay}
+                  className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-all cursor-pointer"
+                >
+                  <div className="w-16 h-16 rounded-full bg-[#22d3ee]/90 flex items-center justify-center hover:scale-110 transition-transform">
+                    <svg className="w-8 h-8 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </button>
+              )}
+              {videos.length > 1 && (
                 <>
-                  <button onClick={(e) => { e.stopPropagation(); setImgIdx((imgIdx - 1 + images.length) % images.length); }}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 border border-[rgba(34,211,238,0.4)] rounded-full flex items-center justify-center hover:bg-[rgba(34,211,238,0.1)] transition-all">
+                  <button onClick={(e) => { e.stopPropagation(); handlePause(); setImgIdx((imgIdx - 1 + videos.length) % videos.length); setIsPlaying(false); }}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 border border-[rgba(34,211,238,0.4)] rounded-full flex items-center justify-center hover:bg-[rgba(34,211,238,0.1)] transition-all z-10">
                     <ChevronLeft className="w-4 h-4 text-[#22d3ee]" />
                   </button>
-                  <button onClick={(e) => { e.stopPropagation(); setImgIdx((imgIdx + 1) % images.length); }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 border border-[rgba(34,211,238,0.4)] rounded-full flex items-center justify-center hover:bg-[rgba(34,211,238,0.1)] transition-all">
+                  <button onClick={(e) => { e.stopPropagation(); handlePause(); setImgIdx((imgIdx + 1) % videos.length); setIsPlaying(false); }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 bg-black/60 border border-[rgba(34,211,238,0.4)] rounded-full flex items-center justify-center hover:bg-[rgba(34,211,238,0.1)] transition-all z-10">
                     <ChevronRight className="w-4 h-4 text-[#22d3ee]" />
                   </button>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                    {images.map((_, i) => (
-                      <button key={i} onClick={(e) => { e.stopPropagation(); setImgIdx(i); }}
-                        className={`w-1.5 h-1.5 rounded-full transition-all ${i === imgIdx ? "bg-[#22d3ee]" : "bg-white/30"}`} />
-                    ))}
-                  </div>
                 </>
               )}
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                {videos.map((_, i) => (
+                  <button key={i} onClick={(e) => { e.stopPropagation(); handlePause(); setImgIdx(i); setIsPlaying(false); }}
+                    className={`w-2 h-2 rounded-full transition-all ${i === imgIdx ? "bg-[#22d3ee]" : "bg-white/40"}`} />
+                ))}
+              </div>
             </div>
           )}
 
@@ -441,17 +519,18 @@ function ProjectModal({ project, onClose }) {
               </div>
             </div>
 
-            {images.length > 1 && (
+            {videos.length > 0 && (
               <div>
-                <div className="text-[11px] text-[#22d3ee] tracking-widest mb-2 font-semibold">SCREENSHOTS</div>
                 <div className="flex gap-2 flex-wrap">
-                  {images.map((img, i) => (
+                  {videos.map((vid, i) => (
                     <div key={i}
                       className="relative w-20 h-14 rounded-lg overflow-hidden cursor-pointer border transition-all"
-                      style={{ borderColor: i === imgIdx ? "rgba(34,211,238,0.6)" : "rgba(34,211,238,0.15)" }}
-                      onClick={() => { setImgIdx(i); setLightboxIndex(i); setLightboxOpen(true); }}
+                      style={{ borderColor: i === imgIdx ? "rgba(34,211,238,0.8)" : "rgba(34,211,238,0.15)" }}
+                      onClick={() => { setImgIdx(i); setIsPlaying(false); }}
                     >
-                      <Image src={img} alt={`Screenshot ${i + 1}`} fill className="object-cover" />
+                      <video className="w-full h-full object-cover" preload="none">
+                        <source src={vid.src} type="video/mp4" />
+                      </video>
                     </div>
                   ))}
                 </div>
@@ -492,6 +571,9 @@ const PROJECTS = [
     tech: ["Laravel", "JavaScript", "Tailwind CSS", "MySQL"],
     github: "https://github.com/gungdemayun12/POS_Sistem.git",
     images: ["/pos1.webp","/pos2.webp","/pos3.webp","/pos4.webp","/pos5.webp","/pos6.webp","/pos7.webp","/pos8.webp","/pos9.webp","/pos10.webp"],
+    videos: [
+      { src: "/videoes/pos system.mp4" },
+    ],
     category: "Full-Stack / POS",
     type: "Website",
   },
@@ -511,38 +593,37 @@ const PROJECTS = [
     longDesc: "A web-based queue management system developed to optimize service flow in mobile phone repair shops. The system allows customers to take queue numbers digitally and monitor their position in line through an integrated tracking mechanism.",
     tech: ["Laravel","Blade", "JavaScript", "Tailwind CSS", "MySQL"],
     github: "https://github.com/gungdemayun12/Service-Queue.git",
-    images: ["/servicequeue1.webp","/servicequeue2.webp","/servicequeue3.webp","/servicequeue4.webp","/servicequeue5.webp"],
+    images: ["/queue service system"],
+    videos: [
+      { src: "/videoes/queue service system.mp4" },
+    ],
     category: "Full-Stack / Queue System",
     type: "Website",
   },
   {
-  title: "Gym Management System",
-  desc: "A web-based gym management system designed to help fitness centers manage members, membership packages, and revenue efficiently.",
-  longDesc:
-    "A web-based Gym Management System developed to streamline daily operations in fitness centers and gyms. The platform provides an integrated solution for managing gym members, membership packages, and overall business revenue within a centralized management system.\n\nAdministrators can register and manage member data, organize different gym membership packages, and monitor income generated from subscriptions and services. The system helps gym owners maintain structured member records while gaining clear insights into business performance and operational activity.\n\nTo enhance usability and user experience, the application also includes a Dark Mode feature that allows users to switch between light and dark interface themes, providing a more comfortable visual experience during extended use.",
-  tech: ["Laravel","Blade", "JavaScript", "Tailwind CSS", "MySQL"],
-  github: "https://github.com/gungdemayun12/gym-management.git",
-  images: ["/gym1.webp","/gym2.webp","/gym3.webp","/gym4.webp","/gym5.webp"],
-  category: "Full-Stack / Management System",
-},
-{
     title: "Gym Management System",
     desc: "A web-based gym management system designed to help fitness centers manage members, membership packages, and revenue efficiently.",
-    longDesc: "A web-based Gym Management System developed to streamline daily operations in fitness centers and gyms. The platform provides an integrated solution for managing gym members, membership packages, and overall business revenue within a centralized management system.",
+    longDesc: "A web-based Gym Management System developed to streamline daily operations in fitness centers and gyms. The platform provides an integrated solution for managing gym members, membership packages, and overall business revenue within a centralized management system.\n\nAdministrators can register and manage member data, organize different gym membership packages, and monitor income generated from subscriptions and services. The system helps gym owners maintain structured member records while gaining clear insights into business performance and operational activity.\n\nTo enhance usability and user experience, the application also includes a Dark Mode feature that allows users to switch between light and dark interface themes, providing a more comfortable visual experience during extended use.",
     tech: ["Laravel","Blade", "JavaScript", "Tailwind CSS", "MySQL"],
-    github: "https://github.com/gungdemayun12",
-    images: ["/gym1.webp","/gym2.webp","/gym3.webp","/gym4.webp","/gym5.webp"],
+    github: "https://github.com/gungdemayun12/gym-management.git",
+    images: ["/gym management system"],
+    videos: [
+      { src: "/videoes/gym management system.mp4" },
+    ],
     category: "Full-Stack / Management System",
     type: "Website",
   },
   {
     title: "Mai Kebali Tour Website",
     desc: "A Bali tour and wedding booking website designed to promote and sell travel packages with integrated online checkout.",
-    longDesc: "Mai Kebali Tour is a tourism-focused website developed to promote and sell Bali tour packages and wedding services. Built using WordPress with the Elementor page builder, the platform provides an engaging browsing experience where customers can explore available packages, view detailed information, and complete bookings directly through the website.",
+  longDesc: "Mai Kebali Tour is a tourism-focused website developed to promote and sell Bali tour packages and wedding services. Built using WordPress with the Elementor page builder, the platform provides an engaging browsing experience where customers can explore available packages, view detailed information, and complete bookings directly through the website, supported by a seamless online checkout system that enables secure and convenient payments, ultimately enhancing user experience and streamlining the overall booking process.",
     tech: ["WordPress", "Elementor"],
     github: null,
     demo: "https://maikebalitour.com/",
-    images: ["/maikebalitour1.webp","/maikebalitour2.webp","/maikebalitour3.webp","/maikebalitour4.webp"],
+    images: ["/maikebalitour"],
+    videos: [
+      { src: "/videoes/maikebalitour.mp4" },
+    ],
     category: "CMS / Tourism",
     type: "Website",
   },
@@ -552,7 +633,10 @@ const PROJECTS = [
     longDesc: "A personal portfolio website built with Next.js, Tailwind CSS, and Framer Motion. Features a futuristic design with a cyan theme and matrix background effect. Key features include: an interactive ID card with a draggable lanyard effect, typing animation effect, an about me section with an education timeline, a project showcase with detail modals, and a contact page.",
     tech: ["Next.js", "Tailwind CSS", "Framer Motion", "JavaScript"],
     github: "https://github.com/gungdemayun12/Porto-Gungde.git",
-    images: ["/portofolio1.png","/portofolio2.png","/portofolio3.png"],
+   images: ["/portofolio"],
+    videos: [
+      { src: "/videoes/portofolio.mp4" },
+    ],
     category: "Frontend / Portfolio",
     type: "Website",
   },
@@ -563,6 +647,13 @@ const PROJECTS = [
     tech: ["Laravel", "JavaScript", "Tailwind CSS", "MySQL", "Blade"],
     github: "https://github.com/gungdemayun12/tour-car-charter-bali.git",
     images: ["/portofolio.webp"],
+    videos: [
+      { src: "/videoes/landing page.mp4", poster: null, label: "Landing Page" },
+      { src: "/videoes/booking process.mp4", poster: null, label: "Booking Process" },
+      { src: "/videoes/admin panel.mp4", poster: null, label: "Admin Panel" },
+      { src: "/videoes/customer dashboard.mp4", poster: null, label: "Customer Dashboard" },
+      { src: "/videoes/page.mp4", poster: null, label: "Page" },
+    ],
     category: "Full-Stack / Tourism",
     type: "Website",
   },
@@ -582,7 +673,11 @@ const PROJECTS = [
     longDesc: "A clean and professional digital business card designed to present a tour company's brand identity in a compact, modern format. Built with HTML and Tailwind CSS, the card features the company's logo, services overview, contact information, location, and social media links — all laid out in a visually appealing single-page design.\n\nThe business card serves as a quick digital introduction for potential clients, making it easy to share company details via link or QR code. Its lightweight and responsive design ensures it looks great on any device, from phones to desktops.",
     tech: ["HTML", "Tailwind CSS"],
     github: "https://github.com/gungdemayun12/Business-Card-.git",
-    images: ["/businesscard.png"],
+    img: "/businesscard.png",
+    images: ["/businesscard"],
+    videos: [
+      { src: "/videoes/businesscard.mp4" },
+    ],
     category: "Frontend / Business Card",
     type: "Website",
   },
@@ -1199,7 +1294,7 @@ export default function Home() {
           <div className="flex justify-center flex-wrap gap-6 reveal">
             {[
               { label: "GITHUB", href: "https://github.com/gungdemayun12" },
-              { label: "INSTAGRAM", href: "https://instagram.com" },
+              { label: "INSTAGRAM", href: "https://instagram.com/@_gungde" },
               { label: "LINKEDIN", href: "https://linkedin.com" },
             ].map((s) => (
               <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
