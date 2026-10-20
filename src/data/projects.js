@@ -16,6 +16,28 @@ const project = (data) => ({
 
 export const projectsData = [
   project({
+    slug: 'meru-jewelry-classes',
+    name: 'Meru Jewelry Classes',
+    category: 'Silver Classes',
+    thumbnail: '/images/project/meru1%20(1).png',
+    gallery: [
+      '/images/project/meru1%20(1).png',
+      '/images/project/meru1%20(2).png',
+      '/images/project/meru1%20(3).png',
+      '/images/project/meru1%20(4).png',
+      '/images/project/meru1%20(5).png',
+      '/images/project/meru1%20(6).png',
+    ],
+    stack: ['WordPress', 'Silver Jewelry Classes', 'Course Showcase', 'Responsive UI', 'WhatsApp CTA'],
+    summaryEn: 'A refined website for silver jewelry classes in Bali.',
+    summaryId: 'Website elegan untuk kelas silver jewelry di Bali.',
+    detailEn: 'Meru Jewelry Classes presents hands-on silver jewelry workshops through a calm and inviting digital experience.',
+    detailId: 'Meru Jewelry Classes menghadirkan workshop silver jewelry melalui pengalaman digital yang tenang dan menarik.',
+    resultsEn: ['Creative workshop presentation', 'Clear class information', 'Direct class inquiries'],
+    resultsId: ['Presentasi workshop kreatif', 'Informasi kelas lebih jelas', 'Inquiry kelas secara langsung'],
+    liveUrl: 'https://merujewelryclasses.com/',
+  }),
+  project({
     slug: 'bali-charming-tours',
     name: 'Bali Charming Tours',
     category: 'Website',
@@ -101,19 +123,6 @@ export const projectsData = [
     resultsEn: ['Elegant portfolio showcase', 'Stronger visual identity', 'Creative brand storytelling'],
     resultsId: ['Showcase portfolio yang elegan', 'Identitas visual lebih kuat', 'Storytelling brand kreatif'],
     liveUrl: 'https://ubuddigitalcreative.artsyanaid.com/',
-  }),
-  project({
-    slug: 'meru-jewelry-classes',
-    name: 'Meru Jewelry Classes',
-    category: 'Silver Classes',
-    stack: ['WordPress', 'Silver Jewelry Classes', 'Course Showcase', 'Responsive UI', 'WhatsApp CTA'],
-    summaryEn: 'A refined website for silver jewelry classes, introducing hands-on creative workshops and helping visitors plan their learning experience in Bali.',
-    summaryId: 'Website elegan untuk kelas silver jewelry yang memperkenalkan workshop kreatif dan membantu pengunjung merencanakan pengalaman belajar di Bali.',
-    detailEn: 'Meru Jewelry Classes presents a creative learning experience through a calm and inviting digital presence. The website helps visitors understand the class concept, explore the workshop experience, and take the next step toward joining a silver jewelry class in Bali. Its visual direction balances craftsmanship, warmth, and clarity.',
-    detailId: 'Meru Jewelry Classes menghadirkan pengalaman belajar kreatif melalui digital presence yang tenang dan menarik. Website membantu pengunjung memahami konsep kelas, mengenal pengalaman workshop, dan melanjutkan langkah untuk mengikuti silver jewelry class di Bali. Arah visualnya menyeimbangkan craftsmanship, kehangatan, dan kejelasan informasi.',
-    resultsEn: ['Creative workshop presentation', 'Clear class information', 'Direct class inquiries'],
-    resultsId: ['Presentasi workshop kreatif', 'Informasi kelas lebih jelas', 'Inquiry kelas secara langsung'],
-    liveUrl: 'https://merujewelryclasses.com/',
   }),
   project({
     slug: 'receipt-generator',
