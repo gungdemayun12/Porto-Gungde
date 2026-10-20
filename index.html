@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#C9A227" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- SEO Meta -->
+    <title>Gungde — Full-Stack Web Developer | Bali, Indonesia</title>
+    <meta name="description" content="I Gusti Ngurah Agung Gede Mayun — Full-Stack Web Developer specializing in Laravel, React, and WordPress. Building websites & systems that generate bookings and save your business time." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Gungde — Full-Stack Web Developer" />
+    <meta property="og:description" content="Building websites & systems that generate bookings and save your business time." />
+    <meta property="og:url" content="https://gungde.dev" />
+    <meta property="og:image" content="/og-image.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Gungde — Full-Stack Web Developer" />
+    <meta name="twitter:description" content="Building websites & systems that generate bookings and save your business time." />
+    <meta name="twitter:image" content="/og-image.jpg" />
+
+    <!-- Preconnect Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=El+Messiri:wght@400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Script anti-FOUC: terapkan tema SEBELUM render -->
+    <script>
+      (function () {
+        // Cek localStorage dulu, jika belum ada cek prefers-color-scheme
+        var stored = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "I Gusti Ngurah Agung Gede Mayun",
+        "alternateName": "Gungde",
+        "url": "https://gungde.dev",
+        "jobTitle": "Full-Stack Web Developer",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Denpasar",
+          "addressRegion": "Bali",
+          "addressCountry": "ID"
+        },
+        "sameAs": [
+          "https://github.com/gungde",
+          "https://linkedin.com/in/gungde",
+          "https://instagram.com/gungde"
+        ]
+      }
+    </script>
+  </head>
+  <body class="antialiased">
+    <!-- Skip link untuk aksesibilitas -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-gold focus:text-white focus:rounded-full focus:outline-none"
+    >
+      Skip to main content
+    </a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
