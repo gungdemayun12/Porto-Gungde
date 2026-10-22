@@ -2,10 +2,10 @@
  * Hero — seksi hero utama (Luxury & Minimalist Edition)
  * Singkat, padat, berkelas dengan integrasi 3D Lanyard interaktif dari React Bits.
  */
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { ArrowUpRight, Sparkles, MessageCircle, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
-import SwarmCursor from '../components/ui/SwarmCursor';
+import GhostCursor from '../components/ui/GhostCursor';
 import { useLang } from '../hooks/useLang';
 
 // Lazy load HeroLanyard agar Three.js di-load secara asynchronous
@@ -21,6 +21,18 @@ function LanyardFallback() {
 
 export default function Hero() {
   const { t, lang } = useLang();
+  const [theme, setTheme] = useState(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      setTheme(root.classList.contains('dark') ? 'dark' : 'light');
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
@@ -101,11 +113,12 @@ export default function Hero() {
 
           {/* Kolom Kanan: 3D Lanyard React Bits */}
           <div className="lg:col-span-6 flex justify-center items-center order-1 lg:order-2 w-full">
-            <SwarmCursor count={420} size={2.2} spread={110} swirl={0.7} speed={1.1} color="#d4af37" accentColor="#fff1a8" clickEffect="burst">
+            <div className="relative isolate w-full min-h-[380px]">
               <Suspense fallback={<LanyardFallback />}>
                 <HeroLanyard />
               </Suspense>
-            </SwarmCursor>
+              <GhostCursor color="#D4AF37" size={80} theme={theme} />
+            </div>
           </div>
         </div>
       </div>
