@@ -9,6 +9,7 @@ import { FaWhatsapp, FaGithub, FaInstagram } from 'react-icons/fa6';
 import { useLang } from '../../hooks/useLang';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { CONTACT, whatsappLink } from '../../data/contact';
+import Button from '../ui/Button';
 
 /* Soft luxury curve — silky, no bounce */
 const EASE = [0.16, 1, 0.3, 1];
@@ -237,13 +238,13 @@ export default function MobileMenu({
               initial="hidden"
               animate="visible"
             >
-              <button
-                type="button"
+              <Button
                 onClick={() => handleNavClick('contact')}
-                className="btn-primary shine-sweep w-full py-3 text-xs"
+                scrollDirection="down"
+                className="shine-sweep w-full py-3 text-xs"
               >
                 {t.nav.hireMe}
-              </button>
+              </Button>
 
               <div className="flex items-center justify-between gap-3">
                 <a

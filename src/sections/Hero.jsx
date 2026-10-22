@@ -3,7 +3,7 @@
  * Singkat, padat, berkelas dengan integrasi 3D Lanyard interaktif dari React Bits.
  */
 import { lazy, Suspense } from 'react';
-import { ArrowUpRight, Sparkles, MessageCircle, ChevronDown } from 'lucide-react';
+import { Sparkles, MessageCircle, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
 
@@ -72,6 +72,7 @@ export default function Hero() {
               <Button
                 variant="primary"
                 href="#projects"
+                scrollDirection="down"
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -80,12 +81,12 @@ export default function Hero() {
               >
                 <Sparkles size={16} className="text-stone-900 group-hover:rotate-12 transition-transform duration-300" />
                 <span>{t.hero.cta}</span>
-                <ArrowUpRight size={16} className="text-stone-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </Button>
 
               <Button
                 variant="outline"
                 href="#contact"
+                scrollDirection="down"
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });

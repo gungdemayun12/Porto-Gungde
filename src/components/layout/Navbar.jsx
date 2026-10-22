@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Sparkles } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 import LangToggle from '../ui/LangToggle';
+import Button from '../ui/Button';
 import { useLang } from '../../hooks/useLang';
 import MobileMenu from './MobileMenu';
 
@@ -155,13 +156,14 @@ export default function Navbar() {
             <ThemeToggle />
 
             {/* Tombol Hubungi / Hire Me */}
-            <button
+            <Button
               onClick={() => scrollTo('contact')}
-              className="btn-primary shine-sweep text-xs py-2 px-5 cursor-pointer flex items-center gap-2"
+              scrollDirection="down"
+              className="shine-sweep text-xs py-2 px-5 cursor-pointer flex items-center gap-2"
             >
               <Sparkles size={14} className="text-stone-900" />
               <span>{t.nav.hireMe}</span>
-            </button>
+            </Button>
           </div>
 
           {/* Mobile Right Controls: Lang, Theme, & Animated Hamburger */}

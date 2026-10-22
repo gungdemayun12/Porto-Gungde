@@ -347,7 +347,7 @@ a {
               box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Kilau mengkilap — jalan pelan terus-menerus */
+/* Kilau muncul saat interaksi agar tidak terus merender animasi di perangkat mobile. */
 .btn-primary::before,
 .shine-sweep::before {
   content: '';
@@ -365,7 +365,7 @@ a {
     transparent 100%
   );
   transform: skewX(-18deg);
-  animation: shine-sweep 4.2s ease-in-out infinite;
+  animation: none;
   pointer-events: none;
   z-index: 1;
 }
@@ -391,7 +391,7 @@ a {
 
 .btn-primary:hover::before,
 .shine-sweep:hover::before {
-  animation-duration: 1.4s;
+  animation: shine-sweep 750ms ease-out;
 }
 
 .btn-primary:active {
@@ -420,6 +420,44 @@ a {
               color 350ms cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
   backdrop-filter: blur(10px);
+}
+
+.btn-primary:focus-visible,
+.btn-outline:focus-visible {
+  outline: 2px solid var(--color-gold-light);
+  outline-offset: 4px;
+}
+
+.btn-primary svg,
+.btn-outline svg {
+  flex: 0 0 auto;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary:hover > svg,
+.btn-outline:hover > svg {
+  transform: translateY(-2px) scale(1.08);
+}
+
+.button-rocket {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transform: rotate(135deg);
+}
+
+.button-scroll-down:hover .button-rocket,
+.button-scroll-down:active .button-rocket,
+.button-scroll-down:focus-visible .button-rocket {
+  animation: rocket-flight-down 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes rocket-flight-down {
+  0% { opacity: 1; transform: translateY(0) rotate(135deg); }
+  45% { opacity: 0; transform: translateY(9px) rotate(135deg); }
+  46% { opacity: 0; transform: translateY(-4px) rotate(135deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(135deg); }
 }
 
 .btn-outline:hover {

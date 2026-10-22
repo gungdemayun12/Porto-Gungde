@@ -1,11 +1,12 @@
 /**
  * About — tentang saya (sederhana, jelas, tanpa overclaim)
  */
-import { ArrowUpRight, MapPin, Code2, Zap, CheckCircle2 } from 'lucide-react';
+import { MapPin, Code2, Zap, CheckCircle2 } from 'lucide-react';
 import gungdePhoto from '../assets/gungde.jpeg';
 import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { CONTACT } from '../data/contact';
+import Button from '../components/ui/Button';
 
 export default function About() {
   const { lang } = useLang();
@@ -172,32 +173,31 @@ export default function About() {
 
             <div className="space-y-6 pt-2">
               <div className="flex flex-wrap items-center gap-4">
-                <a
+                <Button
                   href="#contact"
+                  scrollDirection="down"
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="btn-primary shine-sweep flex items-center gap-2.5 text-xs sm:text-sm px-6 py-3.5 group"
+                  className="shine-sweep flex items-center gap-2.5 text-xs sm:text-sm px-6 py-3.5 group"
                 >
                   <span>{isId ? 'Hubungi Saya' : 'Get in Touch'}</span>
-                  <ArrowUpRight
-                    size={16}
-                    className="text-stone-900 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                  />
-                </a>
+                </Button>
 
-                <a
+                <Button
+                  variant="outline"
                   href="#projects"
+                  scrollDirection="down"
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="btn-outline flex items-center gap-2.5 text-xs sm:text-sm px-6 py-3.5"
+                  className="flex items-center gap-2.5 text-xs sm:text-sm px-6 py-3.5"
                 >
                   <Code2 size={16} className="text-gold" />
                   <span>{isId ? 'Lihat Proyek' : 'View Projects'}</span>
-                </a>
+                </Button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">

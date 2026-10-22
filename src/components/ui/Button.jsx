@@ -1,3 +1,5 @@
+import { Rocket } from 'lucide-react';
+
 /**
  * Button — komponen tombol yang bisa dikustomisasi
  * Mendukung varian primary (emas) dan outline.
@@ -12,21 +14,29 @@ export default function Button({
   disabled = false,
   className = '',
   ariaLabel,
+  scrollDirection,
   ...props
 }) {
   // Kelas dasar sesuai varian
   const baseClass = variant === 'primary' ? 'btn-primary' : 'btn-outline';
+  const motionClass = scrollDirection === 'down' ? 'button-scroll-down' : '';
 
   // Jika ada href, render sebagai <a>
   if (href) {
     return (
       <a
         href={href}
-        className={`${baseClass} ${className}`}
+        onClick={onClick}
+        className={`${baseClass} ${motionClass} ${className}`}
         aria-label={ariaLabel}
         {...props}
       >
         {children}
+        {scrollDirection === 'down' && (
+          <span className="button-rocket" aria-hidden="true">
+            <Rocket size={15} />
+          </span>
+        )}
       </a>
     );
   }
@@ -36,11 +46,16 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseClass} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      className={`${baseClass} ${motionClass} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       aria-label={ariaLabel}
       {...props}
     >
       {children}
+      {scrollDirection === 'down' && (
+        <span className="button-rocket" aria-hidden="true">
+          <Rocket size={15} />
+        </span>
+      )}
     </button>
   );
 }
