@@ -5,6 +5,7 @@
 import { lazy, Suspense } from 'react';
 import { ArrowUpRight, Sparkles, MessageCircle, ChevronDown } from 'lucide-react';
 import Button from '../components/ui/Button';
+import GlowCursor from '../components/ui/GlowCursor';
 import { useLang } from '../hooks/useLang';
 
 // Lazy load HeroLanyard agar Three.js di-load secara asynchronous
@@ -100,9 +101,11 @@ export default function Hero() {
 
           {/* Kolom Kanan: 3D Lanyard React Bits */}
           <div className="lg:col-span-6 flex justify-center items-center order-1 lg:order-2 w-full">
-            <Suspense fallback={<LanyardFallback />}>
-              <HeroLanyard />
-            </Suspense>
+            <GlowCursor color="#d4af37" secondaryColor="#fff1a8" intensity={1.1} clickBurst quality="low" maxDevicePixelRatio={1.5}>
+              <Suspense fallback={<LanyardFallback />}>
+                <HeroLanyard />
+              </Suspense>
+            </GlowCursor>
           </div>
         </div>
       </div>

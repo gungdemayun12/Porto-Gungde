@@ -1,0 +1,1 @@
+.glow-cursor{position:relative;width:100%;height:100%;overflow:visible}.glow-cursor>canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}.glow-cursor__content{position:relative;z-index:1;width:100%;height:100%}@media (pointer:coarse){.glow-cursor>canvas{display:none}}
