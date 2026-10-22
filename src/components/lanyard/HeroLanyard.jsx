@@ -57,7 +57,8 @@ export default function HeroLanyard() {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const containerHeight = isMobile ? '400px' : isTablet ? '480px' : '540px';
+  // Beri ruang lebih besar di HP agar kartu tidak terlihat kecil dan terpotong.
+  const containerHeight = isMobile ? '560px' : isTablet ? '520px' : '540px';
 
   useEffect(() => {
     const el = containerRef.current;
@@ -103,9 +104,10 @@ export default function HeroLanyard() {
         <WebGLErrorBoundary fallback={<StaticBadge />}>
           <Suspense fallback={<LanyardSkeleton />}>
             <Lanyard3D
-              position={[0, 0, isMobile ? 22 : 19]}
+              // Kamera lebih dekat + FOV lebih kecil di HP: kartu tampil lebih besar dan tajam.
+              position={[0, 0, isMobile ? 12 : 19]}
               gravity={[0, isMobile ? -32 : -40, 0]}
-              fov={20}
+              fov={isMobile ? 14 : 20}
               transparent
               frontImage={gungdePhoto}
               backImage={gungdePhoto}

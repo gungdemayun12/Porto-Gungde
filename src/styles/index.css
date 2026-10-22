@@ -521,6 +521,20 @@ a {
 /* LANYARD CONTAINER */
 .lanyard-container {
   touch-action: pan-y;
+  overflow: visible;
+}
+
+/* Canvas 3D perlu memenuhi area hero di layar kecil. */
+@media (max-width: 767px) {
+  .lanyard-container {
+    min-height: 500px;
+    margin-top: -0.5rem;
+  }
+
+  .lanyard-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+  }
 }
 
 /* NAVBAR backdrop blur */

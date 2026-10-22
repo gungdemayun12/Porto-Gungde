@@ -50,7 +50,8 @@ export default function Lanyard({
     <div className="lanyard-wrapper">
       <Canvas
         camera={{ position, fov }}
-        dpr={isMobile ? 1 : [1, 1.25]}
+        // DPR 1 membuat tekstur dan garis lanyard tampak blur pada layar HP modern.
+        dpr={isMobile ? [1, 2] : [1, 1.5]}
         frameloop="always"
         gl={{
           alpha: transparent,
@@ -130,8 +131,9 @@ function Band({
     const baseImg = baseMap.image;
     if (!baseImg) return baseMap;
 
-    // Downscale atlas on mobile to cut GPU cost
-    const maxSide = isMobile ? 512 : 1024;
+    // Jangan downscale atlas di mobile: ini membuat foto pada kartu terlihat blur.
+    // 1024px masih ringan, tetapi menjaga detail foto pada layar high-DPI.
+    const maxSide = 1024;
     const srcW = baseImg.width || 1024;
     const srcH = baseImg.height || 1024;
     const scale = Math.min(1, maxSide / Math.max(srcW, srcH));
@@ -170,7 +172,7 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
-    composite.anisotropy = isMobile ? 1 : 4;
+    composite.anisotropy = 8;
     composite.generateMipmaps = true;
     composite.minFilter = THREE.LinearMipmapLinearFilter;
     composite.magFilter = THREE.LinearFilter;

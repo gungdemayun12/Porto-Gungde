@@ -9,5 +9,7 @@
   align-items: center;
   transform: scale(1);
   transform-origin: center;
+  overflow: visible;
+  touch-action: none;
   user-select: none;
 }
