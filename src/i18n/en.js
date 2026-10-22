@@ -7,7 +7,7 @@ const en = {
   nav: {
     about: 'About',
     projects: 'Projects',
-    process: 'Process',
+    services: 'Services',
     experience: 'Experience',
     contact: 'Contact',
     hireMe: 'Hire Me',
@@ -89,32 +89,10 @@ const en = {
 
   // Services
   services: {
+    eyebrow: 'What I do',
     sectionTitle: 'Services',
-    sectionSubtitle: 'What I can do for your business',
-  },
-
-  // Process
-  process: {
-    sectionTitle: 'My Process',
-    sectionSubtitle: 'From idea to launch, step by step',
-    steps: [
-      {
-        title: 'Discovery',
-        description: 'Understanding your business, goals, target audience, and competitors. We define the project scope and requirements together.',
-      },
-      {
-        title: 'Design',
-        description: 'Creating wireframes and UI/UX design that aligns with your brand. Every pixel is crafted with purpose and conversion in mind.',
-      },
-      {
-        title: 'Build',
-        description: 'Developing with clean, tested code using modern tech stack. Regular demos keep you in the loop throughout development.',
-      },
-      {
-        title: 'Launch & Support',
-        description: 'Deploying to production with monitoring setup. I provide ongoing support, maintenance, and optimization post-launch.',
-      },
-    ],
+    sectionSubtitle: 'Digital services designed to help your business grow online.',
+    carouselLabel: 'Services circular carousel',
   },
 
   // Experience

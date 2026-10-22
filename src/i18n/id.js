@@ -7,7 +7,7 @@ const id = {
   nav: {
     about: 'Tentang',
     projects: 'Proyek',
-    process: 'Proses',
+    services: 'Layanan',
     experience: 'Pengalaman',
     contact: 'Kontak',
     hireMe: 'Hubungi',
@@ -89,32 +89,10 @@ const id = {
 
   // Services
   services: {
+    eyebrow: 'Yang saya kerjakan',
     sectionTitle: 'Layanan',
-    sectionSubtitle: 'Apa yang bisa saya lakukan untuk bisnis Anda',
-  },
-
-  // Process
-  process: {
-    sectionTitle: 'Proses Saya',
-    sectionSubtitle: 'Dari ide hingga peluncuran, langkah demi langkah',
-    steps: [
-      {
-        title: 'Discovery',
-        description: 'Memahami bisnis, tujuan, target audiens, dan kompetitor Anda. Kita definisikan scope dan kebutuhan proyek bersama.',
-      },
-      {
-        title: 'Desain',
-        description: 'Membuat wireframe dan desain UI/UX yang selaras dengan brand Anda. Setiap piksel dirancang dengan tujuan dan konversi dalam pikiran.',
-      },
-      {
-        title: 'Bangun',
-        description: 'Mengembangkan dengan kode bersih dan teruji menggunakan tech stack modern. Demo rutin membuat Anda selalu update selama pengembangan.',
-      },
-      {
-        title: 'Peluncuran & Support',
-        description: 'Deploy ke production dengan setup monitoring. Saya menyediakan dukungan berkelanjutan, maintenance, dan optimasi pasca-peluncuran.',
-      },
-    ],
+    sectionSubtitle: 'Layanan digital untuk membantu bisnis Anda berkembang secara online.',
+    carouselLabel: 'Carousel melingkar layanan',
   },
 
   // Experience

@@ -1,73 +1,75 @@
 /**
- * Services — 4 kartu layanan dengan ikon, deskripsi, dan estimasi timeline
+ * Services — layanan utama dalam circular carousel yang bisa digeser.
  */
-import { Globe, Code2, Palette, Zap } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import CircularCarousel from '../components/ui/CircularCarousel';
 import SectionTitle from '../components/ui/SectionTitle';
 import { useLang } from '../hooks/useLang';
-import { useInView } from '../hooks/useInView';
 import { servicesData } from '../data/services';
-
-// Mapping ikon
-const iconMap = {
-  Globe,
-  Code2,
-  Palette,
-  Zap,
-};
 
 export default function Services() {
   const { t, lang } = useLang();
-  const { ref, isInView } = useInView({ triggerOnce: true });
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [theme, setTheme] = useState(() =>
+    document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+  );
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const observer = new MutationObserver(() => {
+      setTheme(root.classList.contains('dark') ? 'dark' : 'light');
+    });
+    observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  const items = servicesData.map((service) => ({
+    src: service.image,
+    alt: service.imageAlt[lang] || service.imageAlt.en,
+    title: service.title[lang] || service.title.en,
+    subtitle: service.subtitle[lang] || service.subtitle.en,
+  }));
+  const activeService = servicesData[activeIndex];
 
   return (
-    <section id="services" className="section-padding bg-surface/30" aria-label="Services" ref={ref}>
+    <section
+      id="services"
+      className="section-padding bg-surface/30"
+      aria-label={t.services.sectionTitle}
+    >
       <div className="container-main">
         <SectionTitle
+          label={t.services.eyebrow}
           title={t.services.sectionTitle}
           subtitle={t.services.sectionSubtitle}
         />
 
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6
-          transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {servicesData.map((service, i) => {
-            const Icon = iconMap[service.icon];
-            const title = service.title[lang] || service.title.en;
-            const description = service.description[lang] || service.description.en;
-            const timeline = service.timeline[lang] || service.timeline.en;
-
-            return (
-              <div
-                key={service.id}
-                className="group p-6 rounded-[var(--radius-card)] bg-bg border border-border card-shadow
-                  hover:border-gold/40 transition-all duration-300"
-                style={{ transitionDelay: `${i * 80}ms` }}
-              >
-                {/* Ikon */}
-                <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center mb-4
-                  group-hover:bg-gold/20 transition-colors duration-300">
-                  {Icon && <Icon size={24} className="text-gold" />}
-                </div>
-
-                {/* Judul */}
-                <h3 className="font-heading font-semibold text-text text-lg mb-3 group-hover:text-gold-text
-                  transition-colors duration-300">
-                  {title}
-                </h3>
-
-                {/* Deskripsi */}
-                <p className="text-muted text-sm leading-relaxed mb-4">
-                  {description}
-                </p>
-
-                {/* Timeline */}
-                <div className="flex items-center gap-2 pt-4 border-t border-border">
-                  <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                  <span className="font-mono text-xs text-gold-text">{timeline}</span>
-                </div>
-              </div>
-            );
-          })}
+        <div className="mx-auto h-[430px] w-full max-w-5xl sm:h-[500px] lg:h-[560px]">
+          <CircularCarousel
+            items={items}
+            preset="cylinder"
+            intro="rise"
+            cardWidth={210}
+            aspectRatio={0.86}
+            gap={28}
+            autoplay="drift"
+            speed={10}
+            pauseOnHover
+            focusOnClick
+            captions
+            fadeColor={theme === 'dark' ? '#090A0D' : '#FCFAF6'}
+            ariaLabel={t.services.carouselLabel}
+            onChange={setActiveIndex}
+          />
         </div>
+
+        <p
+          key={activeService.id}
+          className="mx-auto mt-2 max-w-2xl text-center text-sm leading-relaxed text-muted sm:text-base"
+          aria-live="polite"
+        >
+          {activeService.description[lang] || activeService.description.en}
+        </p>
       </div>
     </section>
   );

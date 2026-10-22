@@ -1,11 +1,11 @@
 /**
  * Home — halaman beranda (one-page)
- * Alur kurasi mewah & fokus: Hero -> About -> Projects -> Process -> Experience -> Contact
+ * Alur kurasi mewah & fokus: Hero -> About -> Projects -> Services -> Experience -> Contact
  */
 import Hero from '../sections/Hero';
 import About from '../sections/About';
 import Projects from '../sections/Projects';
-import Process from '../sections/Process';
+import Services from '../sections/Services';
 import Experience from '../sections/Experience';
 import Contact from '../sections/Contact';
 
@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <About />
       <Projects />
-      <Process />
+      <Services />
       <Experience />
       <Contact />
     </>
