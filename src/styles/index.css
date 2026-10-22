@@ -527,7 +527,7 @@ a {
 /* Canvas 3D perlu memenuhi area hero di layar kecil. */
 @media (max-width: 767px) {
   .lanyard-container {
-    min-height: 500px;
+    min-height: 480px;
     margin-top: -0.5rem;
   }
 
