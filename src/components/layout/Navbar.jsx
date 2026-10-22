@@ -11,7 +11,7 @@ import { useLang } from '../../hooks/useLang';
 import MobileMenu from './MobileMenu';
 
 // ID section untuk navigasi dan highlight aktif
-const NAV_SECTIONS = ['about', 'projects', 'services', 'experience', 'contact'];
+const NAV_SECTIONS = ['about', 'projects', 'process', 'experience', 'contact'];
 
 export default function Navbar() {
   const { t } = useLang();
@@ -89,7 +89,7 @@ export default function Navbar() {
   const navLabels = {
     about: t.nav.about,
     projects: t.nav.projects,
-    services: t.nav.services,
+    process: t.nav.process,
     experience: t.nav.experience,
     contact: t.nav.contact,
   };
