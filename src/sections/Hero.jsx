@@ -72,7 +72,6 @@ export default function Hero() {
               <Button
                 variant="primary"
                 href="#projects"
-                scrollDirection="down"
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -86,7 +85,6 @@ export default function Hero() {
               <Button
                 variant="outline"
                 href="#contact"
-                scrollDirection="down"
                 onClick={(e) => {
                   e.preventDefault();
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });

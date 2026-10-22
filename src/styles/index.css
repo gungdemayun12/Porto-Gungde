@@ -324,102 +324,137 @@ a {
 /* =========================================================
    TOMBOL MEWAH (LUXURY BUTTONS)
    ========================================================= */
+@property --specular-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
 .btn-primary {
+  --button-tint: #d4af37;
+  --button-text: #f7e8bd;
+  --button-line: #ffe5a3;
+  --button-base: #a47c20;
+  --specular-angle: 0deg;
+  --specular-x: 50%;
+  --specular-y: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
   padding: 0.85rem 2rem;
-  background: linear-gradient(135deg, #ECC880 0%, #D4AF37 40%, #B8860B 100%);
-  color: #0A0A0D;
+  background: rgba(26, 23, 15, 0.78);
+  color: var(--button-text);
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.9375rem;
   letter-spacing: 0.02em;
-  border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  border: 1px solid transparent;
+  background-image:
+    linear-gradient(rgba(26, 23, 15, 0.82), rgba(26, 23, 15, 0.82)),
+    conic-gradient(
+      from calc(var(--specular-angle) - 45deg),
+      var(--button-base) 0deg,
+      color-mix(in srgb, var(--button-line) 28%, transparent) 24deg,
+      var(--button-line) 45deg,
+      color-mix(in srgb, var(--button-line) 28%, transparent) 66deg,
+      var(--button-base) 90deg,
+      var(--button-base) 360deg
+    );
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+  isolation: isolate;
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.65);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              background-color 250ms ease,
+              box-shadow 250ms ease,
+              --specular-angle 180ms ease;
 }
 
-/* Kilau muncul saat interaksi agar tidak terus merender animasi di perangkat mobile. */
 .btn-primary::before,
-.shine-sweep::before {
+.btn-outline::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: -40%;
-  width: 45%;
-  height: 100%;
-  background: linear-gradient(
-    110deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.15) 35%,
-    rgba(255, 255, 255, 0.55) 50%,
-    rgba(255, 255, 255, 0.15) 65%,
-    transparent 100%
+  inset: 1px;
+  border-radius: inherit;
+  background: radial-gradient(
+    120px circle at var(--specular-x) var(--specular-y),
+    color-mix(in srgb, var(--button-line) 18%, transparent),
+    transparent 72%
   );
-  transform: skewX(-18deg);
-  animation: none;
+  opacity: 0;
   pointer-events: none;
   z-index: 1;
+  transition: opacity 220ms ease;
 }
 
 .btn-primary > *,
-.shine-sweep > * {
+.btn-outline > * {
   position: relative;
   z-index: 2;
 }
 
-@keyframes shine-sweep {
-  0% { left: -50%; opacity: 0; }
-  12% { opacity: 1; }
-  42% { left: 120%; opacity: 1; }
-  43%, 100% { left: 120%; opacity: 0; }
+.btn-primary:hover::before,
+.btn-outline:hover::before,
+.btn-primary:focus-visible::before,
+.btn-outline:focus-visible::before {
+  opacity: 1;
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px);
-  border-color: var(--color-gold-light);
-  box-shadow: 0 10px 34px rgba(212, 175, 55, 0.5), 0 0 0 2px rgba(229, 195, 120, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.7);
-}
-
-.btn-primary:hover::before,
-.shine-sweep:hover::before {
-  animation: shine-sweep 750ms ease-out;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -13px rgba(212, 175, 55, 0.42);
 }
 
 .btn-primary:active {
-  transform: translateY(0) scale(0.99);
+  transform: scale(0.97);
 }
 
 /* Tombol outline mewah */
 .btn-outline {
+  --button-tint: #e5d4a5;
+  --button-text: var(--color-text);
+  --button-line: #f4dfa8;
+  --button-base: rgba(229, 195, 120, 0.42);
+  --specular-angle: 0deg;
+  --specular-x: 50%;
+  --specular-y: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.625rem;
   padding: 0.85rem 2rem;
-  background: rgba(229, 195, 120, 0.03);
-  color: var(--color-text);
+  background: rgba(20, 20, 23, 0.58);
+  background-image:
+    linear-gradient(rgba(20, 20, 23, 0.62), rgba(20, 20, 23, 0.62)),
+    conic-gradient(
+      from calc(var(--specular-angle) - 45deg),
+      var(--button-base) 0deg,
+      color-mix(in srgb, var(--button-line) 28%, transparent) 24deg,
+      var(--button-line) 45deg,
+      color-mix(in srgb, var(--button-line) 28%, transparent) 66deg,
+      var(--button-base) 90deg,
+      var(--button-base) 360deg
+    );
+  background-origin: padding-box, border-box;
+  background-clip: padding-box, border-box;
+  color: var(--button-text);
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 0.9375rem;
-  border-radius: 3px;
-  border: 1.5px solid rgba(229, 195, 120, 0.35);
+  border-radius: 18px;
+  border: 1px solid transparent;
+  position: relative;
+  isolation: isolate;
   cursor: pointer;
-  transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 350ms cubic-bezier(0.16, 1, 0.3, 1),
-              color 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 250ms ease,
+              --specular-angle 180ms ease;
   text-decoration: none;
-  backdrop-filter: blur(10px);
 }
 
 .btn-primary:focus-visible,
@@ -428,48 +463,19 @@ a {
   outline-offset: 4px;
 }
 
-.btn-primary svg,
-.btn-outline svg {
-  flex: 0 0 auto;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 .btn-primary:hover > svg,
 .btn-outline:hover > svg {
-  transform: translateY(-2px) scale(1.08);
-}
-
-.button-rocket {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: 0 0 auto;
-  transform: rotate(135deg);
-}
-
-.button-scroll-down:hover .button-rocket,
-.button-scroll-down:active .button-rocket,
-.button-scroll-down:focus-visible .button-rocket {
-  animation: rocket-flight-down 650ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes rocket-flight-down {
-  0% { opacity: 1; transform: translateY(0) rotate(135deg); }
-  45% { opacity: 0; transform: translateY(9px) rotate(135deg); }
-  46% { opacity: 0; transform: translateY(-4px) rotate(135deg); }
-  100% { opacity: 1; transform: translateY(0) rotate(135deg); }
+  filter: drop-shadow(0 0 5px rgba(244, 223, 168, 0.55));
 }
 
 .btn-outline:hover {
-  border-color: var(--color-gold);
-  background: rgba(229, 195, 120, 0.12);
   color: var(--color-gold-text);
-  box-shadow: 0 0 25px rgba(229, 195, 120, 0.18);
-  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 26px -15px rgba(229, 195, 120, 0.38);
+  transform: translateY(-2px);
 }
 
 .btn-outline:active {
-  transform: translateY(0) scale(0.99);
+  transform: scale(0.97);
 }
 
 /* =========================================================

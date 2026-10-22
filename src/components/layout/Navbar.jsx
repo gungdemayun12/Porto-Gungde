@@ -158,7 +158,6 @@ export default function Navbar() {
             {/* Tombol Hubungi / Hire Me */}
             <Button
               onClick={() => scrollTo('contact')}
-              scrollDirection="down"
               className="shine-sweep text-xs py-2 px-5 cursor-pointer flex items-center gap-2"
             >
               <Sparkles size={14} className="text-stone-900" />

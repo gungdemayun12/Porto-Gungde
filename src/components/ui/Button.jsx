@@ -1,5 +1,3 @@
-import { Rocket } from 'lucide-react';
-
 /**
  * Button — komponen tombol yang bisa dikustomisasi
  * Mendukung varian primary (emas) dan outline.
@@ -14,12 +12,30 @@ export default function Button({
   disabled = false,
   className = '',
   ariaLabel,
-  scrollDirection,
+  onPointerMove,
+  onPointerLeave,
   ...props
 }) {
   // Kelas dasar sesuai varian
   const baseClass = variant === 'primary' ? 'btn-primary' : 'btn-outline';
-  const motionClass = scrollDirection === 'down' ? 'button-scroll-down' : '';
+  const handlePointerMove = (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    const angle = (Math.atan2(y - rect.height / 2, x - rect.width / 2) * 180 / Math.PI + 90 + 360) % 360;
+
+    event.currentTarget.style.setProperty('--specular-angle', `${angle}deg`);
+    event.currentTarget.style.setProperty('--specular-x', `${x}px`);
+    event.currentTarget.style.setProperty('--specular-y', `${y}px`);
+    onPointerMove?.(event);
+  };
+
+  const handlePointerLeave = (event) => {
+    event.currentTarget.style.setProperty('--specular-angle', '0deg');
+    event.currentTarget.style.setProperty('--specular-x', '50%');
+    event.currentTarget.style.setProperty('--specular-y', '50%');
+    onPointerLeave?.(event);
+  };
 
   // Jika ada href, render sebagai <a>
   if (href) {
@@ -27,16 +43,13 @@ export default function Button({
       <a
         href={href}
         onClick={onClick}
-        className={`${baseClass} ${motionClass} ${className}`}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={handlePointerLeave}
+        className={`${baseClass} ${className}`}
         aria-label={ariaLabel}
         {...props}
       >
         {children}
-        {scrollDirection === 'down' && (
-          <span className="button-rocket" aria-hidden="true">
-            <Rocket size={15} />
-          </span>
-        )}
       </a>
     );
   }
@@ -46,16 +59,13 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseClass} ${motionClass} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
+      className={`${baseClass} ${disabled ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
       aria-label={ariaLabel}
       {...props}
     >
       {children}
-      {scrollDirection === 'down' && (
-        <span className="button-rocket" aria-hidden="true">
-          <Rocket size={15} />
-        </span>
-      )}
     </button>
   );
 }

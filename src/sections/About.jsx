@@ -175,7 +175,6 @@ export default function About() {
               <div className="flex flex-wrap items-center gap-4">
                 <Button
                   href="#contact"
-                  scrollDirection="down"
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -188,7 +187,6 @@ export default function About() {
                 <Button
                   variant="outline"
                   href="#projects"
-                  scrollDirection="down"
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });

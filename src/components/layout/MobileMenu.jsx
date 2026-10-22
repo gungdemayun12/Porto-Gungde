@@ -240,7 +240,6 @@ export default function MobileMenu({
             >
               <Button
                 onClick={() => handleNavClick('contact')}
-                scrollDirection="down"
                 className="shine-sweep w-full py-3 text-xs"
               >
                 {t.nav.hireMe}
