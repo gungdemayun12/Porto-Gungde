@@ -32,12 +32,12 @@ const panelVariants = {
   visible: {
     x: 0,
     opacity: 1,
-    transition: { type: 'spring', stiffness: 260, damping: 28, mass: 0.9 },
+    transition: { duration: 0.48, ease: EASE },
   },
   exit: {
     x: '102%',
     opacity: 0.5,
-    transition: { duration: 0.38, ease: EASE_OUT },
+    transition: { duration: 0.4, ease: EASE_OUT },
   },
 };
 
@@ -105,7 +105,7 @@ export default function MobileMenu({
             exit="exit"
             transition={prefersReduced ? { duration: 0.01 } : undefined}
             onClick={onClose}
-            className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-[6px]"
+            className="fixed inset-0 z-[100] bg-stone-950/25 dark:bg-black/55 backdrop-blur-[6px]"
             style={{ WebkitBackdropFilter: 'blur(6px)' }}
             aria-hidden="true"
           />
@@ -121,33 +121,33 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label="Mobile navigation"
             className="fixed top-0 right-0 bottom-0 z-[101] w-full sm:w-[360px] max-w-[88vw]
-              bg-[#0A0B0F]/92 backdrop-blur-2xl
-              border-l border-white/[0.07]
-              shadow-[-20px_0_50px_rgba(0,0,0,0.4)]
+              bg-bg/95 dark:bg-[#0A0B0F]/92 backdrop-blur-2xl
+              border-l border-border/80 dark:border-white/[0.07]
+              shadow-[-20px_0_50px_rgba(0,0,0,0.16)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.4)]
               flex flex-col will-change-transform"
             style={{ WebkitBackdropFilter: 'blur(28px)' }}
           >
             {/* Soft ambient glow — satu saja, tidak ramai */}
             <div
               className="pointer-events-none absolute -top-24 -right-20 w-72 h-72 rounded-full
-                bg-gold/[0.06] blur-3xl"
+                bg-gold/[0.08] dark:bg-gold/[0.06] blur-3xl"
               aria-hidden="true"
             />
 
             {/* Header */}
             <div className="relative z-10 flex items-center justify-between px-6 sm:px-7 pt-6 pb-5
-              border-b border-white/[0.06]">
+              border-b border-border/80 dark:border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold via-gold-light to-gold-dark p-px">
-                  <div className="w-full h-full rounded-full bg-[#0A0B0F] flex items-center justify-center">
+                  <div className="w-full h-full rounded-full bg-bg dark:bg-[#0A0B0F] flex items-center justify-center">
                     <span className="font-heading font-bold text-xs gradient-gold-text">G</span>
                   </div>
                 </div>
                 <div>
-                  <span className="font-heading font-semibold text-[15px] text-white tracking-wide">
+                  <span className="font-heading font-semibold text-[15px] text-text dark:text-white tracking-wide">
                     GUNGDE<span className="text-gold">.</span>
                   </span>
-                  <span className="block font-mono text-[9px] text-white/35 uppercase tracking-[0.2em] -mt-0.5">
+                  <span className="block font-mono text-[9px] text-muted dark:text-white/35 uppercase tracking-[0.2em] -mt-0.5">
                     Web Developer
                   </span>
                 </div>
@@ -157,9 +157,9 @@ export default function MobileMenu({
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="w-10 h-10 rounded-full border border-white/10 bg-white/[0.03]
-                  flex items-center justify-center text-white/60
-                  hover:text-gold hover:border-gold/35 hover:bg-gold/[0.08]
+                className="w-10 h-10 rounded-full border border-border bg-surface/70 dark:border-white/10 dark:bg-white/[0.03]
+                  flex items-center justify-center text-muted dark:text-white/60
+                  hover:text-gold-text hover:border-gold/35 hover:bg-gold/[0.08]
                   transition-[color,border-color,background-color] duration-300 ease-out
                   cursor-pointer active:scale-[0.96]"
               >
@@ -169,7 +169,7 @@ export default function MobileMenu({
 
             {/* Nav links */}
             <motion.nav
-              className="relative z-10 flex-1 flex flex-col justify-center px-5 sm:px-6 py-6 gap-0.5"
+              className="relative z-10 flex-1 min-h-0 flex flex-col justify-center px-5 sm:px-6 py-6 gap-0.5 overflow-y-auto"
               variants={prefersReduced ? undefined : listVariants}
               initial="hidden"
               animate="visible"
@@ -196,14 +196,14 @@ export default function MobileMenu({
                       transition-[background-color,border-color,color] duration-300 ease-out
                       ${
                         isActive
-                          ? 'bg-gold/[0.09] border border-gold/20 text-white'
-                          : 'border border-transparent text-white/50 hover:text-white hover:bg-white/[0.035]'
+                          ? 'bg-gold/[0.09] border border-gold/20 text-text dark:text-white'
+                          : 'border border-transparent text-muted dark:text-white/50 hover:text-text dark:hover:text-white hover:bg-gold/[0.06] dark:hover:bg-white/[0.035]'
                       }`}
                   >
                     <div className="flex items-baseline gap-3.5">
                       <span
                         className={`font-mono text-[11px] tracking-wider transition-colors duration-300 ${
-                          isActive ? 'text-gold' : 'text-white/20 group-hover:text-gold/55'
+                          isActive ? 'text-gold-text dark:text-gold' : 'text-muted/70 dark:text-white/20 group-hover:text-gold-text dark:group-hover:text-gold/55'
                         }`}
                       >
                         {number}
@@ -233,7 +233,7 @@ export default function MobileMenu({
 
             {/* Footer — minimal, satu CTA utama */}
             <motion.div
-              className="relative z-10 px-6 sm:px-7 pb-7 pt-5 border-t border-white/[0.06] space-y-4"
+              className="relative z-10 px-6 sm:px-7 pb-7 pt-5 border-t border-border/80 dark:border-white/[0.06] space-y-4"
               variants={prefersReduced ? undefined : footerVariants}
               initial="hidden"
               animate="visible"
@@ -254,8 +254,8 @@ export default function MobileMenu({
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-[11px] font-mono text-white/40
-                    hover:text-emerald-400/90 transition-colors duration-300"
+                  className="flex items-center gap-2 text-xs font-mono text-muted
+                    hover:text-emerald-600 dark:text-white/50 dark:hover:text-emerald-400/90 transition-colors duration-300"
                 >
                   <FaWhatsapp size={13} />
                   <span>{CONTACT.whatsappDisplay}</span>
@@ -272,9 +272,9 @@ export default function MobileMenu({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-8 h-8 rounded-full border border-white/10
-                        flex items-center justify-center text-white/40
-                        hover:text-gold hover:border-gold/30 transition-colors duration-300"
+                      className="w-8 h-8 rounded-full border border-border dark:border-white/10
+                        flex items-center justify-center text-muted dark:text-white/40
+                        hover:text-gold-text dark:hover:text-gold hover:border-gold/30 transition-colors duration-300"
                     >
                       <Icon size={12} />
                     </a>
@@ -282,7 +282,7 @@ export default function MobileMenu({
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-white/25">
+              <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted/70 dark:text-white/25">
                 <MapPin size={10} className="text-gold/50" />
                 <span>{CONTACT.locationShort}</span>
               </div>

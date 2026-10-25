@@ -63,7 +63,7 @@ export default function ProjectModal({ project, onClose }) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3, ease: EASE }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/70 backdrop-blur-md"
+        className="absolute inset-0 bg-stone-950/35 dark:bg-black/70 backdrop-blur-md"
         aria-hidden="true"
       />
 
@@ -72,17 +72,17 @@ export default function ProjectModal({ project, onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 16, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 340, damping: 34, mass: 0.85 }}
-        className="relative z-10 w-full max-w-4xl max-h-[90vh] bg-[#0C0E14]/96 backdrop-blur-xl
-          border border-white/[0.08] rounded-[22px]
-          shadow-[0_24px_70px_rgba(0,0,0,0.55)]
+        className="relative z-10 w-full max-w-4xl max-h-[90vh] bg-surface/98 dark:bg-[#0C0E14]/96 backdrop-blur-xl
+          border border-border dark:border-white/[0.08] rounded-[22px]
+          shadow-[0_24px_70px_rgba(0,0,0,0.2)] dark:shadow-[0_24px_70px_rgba(0,0,0,0.55)]
           flex flex-col overflow-hidden will-change-transform"
       >
-        <div className="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between bg-[#08090D]/80 shrink-0">
+        <div className="px-6 py-4 border-b border-border dark:border-white/[0.06] flex items-center justify-between bg-bg/80 dark:bg-[#08090D]/80 shrink-0">
           <div className="flex items-center gap-3">
             <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-gold/12 text-gold border border-gold/25">
               {project.category}
             </span>
-            <span className="text-xs font-mono text-stone-400 flex items-center gap-1">
+            <span className="text-xs font-mono text-muted flex items-center gap-1">
               <Calendar size={13} className="text-gold/80" />
               {project.year}
             </span>
@@ -92,9 +92,9 @@ export default function ProjectModal({ project, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 rounded-full border border-white/10 bg-white/[0.04]
-              flex items-center justify-center text-white/70
-              hover:text-gold hover:border-gold/40 transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full border border-border bg-surface
+              flex items-center justify-center text-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70
+              hover:text-gold-text dark:hover:text-gold hover:border-gold/40 transition-colors cursor-pointer"
           >
             <X size={17} strokeWidth={1.75} />
           </button>
@@ -102,16 +102,16 @@ export default function ProjectModal({ project, onClose }) {
 
         <div className="overflow-y-auto p-6 sm:p-8 space-y-7">
           <div>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-wide leading-snug mb-2">
+            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-semibold text-text dark:text-white tracking-wide leading-snug mb-2">
               {title}
             </h2>
-            <p className="font-mono text-sm text-stone-400 leading-relaxed max-w-2xl">
+            <p className="font-mono text-sm text-muted leading-relaxed max-w-2xl">
               {summary}
             </p>
           </div>
 
           <div className="space-y-3">
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-black/50 border border-white/[0.06] group">
+            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-surface dark:bg-black/50 border border-border dark:border-white/[0.06] group">
               {project.video ? (
                 <video
                   src={project.video}
@@ -182,22 +182,22 @@ export default function ProjectModal({ project, onClose }) {
             )}
           </div>
 
-          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5 sm:p-6">
+          <div className="rounded-2xl border border-border bg-bg/70 dark:border-white/[0.06] dark:bg-white/[0.02] p-5 sm:p-6">
             <div className="mb-3 flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-gold/80">
               <span>{isId ? 'Detail Proyek' : 'Project Detail'}</span>
             </div>
-            <p className="font-mono text-xs sm:text-sm leading-relaxed text-stone-300 whitespace-pre-line">
+            <p className="font-mono text-xs sm:text-sm leading-relaxed text-text/80 dark:text-stone-300 whitespace-pre-line">
               {detail}
             </p>
           </div>
         </div>
 
-        <div className="px-6 py-4 border-t border-white/[0.06] bg-[#08090D]/80 flex items-center justify-between shrink-0">
+        <div className="px-6 py-4 border-t border-border dark:border-white/[0.06] bg-bg/80 dark:bg-[#08090D]/80 flex items-center justify-between shrink-0">
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-full border border-white/10 text-stone-400 font-mono text-xs
-              hover:border-gold/40 hover:text-gold transition-colors cursor-pointer"
+            className="px-5 py-2 rounded-full border border-border text-muted font-mono text-xs
+              dark:border-white/10 dark:text-stone-400 hover:border-gold/40 hover:text-gold-text dark:hover:text-gold transition-colors cursor-pointer"
           >
             {isId ? 'Tutup' : 'Close'}
           </button>
@@ -210,10 +210,10 @@ export default function ProjectModal({ project, onClose }) {
               className="btn-primary text-xs py-2 px-5 flex items-center gap-2"
             >
               <span>{isId ? 'Lihat Live' : 'Live Demo'}</span>
-              <ExternalLink size={14} className="text-stone-900" />
+              <ExternalLink size={14} className="text-current" />
             </a>
           ) : (
-            <span className="text-xs font-mono text-stone-500">
+            <span className="text-xs font-mono text-muted">
               {isId ? 'Sistem privat' : 'Private system'}
             </span>
           )}

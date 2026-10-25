@@ -78,7 +78,7 @@ export default function Hero() {
                 }}
                 className="group shadow-lg shadow-gold/20 shine-sweep"
               >
-                <Sparkles size={16} className="text-stone-900 group-hover:rotate-12 transition-transform duration-300" />
+                <Sparkles size={16} className="text-current group-hover:rotate-12 transition-transform duration-300" />
                 <span>{t.hero.cta}</span>
               </Button>
 

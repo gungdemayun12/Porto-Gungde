@@ -13,6 +13,8 @@
    TOKEN WARNA — Luxury Gold & Obsidian Palette
    ========================================================= */
 :root {
+  color-scheme: light;
+
   /* Warna utama light mode (Warm Luxury Ivory & Regal Gold) */
   --color-bg: #FCFAF6;
   --color-surface: #F5EFE6;
@@ -35,6 +37,8 @@
 
 /* Token dark mode (Deep Obsidian Black & Champagne Gold) */
 .dark {
+  color-scheme: dark;
+
   --color-bg: #090A0D;
   --color-surface: #121319;
   --color-border: #26231C;
@@ -80,8 +84,8 @@
    Hanya properti warna — jangan ikut-sertakan transform/opacity
    supaya animasi drawer & Motion tetap halus. */
 *, *::before, *::after {
-  transition-property: background-color, border-color, color, fill, stroke, box-shadow, opacity;
-  transition-duration: 220ms;
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 320ms;
   transition-timing-function: var(--ease-luxury);
 }
 
@@ -332,9 +336,9 @@ a {
 
 .btn-primary {
   --button-tint: #d4af37;
-  --button-text: #f7e8bd;
-  --button-line: #ffe5a3;
-  --button-base: #a47c20;
+  --button-text: #261f10;
+  --button-line: #a47c20;
+  --button-base: #d4af37;
   --specular-angle: 0deg;
   --specular-x: 50%;
   --specular-y: 50%;
@@ -343,7 +347,7 @@ a {
   justify-content: center;
   gap: 0.625rem;
   padding: 0.85rem 2rem;
-  background: rgba(26, 23, 15, 0.78);
+  background: #d9ba6b;
   color: var(--button-text);
   font-family: var(--font-body);
   font-weight: 600;
@@ -352,7 +356,7 @@ a {
   border-radius: 3px;
   border: 1px solid var(--button-line);
   background-image:
-    linear-gradient(rgba(26, 23, 15, 0.82), rgba(26, 23, 15, 0.82)),
+    linear-gradient(rgba(255, 255, 255, 0.12), rgba(80, 56, 10, 0.05)),
     conic-gradient(
       from calc(var(--specular-angle) - 45deg),
       var(--button-base) 0deg,
@@ -370,9 +374,18 @@ a {
   text-decoration: none;
   box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.65);
   transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              background-color 250ms ease,
+              background-color 350ms var(--ease-luxury),
+              color 350ms var(--ease-luxury),
+              border-color 350ms var(--ease-luxury),
               box-shadow 250ms ease,
               --specular-angle 180ms ease;
+}
+
+.dark .btn-primary {
+  --button-text: #f7e8bd;
+  --button-line: #ffe5a3;
+  --button-base: #a47c20;
+  background-color: #1a170f;
 }
 
 .btn-primary::before,
@@ -418,8 +431,8 @@ a {
 .btn-outline {
   --button-tint: #e5d4a5;
   --button-text: var(--color-text);
-  --button-line: #f4dfa8;
-  --button-base: rgba(229, 195, 120, 0.42);
+  --button-line: #c2952e;
+  --button-base: rgba(194, 149, 46, 0.42);
   --specular-angle: 0deg;
   --specular-x: 50%;
   --specular-y: 50%;
@@ -428,9 +441,9 @@ a {
   justify-content: center;
   gap: 0.625rem;
   padding: 0.85rem 2rem;
-  background: rgba(20, 20, 23, 0.58);
+  background-color: rgba(255, 255, 255, 0.78);
   background-image:
-    linear-gradient(rgba(20, 20, 23, 0.62), rgba(20, 20, 23, 0.62)),
+    linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.04)),
     conic-gradient(
       from calc(var(--specular-angle) - 45deg),
       var(--button-base) 0deg,
@@ -452,9 +465,18 @@ a {
   isolation: isolate;
   cursor: pointer;
   transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              background-color 350ms var(--ease-luxury),
+              color 350ms var(--ease-luxury),
+              border-color 350ms var(--ease-luxury),
               box-shadow 250ms ease,
               --specular-angle 180ms ease;
   text-decoration: none;
+}
+
+.dark .btn-outline {
+  --button-line: #f4dfa8;
+  --button-base: rgba(229, 195, 120, 0.42);
+  background-color: rgba(20, 20, 23, 0.58);
 }
 
 .btn-primary:focus-visible,

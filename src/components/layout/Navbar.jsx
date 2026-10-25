@@ -160,7 +160,7 @@ export default function Navbar() {
               onClick={() => scrollTo('contact')}
               className="shine-sweep text-xs py-2 px-5 cursor-pointer flex items-center gap-2"
             >
-              <Sparkles size={14} className="text-stone-900" />
+              <Sparkles size={14} className="text-current" />
               <span>{t.nav.hireMe}</span>
             </Button>
           </div>

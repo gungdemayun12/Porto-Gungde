@@ -10,8 +10,10 @@ export default function ThemeToggle() {
 
   return (
     <button
+      type="button"
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-pressed={isDark}
       className="relative p-2 rounded-full transition-all duration-300 hover:bg-surface cursor-pointer group"
     >
       {/* Container ikon dengan animasi rotasi */}
