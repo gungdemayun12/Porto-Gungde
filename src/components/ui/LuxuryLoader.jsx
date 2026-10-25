@@ -39,9 +39,9 @@ export default function LuxuryLoader({ onComplete }) {
             text="GUNGDEV"
             color="#d4af37"
             highlightColor="#fff1a8"
-            particleSize={2}
-            density={5}
-            gatherDuration={1000}
+            particleSize={2.2}
+            density={4}
+            gatherDuration={560}
           />
         </div>
         <span className="font-mono text-[10px] tracking-[0.35em] text-gold-light/70">PORTFOLIO</span>

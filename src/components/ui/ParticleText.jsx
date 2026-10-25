@@ -47,7 +47,7 @@ export default function ParticleText({
       sourceContext.fillText(text, width / 2, height / 2);
 
       const pixels = sourceContext.getImageData(0, 0, canvasWidth, canvasHeight).data;
-      const step = width < 480 ? Math.max(density, 6) : density;
+      const step = density;
       particles = [];
       start = performance.now();
 
@@ -55,8 +55,8 @@ export default function ParticleText({
         for (let x = 0; x < canvasWidth; x += step) {
           if (pixels[(y * canvasWidth + x) * 4 + 3] > 80) {
             particles.push({
-              x: width / 2 + (Math.random() - 0.5) * width,
-              y: height + Math.random() * height,
+              startX: width / 2 + (Math.random() - 0.5) * width,
+              startY: height + Math.random() * height,
               targetX: x,
               targetY: y,
               delay: Math.random() * 280,
@@ -81,22 +81,16 @@ export default function ParticleText({
           Math.max(0, (elapsed - particle.delay) / gatherDuration)
         );
         const easing = 1 - Math.pow(1 - progress, 3);
-        particle.x += (particle.targetX - particle.x) * (0.035 + 0.065 * easing);
-        particle.y += (particle.targetY - particle.y) * (0.035 + 0.065 * easing);
+        const x = particle.startX + (particle.targetX - particle.startX) * easing;
+        const y = particle.startY + (particle.targetY - particle.startY) * easing;
 
         ctx.fillStyle = progress < 1 ? highlightColor : color;
         ctx.globalAlpha = 0.2 + 0.8 * easing;
         ctx.beginPath();
-        ctx.arc(particle.x, particle.y, particleSize, 0, Math.PI * 2);
+        ctx.arc(x, y, particleSize, 0, Math.PI * 2);
         ctx.fill();
 
-        if (
-          progress < 1 ||
-          Math.abs(particle.x - particle.targetX) > 0.5 ||
-          Math.abs(particle.y - particle.targetY) > 0.5
-        ) {
-          moving = true;
-        }
+        if (progress < 1) moving = true;
       });
 
       ctx.globalAlpha = 1;
@@ -116,7 +110,6 @@ export default function ParticleText({
   return (
     <div ref={ref} className={`particle-text ${className}`} style={style}>
       <canvas className="particle-text__canvas" aria-hidden="true" />
-      <span className="particle-text__label">{text}</span>
       <span className="particle-text__sr">{text}</span>
     </div>
   );
