@@ -47,11 +47,10 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div className="lanyard-wrapper">
+    <div className="lanyard-wrapper" style={{ touchAction: isMobile ? 'pan-y' : 'none' }}>
       <Canvas
         camera={{ position, fov }}
-        // DPR 1 membuat tekstur dan garis lanyard tampak blur pada layar HP modern.
-        dpr={isMobile ? [1, 2] : [1, 1.5]}
+        dpr={isMobile ? 1 : [1, 1.5]}
         frameloop="always"
         gl={{
           alpha: transparent,
@@ -71,7 +70,7 @@ export default function Lanyard({
 
         <Physics
           gravity={gravity}
-          timeStep={isMobile ? 1 / 30 : 1 / 50}
+          timeStep={isMobile ? 1 / 24 : 1 / 50}
           interpolate={!isMobile}
         >
           <Band
@@ -109,6 +108,15 @@ function Band({
   const ang = useMemo(() => new THREE.Vector3(), []);
   const rot = useMemo(() => new THREE.Vector3(), []);
   const dir = useMemo(() => new THREE.Vector3(), []);
+  const curve = useRef(null);
+  if (curve.current === null) {
+    curve.current = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+    ]);
+  }
 
   const segmentProps = {
     type: 'dynamic',
@@ -119,7 +127,13 @@ function Band({
   };
 
   const { nodes, materials } = useGLTF(cardGLB);
-  const texture = useTexture(lanyardImage || lanyard);
+  const baseTexture = useTexture(lanyardImage || lanyard);
+  const texture = useMemo(() => {
+    const configuredTexture = baseTexture.clone();
+    configuredTexture.wrapS = configuredTexture.wrapT = THREE.RepeatWrapping;
+    configuredTexture.needsUpdate = true;
+    return configuredTexture;
+  }, [baseTexture]);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
 
@@ -131,9 +145,7 @@ function Band({
     const baseImg = baseMap.image;
     if (!baseImg) return baseMap;
 
-    // Jangan downscale atlas di mobile: ini membuat foto pada kartu terlihat blur.
-    // 1024px masih ringan, tetapi menjaga detail foto pada layar high-DPI.
-    const maxSide = 1024;
+    const maxSide = isMobile ? 512 : 1024;
     const srcW = baseImg.width || 1024;
     const srcH = baseImg.height || 1024;
     const scale = Math.min(1, maxSide / Math.max(srcW, srcH));
@@ -172,23 +184,14 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
-    composite.anisotropy = 8;
-    composite.generateMipmaps = true;
-    composite.minFilter = THREE.LinearMipmapLinearFilter;
+    composite.anisotropy = isMobile ? 2 : 8;
+    composite.generateMipmaps = !isMobile;
+    composite.minFilter = isMobile ? THREE.LinearFilter : THREE.LinearMipmapLinearFilter;
     composite.magFilter = THREE.LinearFilter;
     composite.needsUpdate = true;
     return composite;
   }, [frontImage, backImage, imageFit, frontTex, backTex, materials, isMobile]);
 
-  const [curve] = useState(
-    () =>
-      new THREE.CatmullRomCurve3([
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-        new THREE.Vector3(),
-      ])
-  );
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
 
@@ -235,23 +238,20 @@ function Band({
           delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
-      curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy(j2.current.lerped);
-      curve.points[2].copy(j1.current.lerped);
-      curve.points[3].copy(fixed.current.translation());
-      band.current.geometry.setPoints(curve.getPoints(isMobile ? 12 : 24));
+      curve.current.points[0].copy(j3.current.translation());
+      curve.current.points[1].copy(j2.current.lerped);
+      curve.current.points[2].copy(j1.current.lerped);
+      curve.current.points[3].copy(fixed.current.translation());
+      band.current.geometry.setPoints(curve.current.getPoints(isMobile ? 12 : 24));
       ang.copy(card.current.angvel());
       rot.copy(card.current.rotation());
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z });
     }
   });
 
-  // Configure mutable Three.js objects once after loading.
   useEffect(() => {
-    curve.curveType = 'chordal';
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.needsUpdate = true;
-  }, [curve, texture]);
+    curve.current.curveType = 'chordal';
+  }, []);
 
   return (
     <>
@@ -304,7 +304,11 @@ function Band({
         <meshLineMaterial
           color="white"
           depthTest={false}
-          resolution={isMobile ? [800, 1600] : [1000, 1000]}
+          resolution={
+            isMobile
+              ? [Math.min(window.innerWidth, 480), Math.min(window.innerHeight, 900)]
+              : [1000, 1000]
+          }
           useMap
           map={texture}
           repeat={[-4, 1]}

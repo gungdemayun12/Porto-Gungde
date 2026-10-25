@@ -49,10 +49,9 @@ function LanyardSkeleton() {
 }
 
 export default function HeroLanyard() {
-  const { width, isMobile, isTablet } = useBreakpoint();
+  const { isMobile, isTablet } = useBreakpoint();
   const { shouldUseFallback } = useDeviceCapability();
-  // Keep phone-sized screens on the static badge so they avoid the Three.js bundle.
-  const useMobileFallback = width < 768 || shouldUseFallback;
+  const useMobileFallback = shouldUseFallback;
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -103,7 +102,7 @@ export default function HeroLanyard() {
         <WebGLErrorBoundary fallback={<StaticBadge />}>
           <Suspense fallback={<LanyardSkeleton />}>
             <Lanyard3D
-              // Kamera lebih dekat + FOV lebih kecil di HP: kartu tampil lebih besar dan tajam.
+              // Use the same 3D lanyard on phones, with lower render cost in Lanyard.
               position={[0, 0, isMobile ? 15 : 17.5]}
               gravity={[0, isMobile ? -32 : -40, 0]}
               fov={isMobile ? 16 : 19}
