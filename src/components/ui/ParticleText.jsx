@@ -1,13 +1,123 @@
 import { useEffect, useRef } from 'react';
 import './ParticleText.css';
 
-// ParticleText-compatible lightweight canvas implementation for the loading intro.
-export default function ParticleText({ text = 'GUNGDEV', color = '#d4af37', highlightColor = '#fff1a8', particleSize = 2, density = 5, gatherDuration = 1200, clickBurst = true, className = '', style }) {
+export default function ParticleText({
+  text = 'GUNGDEV',
+  color = '#d4af37',
+  highlightColor = '#fff1a8',
+  particleSize = 2,
+  density = 5,
+  gatherDuration = 1200,
+  className = '',
+  style,
+}) {
   const ref = useRef(null);
+
   useEffect(() => {
-    const root = ref.current; const canvas = root?.querySelector('canvas');
-    if (!root || !canvas) return;
-    const ctx = canvas.getContext('2d'); let particles = []; let raf; let start = performance.now();
-    const resize = () => { const r=root.getBoundingClientRect(), d=Math.min(devicePixelRatio||1,2); canvas.width=r.width*d; canvas.height=r.height*d; ctx.setTransform(d,0,0,d,0,0); const off=document.createElement('canvas'); off.width=r.width; off.height=r.height; const o=off.getContext('2d'); const size=Math.min(72,r.width/Math.max(5,text.length)*1.6); o.font=`800 ${size}px sans-serif`; o.textAlign='center'; o.textBaseline='middle'; o.fillText(text,r.width/2,r.height/2); const data=o.getImageData(0,0,r.width,r.height).data; particles=[]; start = performance.now(); for(let y=0;y<r.height;y+=density) for(let x=0;x<r.width;x+=density) if(data[(y*r.width+x)*4+3]>80) particles.push({x:r.width/2+(Math.random()-.5)*r.width,y:r.height+Math.random()*r.height,tx:x,ty:y,delay:Math.random()*420}); }; const draw=now=>{ const r=root.getBoundingClientRect(), elapsed=now-start; ctx.clearRect(0,0,r.width,r.height); let moving=false; particles.forEach(a=>{const p=Math.min(1,Math.max(0,(elapsed-a.delay)/gatherDuration)); const e=1-Math.pow(1-p,3); a.x+=(a.tx-a.x)*(.035+.065*e); a.y+=(a.ty-a.y)*(.035+.065*e); ctx.fillStyle=p<1?highlightColor:color; ctx.globalAlpha=.2+.8*Math.min(1,e); ctx.beginPath();ctx.arc(a.x,a.y,particleSize,0,Math.PI*2);ctx.fill(); if(p<1||Math.abs(a.x-a.tx)>0.5||Math.abs(a.y-a.ty)>0.5)moving=true;}); ctx.globalAlpha=1; if(moving) raf=requestAnimationFrame(draw);}; const ro=new ResizeObserver(resize); ro.observe(root); resize(); raf=requestAnimationFrame(draw); return()=>{cancelAnimationFrame(raf);ro.disconnect();}; },[text,color,highlightColor,particleSize,density,gatherDuration]);
-  return <div ref={ref} className={`particle-text ${className}`} style={style}><canvas className="particle-text__canvas"/><span className="particle-text__sr">{text}</span></div>;
+    const root = ref.current;
+    const canvas = root?.querySelector('canvas');
+    const ctx = canvas?.getContext('2d');
+    if (!root || !canvas || !ctx) return;
+
+    let particles = [];
+    let raf;
+    let start = performance.now();
+
+    const resize = () => {
+      const { width, height } = root.getBoundingClientRect();
+      if (!width || !height) return;
+
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+      const canvasWidth = Math.ceil(width);
+      const canvasHeight = Math.ceil(height);
+      canvas.width = Math.ceil(canvasWidth * ratio);
+      canvas.height = Math.ceil(canvasHeight * ratio);
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+      const source = document.createElement('canvas');
+      source.width = canvasWidth;
+      source.height = canvasHeight;
+      const sourceContext = source.getContext('2d', { willReadFrequently: true });
+      if (!sourceContext) return;
+
+      const fontSize = Math.min(72, (width / Math.max(5, text.length)) * 1.2);
+      sourceContext.font = `800 ${fontSize}px sans-serif`;
+      sourceContext.textAlign = 'center';
+      sourceContext.textBaseline = 'middle';
+      sourceContext.fillText(text, width / 2, height / 2);
+
+      const pixels = sourceContext.getImageData(0, 0, canvasWidth, canvasHeight).data;
+      const step = width < 480 ? Math.max(density, 6) : density;
+      particles = [];
+      start = performance.now();
+
+      for (let y = 0; y < canvasHeight; y += step) {
+        for (let x = 0; x < canvasWidth; x += step) {
+          if (pixels[(y * canvasWidth + x) * 4 + 3] > 80) {
+            particles.push({
+              x: width / 2 + (Math.random() - 0.5) * width,
+              y: height + Math.random() * height,
+              targetX: x,
+              targetY: y,
+              delay: Math.random() * 280,
+            });
+          }
+        }
+      }
+
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(draw);
+    };
+
+    const draw = (now) => {
+      const { width, height } = root.getBoundingClientRect();
+      const elapsed = now - start;
+      ctx.clearRect(0, 0, width, height);
+
+      let moving = false;
+      particles.forEach((particle) => {
+        const progress = Math.min(
+          1,
+          Math.max(0, (elapsed - particle.delay) / gatherDuration)
+        );
+        const easing = 1 - Math.pow(1 - progress, 3);
+        particle.x += (particle.targetX - particle.x) * (0.035 + 0.065 * easing);
+        particle.y += (particle.targetY - particle.y) * (0.035 + 0.065 * easing);
+
+        ctx.fillStyle = progress < 1 ? highlightColor : color;
+        ctx.globalAlpha = 0.2 + 0.8 * easing;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particleSize, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (
+          progress < 1 ||
+          Math.abs(particle.x - particle.targetX) > 0.5 ||
+          Math.abs(particle.y - particle.targetY) > 0.5
+        ) {
+          moving = true;
+        }
+      });
+
+      ctx.globalAlpha = 1;
+      if (moving) raf = requestAnimationFrame(draw);
+    };
+
+    const observer = new ResizeObserver(resize);
+    observer.observe(root);
+    resize();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
+  }, [text, color, highlightColor, particleSize, density, gatherDuration]);
+
+  return (
+    <div ref={ref} className={`particle-text ${className}`} style={style}>
+      <canvas className="particle-text__canvas" aria-hidden="true" />
+      <span className="particle-text__label">{text}</span>
+      <span className="particle-text__sr">{text}</span>
+    </div>
+  );
 }

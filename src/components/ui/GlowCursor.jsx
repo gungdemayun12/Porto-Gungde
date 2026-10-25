@@ -343,6 +343,13 @@ const GlowCursor = ({
   });
 
   useEffect(() => {
+    if (
+      window.innerWidth < 768 ||
+      window.matchMedia('(pointer: coarse)').matches
+    ) {
+      return undefined;
+    }
+
     const container = containerRef.current;
     const canvas = canvasRef.current;
     const gl = canvas?.getContext('webgl2', {

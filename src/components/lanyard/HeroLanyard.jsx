@@ -49,11 +49,10 @@ function LanyardSkeleton() {
 }
 
 export default function HeroLanyard() {
-  const { isMobile, isTablet } = useBreakpoint();
+  const { width, isMobile, isTablet } = useBreakpoint();
   const { shouldUseFallback } = useDeviceCapability();
-  // Mobile tetap memakai lanyard interaktif; perangkat tidak mendukung WebGL
-  // atau mode hemat data tetap mendapat fallback statis yang jauh lebih ringan.
-  const useMobileFallback = shouldUseFallback;
+  // Keep phone-sized screens on the static badge so they avoid the Three.js bundle.
+  const useMobileFallback = width < 768 || shouldUseFallback;
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
