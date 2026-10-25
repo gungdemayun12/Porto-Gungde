@@ -75,11 +75,36 @@ export default function ProjectDetail() {
           <p className="text-muted text-fluid-body max-w-3xl leading-relaxed">{summary}</p>
         </div>
 
-        {/* Hero image placeholder */}
-        <div className="aspect-video rounded-[var(--radius-card)] bg-gold/5 border border-border mb-12
-          flex items-center justify-center overflow-hidden">
-          <span className="font-heading text-gold/20 text-4xl">{project.category}</span>
+        {/* Hero image */}
+        <div className="aspect-video rounded-[var(--radius-card)] bg-gold/5 border border-border mb-12 overflow-hidden">
+          {project.thumbnail ? (
+            <img
+              src={project.thumbnail}
+              alt={`${title} preview`}
+              className="w-full h-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center">
+              <span className="font-heading text-gold/20 text-4xl">{project.category}</span>
+            </div>
+          )}
         </div>
+
+        {project.gallery?.length > 1 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
+            {project.gallery.map((image, index) => (
+              <img
+                key={image}
+                src={image}
+                alt={`${title} screenshot ${index + 1}`}
+                className="w-full aspect-[4/3] object-cover rounded-xl border border-border bg-surface"
+                loading="lazy"
+              />
+            ))}
+          </div>
+        )}
 
         {/* Meta info */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
