@@ -1,71 +1,65 @@
 /**
- * Data layanan — 4 kartu services
- * Setiap objek berisi id, icon, title, description, timeline (dalam kedua bahasa).
+ * Layanan yang tersedia; ruang lingkup dan estimasi dibahas untuk tiap proyek.
  */
-
 export const servicesData = [
   {
-    id: 'company-website',
+    id: 'business-website',
     icon: 'Globe',
     title: {
-      en: 'Company / Tour Website',
-      id: 'Website Perusahaan / Tour',
+      en: 'Business Websites',
+      id: 'Website Bisnis',
     },
     description: {
-      en: 'Professional websites optimized for conversions and local SEO. Perfect for tour companies, hotels, restaurants, and service businesses in Bali.',
-      id: 'Website profesional yang dioptimasi untuk konversi dan SEO lokal. Sempurna untuk perusahaan tour, hotel, restoran, dan bisnis jasa di Bali.',
-    },
-    timeline: {
-      en: '2–4 weeks',
-      id: '2–4 minggu',
+      en: 'Website design and development for business or personal use, with content and features planned around the project brief.',
+      id: 'Perancangan dan pengembangan website untuk bisnis atau kebutuhan personal, dengan konten dan fitur mengikuti brief proyek.',
     },
   },
   {
-    id: 'web-app',
+    id: 'web-application',
     icon: 'Code2',
     title: {
-      en: 'Custom Web Application',
-      id: 'Aplikasi Web Custom',
+      en: 'Web Applications',
+      id: 'Aplikasi Web',
     },
     description: {
-      en: 'Tailored web applications built with Laravel & React. From POS systems to booking platforms, I build tools that automate and scale your business.',
-      id: 'Aplikasi web custom dibangun dengan Laravel & React. Dari sistem POS hingga platform booking, saya membangun tools yang mengotomasi dan menskalakan bisnis Anda.',
-    },
-    timeline: {
-      en: '4–8 weeks',
-      id: '4–8 minggu',
+      en: 'Custom web application work using tools such as React and Laravel, based on agreed requirements and scope.',
+      id: 'Pengerjaan aplikasi web sesuai kebutuhan dan ruang lingkup yang disepakati, menggunakan teknologi seperti React dan Laravel.',
     },
   },
   {
     id: 'wordpress',
-    icon: 'Palette',
+    icon: 'PanelsTopLeft',
     title: {
-      en: 'WordPress & Elementor',
-      id: 'WordPress & Elementor',
+      en: 'WordPress Websites',
+      id: 'Website WordPress',
     },
     description: {
-      en: 'High-performance WordPress sites with Elementor, WooCommerce, and custom themes. Easy for you to manage and update without a developer.',
-      id: 'Situs WordPress berperforma tinggi dengan Elementor, WooCommerce, dan tema kustom. Mudah bagi Anda untuk mengelola dan update tanpa developer.',
+      en: 'WordPress setup, page building, and updates to existing sites. The specific content and features depend on the project.',
+      id: 'Penyiapan WordPress, pembuatan halaman, dan pembaruan website yang sudah ada. Konten serta fitur disesuaikan dengan proyek.',
     },
-    timeline: {
-      en: '1–3 weeks',
-      id: '1–3 minggu',
+  },
+  {
+    id: 'digital-marketing',
+    icon: 'Megaphone',
+    title: {
+      en: 'Digital Marketing',
+      id: 'Pemasaran Digital',
+    },
+    description: {
+      en: 'Support for digital marketing tasks such as website content updates, basic SEO, or ad campaign setup, as agreed for each project. Marketing outcomes are not guaranteed.',
+      id: 'Dukungan pemasaran digital seperti pembaruan konten website, SEO dasar, atau penyiapan kampanye iklan sesuai kesepakatan proyek. Hasil pemasaran tidak dijamin.',
     },
   },
   {
     id: 'automation',
-    icon: 'Zap',
+    icon: 'Workflow',
     title: {
-      en: 'Automation & Integration',
-      id: 'Otomasi & Integrasi',
+      en: 'Integrations & Automation',
+      id: 'Integrasi & Otomasi',
     },
     description: {
-      en: 'Workflow automation with n8n, API integrations, WhatsApp notifications, and Google Ads optimization. Save hours of manual work every week.',
-      id: 'Otomasi workflow dengan n8n, integrasi API, notifikasi WhatsApp, dan optimasi Google Ads. Hemat berjam-jam pekerjaan manual setiap minggu.',
-    },
-    timeline: {
-      en: '1–2 weeks',
-      id: '1–2 minggu',
+      en: 'Connecting selected services or automating routine steps with tools such as APIs, n8n, or messaging integrations.',
+      id: 'Menghubungkan layanan pilihan atau mengotomasi langkah rutin menggunakan API, n8n, atau integrasi pesan.',
     },
   },
 ];

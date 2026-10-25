@@ -4,7 +4,7 @@
  */
 import { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { ArrowUpRight, TrendingUp, Layers } from 'lucide-react';
+import { ArrowUpRight, Layers } from 'lucide-react';
 import SectionTitle from '../components/ui/SectionTitle';
 import ProjectModal from '../components/ui/ProjectModal';
 import { useLang } from '../hooks/useLang';
@@ -12,12 +12,11 @@ import { useInView } from '../hooks/useInView';
 import { projectsData, projectCategories } from '../data/projects';
 
 /**
- * ProjectCard — Kartu proyek dengan visual preview & metrik hasil
+ * ProjectCard — kartu proyek dengan ringkasan dan informasi teknologi
  */
 function ProjectCard({ project, lang, onClick }) {
   const title = project.title[lang] || project.title.en;
   const summary = project.summary[lang] || project.summary.en;
-  const highlightResult = project.results?.[lang]?.[0] || project.results?.en?.[0];
 
   return (
     <div
@@ -28,7 +27,7 @@ function ProjectCard({ project, lang, onClick }) {
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
-      aria-label={`Buka detail proyek: ${title}`}
+      aria-label={`${lang === 'id' ? 'Buka detail proyek' : 'Open project details'}: ${title}`}
     >
       {/* Mockup Top Browser Bar */}
       <div className="px-4 py-2.5 bg-surface/90 dark:bg-[#161720] border-b border-border/70 flex items-center justify-between">
@@ -73,11 +72,7 @@ function ProjectCard({ project, lang, onClick }) {
             <Layers size={13} />
             {project.category}
           </span>
-          <span className="font-sans text-xs text-muted">{project.year}</span>
-        </div>
-        <div className="mt-6 flex items-center gap-2 text-xs font-sans text-gold-text/80">
-          <TrendingUp size={13} />
-          <span>{highlightResult}</span>
+          <span className="font-sans text-sm text-muted">{project.year}</span>
         </div>
       </div>
 
@@ -93,7 +88,7 @@ function ProjectCard({ project, lang, onClick }) {
             </div>
           </div>
 
-          <p className="text-muted dark:text-stone-300 text-xs sm:text-sm leading-relaxed line-clamp-3 mb-0 font-mono">
+          <p className="text-muted dark:text-stone-300 text-sm leading-relaxed line-clamp-3 mb-0">
             {summary}
           </p>
         </div>
@@ -118,11 +113,11 @@ export default function Projects() {
     <section id="projects" className="section-padding relative overflow-hidden" aria-label="Projects" ref={ref}>
       <div className="container-main">
         <SectionTitle
-          label="PORTFOLIO"
-          title={lang === 'id' ? 'Beberapa karya yang pernah saya kerjakan.' : 'A few projects I’ve worked on.'}
+          label={lang === 'id' ? 'PORTOFOLIO' : 'PORTFOLIO'}
+          title={lang === 'id' ? 'Proyek yang pernah saya kerjakan.' : 'Selected projects.'}
           subtitle={lang === 'id'
-            ? 'Kumpulan website dan sistem web yang saya bangun untuk kebutuhan klien.'
-            : 'A selection of websites and web systems I’ve built for client needs.'
+            ? 'Beberapa website dan aplikasi web dari proyek yang pernah saya kerjakan.'
+            : 'A selection of websites and web applications from my work.'
           }
         />
 

@@ -44,9 +44,7 @@ export default function ProjectDetail() {
   // Teks berdasarkan bahasa
   const title = project.title[lang] || project.title.en;
   const summary = project.summary[lang] || project.summary.en;
-  const problem = project.problem[lang] || project.problem.en;
-  const constraints = project.constraints[lang] || project.constraints.en;
-  const solution = project.solution[lang] || project.solution.en;
+  const detail = project.detail[lang] || project.detail.en;
   const results = project.results[lang] || project.results.en;
 
   return (
@@ -137,48 +135,22 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        {/* Konten utama: 2 kolom di desktop */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Problem */}
-          <div className="p-6 lg:p-8 rounded-[var(--radius-card)] bg-surface border border-border">
-            <h2 className="font-heading font-semibold text-text text-xl mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-red-400" />
-              {t.projects.problem}
-            </h2>
-            <p className="text-muted leading-relaxed">{problem}</p>
-          </div>
-
-          {/* Constraints */}
-          <div className="p-6 lg:p-8 rounded-[var(--radius-card)] bg-surface border border-border">
-            <h2 className="font-heading font-semibold text-text text-xl mb-4 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-400" />
-              {t.projects.constraints}
-            </h2>
-            <p className="text-muted leading-relaxed">{constraints}</p>
-          </div>
-        </div>
-
-        {/* Solution */}
         <div className="p-6 lg:p-8 rounded-[var(--radius-card)] bg-surface border border-border mb-8">
-          <h2 className="font-heading font-semibold text-text text-xl mb-4 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-gold" />
-            {t.projects.solution}
+          <h2 className="font-heading font-semibold text-text text-xl mb-4">
+            {t.projects.overview}
           </h2>
-          <p className="text-muted leading-relaxed">{solution}</p>
+          <p className="text-muted text-base leading-relaxed">{detail}</p>
         </div>
 
-        {/* Results */}
-        <div className="p-6 lg:p-8 rounded-[var(--radius-card)] gradient-gold mb-12">
-          <h2 className="font-heading font-semibold text-white text-xl mb-6 flex items-center gap-2">
+        <div className="p-6 lg:p-8 rounded-[var(--radius-card)] bg-surface border border-border mb-12">
+          <h2 className="font-heading font-semibold text-text text-xl mb-6 flex items-center gap-2">
             {t.projects.results}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {results.map((result, i) => (
-              <div key={i} className="flex items-start gap-3 text-white/90">
-                <span className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold shrink-0">
-                  {i + 1}
-                </span>
-                <span className="text-sm">{result}</span>
+              <div key={i} className="flex items-start gap-3 text-muted">
+                <Code size={16} className="mt-0.5 text-gold shrink-0" />
+                <span className="text-sm sm:text-base">{result}</span>
               </div>
             ))}
           </div>

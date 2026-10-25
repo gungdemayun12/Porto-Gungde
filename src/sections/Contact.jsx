@@ -38,8 +38,8 @@ export default function Contact() {
 
       <div className="container-main relative z-10">
         <SectionTitle
-          label={isId ? 'KONTAK' : 'GET IN TOUCH'}
-          title={isId ? 'Mari diskusikan proyekmu.' : 'Let’s talk about your project.'}
+          label={isId ? 'KONTAK' : 'CONTACT'}
+          title={isId ? 'Mari bahas kebutuhan Anda.' : 'Let’s discuss your project.'}
           subtitle={
             isId
               ? 'Hubungi saya lewat WhatsApp atau email untuk konsultasi website.'
@@ -57,9 +57,9 @@ export default function Contact() {
               <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
               <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-5">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-[0.22em] text-gold">{isId ? 'Siap mulai?' : 'Ready to start?'}</span>
-                  <h3 className="mt-2 font-heading text-2xl sm:text-3xl text-text dark:text-white">{isId ? 'Mari wujudkan ide digitalmu.' : 'Let’s build something meaningful.'}</h3>
-                  <p className="mt-2 text-sm text-muted dark:text-stone-300 max-w-xl">{isId ? 'Ceritakan kebutuhanmu. Saya akan membantu memilih solusi yang paling tepat.' : 'Tell me what you need and I’ll help shape the right digital solution.'}</p>
+                  <span className="text-xs font-mono uppercase tracking-[0.18em] text-gold">{isId ? 'Kontak' : 'Contact'}</span>
+                  <h3 className="mt-2 font-heading text-2xl sm:text-3xl text-text dark:text-white">{isId ? 'Ceritakan kebutuhan proyek Anda.' : 'Tell me about your project.'}</h3>
+                  <p className="mt-2 text-base text-muted dark:text-stone-300 max-w-xl">{isId ? 'Saya akan meninjau kebutuhan dan ruang lingkupnya bersama Anda.' : 'I’ll review your needs and discuss the project scope with you.'}</p>
                 </div>
                 <a href={waLink} target="_blank" rel="noopener noreferrer" className="group shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 hover:bg-emerald-400 hover:-translate-y-0.5 transition-all">
                   <FaWhatsapp size={18} />
@@ -79,24 +79,24 @@ export default function Contact() {
                   <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-500 group-hover:scale-110 transition-transform">
                     <FaWhatsapp size={24} />
                   </div>
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono text-emerald-400">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Online
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs text-muted">
+                    <Mail size={12} className="text-gold" />
+                    {isId ? 'Kontak' : 'Contact'}
                   </span>
                 </div>
 
                 <h3 className="font-heading text-lg font-bold text-text dark:text-white mb-1">
                   WhatsApp
                 </h3>
-                <p className="font-mono text-xs text-muted dark:text-stone-300">
+                <p className="text-sm text-muted dark:text-stone-300">
                   {CONTACT.whatsappDisplay}
                 </p>
-                <p className="font-mono text-[11px] text-stone-500 mt-2">
-                  {isId ? 'Cara tercepat untuk menghubungi saya' : 'Fastest way to reach me'}
+                <p className="text-sm text-muted mt-2">
+                  {isId ? 'Untuk pertanyaan dan diskusi proyek' : 'For questions and project discussions'}
                 </p>
               </div>
 
-              <div className="pt-6 flex items-center justify-between border-t border-border/50 dark:border-stone-800 text-xs font-mono text-emerald-400 group-hover:text-emerald-300">
+              <div className="pt-6 flex items-center justify-between border-t border-border/50 dark:border-stone-800 text-sm text-emerald-700 dark:text-emerald-400">
                 <span>{isId ? 'Chat Sekarang' : 'Start Chat'}</span>
                 <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </div>
@@ -132,18 +132,18 @@ export default function Contact() {
                 </h3>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="font-mono text-xs text-gold-text hover:underline break-all"
+                  className="text-sm text-gold-text hover:underline break-all"
                 >
                   {CONTACT.email}
                 </a>
-                <p className="font-mono text-[11px] text-stone-500 mt-2">
+                <p className="text-sm text-muted mt-2">
                   {isId ? 'Saya akan membalas secepatnya' : 'I reply as soon as I can'}
                 </p>
               </div>
 
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="pt-6 flex items-center justify-between border-t border-border/50 dark:border-stone-800 text-xs font-mono text-gold group-hover:text-gold-light"
+                className="pt-6 flex items-center justify-between border-t border-border/50 dark:border-stone-800 text-sm text-gold-text group-hover:text-gold-light"
               >
                 <span>{isId ? 'Kirim Email' : 'Send Email'}</span>
                 <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -165,15 +165,15 @@ export default function Contact() {
                 <h3 className="font-heading text-lg font-bold text-text dark:text-white mb-1">
                   {isId ? 'Lokasi' : 'Location'}
                 </h3>
-                <p className="font-mono text-xs text-muted dark:text-stone-300">
+                <p className="text-sm text-muted dark:text-stone-300">
                   {CONTACT.location}
                 </p>
-                <p className="font-mono text-[11px] text-stone-500 mt-2">
+                <p className="text-sm text-muted mt-2">
                   {CONTACT.locationShort}
                 </p>
               </div>
 
-              <div className="pt-6 flex items-center gap-2 border-t border-border/50 dark:border-stone-800 text-xs font-mono text-stone-400">
+              <div className="pt-6 flex items-center gap-2 border-t border-border/50 dark:border-stone-800 text-sm text-muted">
                 <MapPin size={14} className="text-gold shrink-0" />
                 <span>Bali, Indonesia</span>
               </div>
@@ -182,11 +182,11 @@ export default function Contact() {
 
           <div className="p-6 rounded-[24px] bg-surface/60 dark:bg-[#0A0C11] border border-border dark:border-gold/20 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="text-center sm:text-left">
-              <span className="font-mono text-xs uppercase tracking-widest text-gold font-bold">
-                Social
+              <span className="font-mono text-xs uppercase tracking-widest text-gold font-medium">
+              {isId ? 'Media Sosial' : 'Social'}
               </span>
-              <p className="font-mono text-xs text-stone-400 mt-0.5">
-                @_gungde • Web Developer
+              <p className="text-sm text-muted mt-0.5">
+                @_gungde • {isId ? 'Web Developer & Pemasaran Digital' : 'Web Developer & Digital Marketing'}
               </p>
             </div>
 
@@ -203,7 +203,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   title={label}
-                  className="w-11 h-11 rounded-xl bg-bg dark:bg-[#07080B] border border-border dark:border-gold/25 flex items-center justify-center text-stone-300 hover:text-gold hover:border-gold hover:scale-110 transition-all duration-300 shadow-sm"
+                  className="w-11 h-11 rounded-xl bg-bg dark:bg-[#07080B] border border-border dark:border-gold/25 flex items-center justify-center text-muted hover:text-gold-text dark:hover:text-gold hover:border-gold hover:scale-105 transition-all duration-300 shadow-sm"
                 >
                   <Icon size={18} />
                 </a>

@@ -105,7 +105,7 @@ export default function ProjectModal({ project, onClose }) {
             <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-semibold text-text dark:text-white tracking-wide leading-snug mb-2">
               {title}
             </h2>
-            <p className="font-mono text-sm text-muted leading-relaxed max-w-2xl">
+            <p className="text-base text-muted leading-relaxed max-w-2xl">
               {summary}
             </p>
           </div>
@@ -186,7 +186,7 @@ export default function ProjectModal({ project, onClose }) {
             <div className="mb-3 flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-gold/80">
               <span>{isId ? 'Detail Proyek' : 'Project Detail'}</span>
             </div>
-            <p className="font-mono text-xs sm:text-sm leading-relaxed text-text/80 dark:text-stone-300 whitespace-pre-line">
+            <p className="text-sm sm:text-base leading-relaxed text-text/80 dark:text-stone-300 whitespace-pre-line">
               {detail}
             </p>
           </div>

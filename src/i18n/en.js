@@ -6,6 +6,7 @@ const en = {
   // Navbar
   nav: {
     about: 'About',
+    services: 'Services',
     projects: 'Projects',
     process: 'Process',
     experience: 'Experience',
@@ -15,12 +16,12 @@ const en = {
 
   // Hero
   hero: {
-    badge: 'Available for projects',
+    badge: 'Web Development & Digital Marketing',
     greeting: 'Hi, I\'m',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
-    role: 'Web Developer',
-    description: 'I build clean, responsive websites for businesses and personal brands — practical, easy to use, and focused on what you actually need.',
+    role: 'Web Developer & Digital Marketing',
+    description: 'I build websites and provide digital marketing support based on each project’s needs and agreed scope.',
     cta: 'View Projects',
     ctaSecondary: 'Let\'s Talk',
     scrollDown: 'Scroll to explore',
@@ -38,8 +39,8 @@ const en = {
   about: {
     sectionTitle: 'About Me',
     sectionSubtitle: 'A bit about who I am',
-    bio: 'I\'m a web developer based in Batubulan, Bali. I help build clean, responsive websites — from landing pages to fuller business sites.',
-    bioExtra: 'I like keeping things clear: understand the goal first, then write code that is easy to maintain and actually useful.',
+    bio: 'I am a web developer based in Batubulan, Bali. I work on websites and web applications, and take on digital marketing work based on project needs.',
+    bioExtra: 'Before starting, I discuss the goals, available materials, and project scope so the process and expected deliverables are clear.',
     location: 'Batubulan, Bali',
     localTime: 'Local Time (WITA)',
     languages: 'Languages',
@@ -69,7 +70,7 @@ const en = {
   // Projects
   projects: {
     sectionTitle: 'Featured Projects',
-    sectionSubtitle: 'Real solutions for real businesses',
+    sectionSubtitle: 'A selection of websites and web applications I have worked on.',
     viewProject: 'View Details',
     visitSite: 'Visit Site',
     viewCode: 'View Code',
@@ -78,7 +79,8 @@ const en = {
     problem: 'The Problem',
     constraints: 'Constraints',
     solution: 'The Solution',
-    results: 'Results',
+    results: 'Project Scope',
+    overview: 'Project Overview',
     gallery: 'Gallery',
     prevProject: 'Previous Project',
     nextProject: 'Next Project',
@@ -90,29 +92,30 @@ const en = {
   // Services
   services: {
     sectionTitle: 'Services',
-    sectionSubtitle: 'What I can do for your business',
+    sectionSubtitle: 'Website development and digital marketing support, scoped to each project.',
   },
 
   // Process
   process: {
+    label: 'HOW I WORK',
     sectionTitle: 'My Process',
-    sectionSubtitle: 'From idea to launch, step by step',
+    sectionSubtitle: 'A straightforward workflow agreed together.',
     steps: [
       {
         title: 'Discovery',
-        description: 'Understanding your business, goals, target audience, and competitors. We define the project scope and requirements together.',
+        description: 'Discussing goals, requirements, and constraints to agree on the project scope.',
       },
       {
-        title: 'Design',
-        description: 'Creating wireframes and UI/UX design that aligns with your brand. Every pixel is crafted with purpose and conversion in mind.',
+        title: 'Planning & Design',
+        description: 'Planning the page structure and visual direction around the available content and brand materials.',
       },
       {
-        title: 'Build',
-        description: 'Developing with clean, tested code using modern tech stack. Regular demos keep you in the loop throughout development.',
+        title: 'Development',
+        description: 'Building the agreed features and sharing progress at the planned project milestones.',
       },
       {
-        title: 'Launch & Support',
-        description: 'Deploying to production with monitoring setup. I provide ongoing support, maintenance, and optimization post-launch.',
+        title: 'Review & Handover',
+        description: 'Reviewing the work together, completing in-scope revisions, and preparing for launch or handover.',
       },
     ],
   },
@@ -120,7 +123,7 @@ const en = {
   // Experience
   experience: {
     sectionTitle: 'Experience',
-    sectionSubtitle: 'My professional journey',
+    sectionSubtitle: 'Relevant work and project experience.',
   },
 
   // Testimonials
@@ -132,7 +135,7 @@ const en = {
   // Contact
   contact: {
     sectionTitle: 'Get In Touch',
-    sectionSubtitle: 'Have a project in mind? Let\'s build something great together.',
+    sectionSubtitle: 'Share your website or digital marketing needs so we can discuss a suitable scope.',
     formName: 'Your Name',
     formEmail: 'Your Email',
     formProjectType: 'Project Type',
@@ -166,7 +169,7 @@ const en = {
 
   // Footer
   footer: {
-    tagline: 'Building clean, useful websites with thoughtful details and a smooth experience.',
+    tagline: 'Website development and digital marketing support based on project needs.',
     rights: 'All rights reserved.',
     backToTop: 'Back to top',
   },

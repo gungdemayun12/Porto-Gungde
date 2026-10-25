@@ -15,7 +15,7 @@ export default function Experience() {
     <section id="experience" className="section-padding bg-surface/30" aria-label="Experience" ref={ref}>
       <div className="container-main">
         <SectionTitle
-          label="CAREER & TRACK RECORD"
+          label={lang === 'id' ? 'PENGALAMAN KERJA' : 'WORK EXPERIENCE'}
           title={t.experience.sectionTitle}
           subtitle={t.experience.sectionSubtitle}
         />

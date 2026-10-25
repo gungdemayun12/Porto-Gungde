@@ -6,6 +6,7 @@ const id = {
   // Navbar
   nav: {
     about: 'Tentang',
+    services: 'Layanan',
     projects: 'Proyek',
     process: 'Proses',
     experience: 'Pengalaman',
@@ -15,12 +16,12 @@ const id = {
 
   // Hero
   hero: {
-    badge: 'Tersedia untuk proyek',
+    badge: 'Pengembangan Web & Pemasaran Digital',
     greeting: 'Halo, saya',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
-    role: 'Web Developer',
-    description: 'Saya membuat website yang rapi dan responsif untuk bisnis maupun personal — praktis, mudah dipakai, dan fokus pada kebutuhan yang benar-benar dipakai.',
+    role: 'Web Developer & Pemasaran Digital',
+    description: 'Saya mengembangkan website dan membantu kebutuhan pemasaran digital, dengan ruang lingkup yang dibahas sesuai kebutuhan proyek.',
     cta: 'Lihat Proyek',
     ctaSecondary: 'Hubungi Saya',
     scrollDown: 'Scroll untuk jelajah',
@@ -38,8 +39,8 @@ const id = {
   about: {
     sectionTitle: 'Tentang Saya',
     sectionSubtitle: 'Sedikit tentang saya',
-    bio: 'Saya web developer dari Batubulan, Bali. Saya membantu membuat website yang rapi dan responsif — dari landing page hingga situs bisnis yang lebih lengkap.',
-    bioExtra: 'Saya suka pekerjaan yang jelas: pahami dulu tujuannya, lalu tulis kode yang mudah dikelola dan benar-benar berguna.',
+    bio: 'Saya adalah web developer dari Batubulan, Bali. Saya mengerjakan website dan aplikasi web, serta menerima pekerjaan pemasaran digital sesuai kebutuhan proyek.',
+    bioExtra: 'Sebelum mulai, saya membahas tujuan, materi, dan ruang lingkup pekerjaan agar proses dan hasil yang diharapkan jelas.',
     location: 'Batubulan, Bali',
     localTime: 'Waktu Lokal (WITA)',
     languages: 'Bahasa',
@@ -69,7 +70,7 @@ const id = {
   // Projects
   projects: {
     sectionTitle: 'Proyek Unggulan',
-    sectionSubtitle: 'Solusi nyata untuk bisnis nyata',
+    sectionSubtitle: 'Pilihan proyek website dan aplikasi web yang pernah saya kerjakan.',
     viewProject: 'Lihat Detail',
     visitSite: 'Kunjungi Situs',
     viewCode: 'Lihat Kode',
@@ -78,7 +79,8 @@ const id = {
     problem: 'Masalah',
     constraints: 'Kendala',
     solution: 'Solusi',
-    results: 'Hasil',
+    results: 'Ruang Lingkup',
+    overview: 'Tentang Proyek',
     gallery: 'Galeri',
     prevProject: 'Proyek Sebelumnya',
     nextProject: 'Proyek Selanjutnya',
@@ -90,29 +92,30 @@ const id = {
   // Services
   services: {
     sectionTitle: 'Layanan',
-    sectionSubtitle: 'Apa yang bisa saya lakukan untuk bisnis Anda',
+    sectionSubtitle: 'Pengembangan website dan dukungan pemasaran digital sesuai ruang lingkup proyek.',
   },
 
   // Process
   process: {
+    label: 'CARA KERJA',
     sectionTitle: 'Proses Saya',
-    sectionSubtitle: 'Dari ide hingga peluncuran, langkah demi langkah',
+    sectionSubtitle: 'Tahapan kerja yang dibahas dan disepakati bersama.',
     steps: [
       {
-        title: 'Discovery',
-        description: 'Memahami bisnis, tujuan, target audiens, dan kompetitor Anda. Kita definisikan scope dan kebutuhan proyek bersama.',
+        title: 'Diskusi Kebutuhan',
+        description: 'Membahas tujuan, kebutuhan, dan batasan proyek untuk menyepakati ruang lingkup pekerjaan.',
       },
       {
-        title: 'Desain',
-        description: 'Membuat wireframe dan desain UI/UX yang selaras dengan brand Anda. Setiap piksel dirancang dengan tujuan dan konversi dalam pikiran.',
+        title: 'Rencana & Desain',
+        description: 'Menyusun struktur halaman dan arah visual berdasarkan materi serta identitas yang tersedia.',
       },
       {
-        title: 'Bangun',
-        description: 'Mengembangkan dengan kode bersih dan teruji menggunakan tech stack modern. Demo rutin membuat Anda selalu update selama pengembangan.',
+        title: 'Pengembangan',
+        description: 'Mengerjakan fitur yang disepakati dan membagikan perkembangan sesuai tahapan proyek.',
       },
       {
-        title: 'Peluncuran & Support',
-        description: 'Deploy ke production dengan setup monitoring. Saya menyediakan dukungan berkelanjutan, maintenance, dan optimasi pasca-peluncuran.',
+        title: 'Serah Terima',
+        description: 'Meninjau hasil bersama, menyelesaikan revisi dalam ruang lingkup, lalu menyiapkan peluncuran atau serah terima.',
       },
     ],
   },
@@ -120,7 +123,7 @@ const id = {
   // Experience
   experience: {
     sectionTitle: 'Pengalaman',
-    sectionSubtitle: 'Perjalanan profesional saya',
+    sectionSubtitle: 'Pengalaman kerja dan proyek yang relevan.',
   },
 
   // Testimonials
@@ -132,7 +135,7 @@ const id = {
   // Contact
   contact: {
     sectionTitle: 'Hubungi Saya',
-    sectionSubtitle: 'Punya proyek dalam pikiran? Mari bangun sesuatu yang hebat bersama.',
+    sectionSubtitle: 'Ceritakan kebutuhan website atau pemasaran digital Anda untuk membahas ruang lingkup yang sesuai.',
     formName: 'Nama Anda',
     formEmail: 'Email Anda',
     formProjectType: 'Jenis Proyek',
@@ -166,7 +169,7 @@ const id = {
 
   // Footer
   footer: {
-    tagline: 'Membangun website yang rapi, berguna, dan terasa halus dalam pengalaman pengguna.',
+    tagline: 'Pengembangan website dan dukungan pemasaran digital sesuai kebutuhan proyek.',
     rights: 'Hak cipta dilindungi.',
     backToTop: 'Kembali ke atas',
   },

@@ -36,35 +36,30 @@ export default function Hero() {
           <div className="lg:col-span-6 space-y-5 text-center lg:text-left order-2 lg:order-1">
             {/* Badge Status — tenang, tidak ramai */}
             <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-gold/[0.08] border border-gold/25 backdrop-blur-md">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inset-0 rounded-full bg-emerald-500/50 dot-pulse" />
-                <span className="relative w-2 h-2 rounded-full bg-emerald-500" />
-              </span>
+              <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-hidden="true" />
               <span className="font-mono text-xs uppercase tracking-wider text-gold-text font-medium">
-                Web Developer
+                {t.hero.badge}
               </span>
             </div>
 
             {/* Headline Utama Singkat & Mewah */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-heading font-normal leading-[1.08] text-text tracking-tight">
+            <h1 className="text-[2.35rem] sm:text-5xl lg:text-[56px] font-heading font-normal leading-[1.12] text-text tracking-tight">
               {lang === 'id' ? (
                 <>
-                  Membuat Website yang{' '}
-                  <span className="gradient-gold-text italic font-serif">Rapi & Bermanfaat</span>
+                  Website &{' '}
+                  <span className="gradient-gold-text italic font-serif">pemasaran digital</span>
                 </>
               ) : (
                 <>
-                  Building Websites that are{' '}
-                  <span className="gradient-gold-text italic font-serif">Clean & Useful</span>
+                  Websites &{' '}
+                  <span className="gradient-gold-text italic font-serif">digital marketing</span>
                 </>
               )}
             </h1>
 
             {/* Deskripsi Singkat (1-2 kalimat saja) */}
             <p className="text-muted text-base sm:text-lg max-w-lg mx-auto lg:mx-0 font-light leading-relaxed">
-              {lang === 'id'
-                ? 'Saya membantu membuat website untuk bisnis dan personal — tampilan bersih, responsif di HP, dan mudah digunakan.'
-                : 'I help build websites for businesses and personal brands — clean look, mobile-friendly, and easy to use.'}
+              {t.hero.description}
             </p>
 
             {/* Tombol Aksi */}

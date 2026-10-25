@@ -147,8 +147,8 @@ export default function MobileMenu({
                   <span className="font-heading font-semibold text-[15px] text-text dark:text-white tracking-wide">
                     GUNGDE<span className="text-gold">.</span>
                   </span>
-                  <span className="block font-mono text-[9px] text-muted dark:text-white/35 uppercase tracking-[0.2em] -mt-0.5">
-                    Web Developer
+                  <span className="block text-[10px] text-muted dark:text-white/45 tracking-wide -mt-0.5">
+                    {t.hero.role}
                   </span>
                 </div>
               </div>
