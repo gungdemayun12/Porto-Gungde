@@ -64,7 +64,7 @@ export default function ProjectDetail() {
         <div className="mb-12">
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="font-mono text-xs text-gold-text uppercase tracking-wider px-3 py-1 bg-gold/10 rounded-full">
-              {project.category}
+              {project.displayCategory || project.category}
             </span>
             <span className="font-mono text-xs text-muted">{project.year}</span>
           </div>
@@ -105,7 +105,7 @@ export default function ProjectDetail() {
         )}
 
         {/* Meta info */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           <div className="flex items-center gap-3 p-4 rounded-xl bg-surface border border-border">
             <Calendar size={18} className="text-gold shrink-0" />
             <div>
@@ -118,19 +118,6 @@ export default function ProjectDetail() {
             <div>
               <span className="text-xs text-muted block">{t.projects.role}</span>
               <span className="text-text font-medium">Web Developer</span>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 p-4 rounded-xl bg-surface border border-border">
-            <Code size={18} className="text-gold shrink-0 mt-0.5" />
-            <div>
-              <span className="text-xs text-muted block">{t.projects.techStack}</span>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {project.stack.map((tech) => (
-                  <span key={tech} className="text-xs font-mono text-gold-text bg-gold/8 px-2 py-0.5 rounded-full">
-                    {tech}
-                  </span>
-                ))}
-              </div>
             </div>
           </div>
         </div>

@@ -20,6 +20,7 @@ export default function Process() {
     <section
       id="process"
       className="process-section section-padding"
+      style={{ background: 'var(--color-surface)' }}
       aria-label={t.process.sectionTitle}
       ref={ref}
     >

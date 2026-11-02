@@ -1,101 +1,119 @@
 /* =========================================================
-   DESIGN SYSTEM — Token Warna Mewah, Tipografi Elegan, & Utilitas
-   Portfolio Gungde — Full-Stack Web Developer (Luxury Edition)
+   DESIGN SYSTEM — Full dual-mode (light + dark) color system
+   Portfolio Gungde — Web Developer & Digital Marketing, Bali
    ========================================================= */
 
-/* Import Tailwind CSS v4 */
 @import "tailwindcss";
 
-/* Custom variant untuk dark mode berbasis class */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* =========================================================
-   TOKEN WARNA — Luxury Gold & Obsidian Palette
+   COLOR TOKENS — Explicit pairs for BOTH modes
    ========================================================= */
 :root {
   color-scheme: light;
 
-  /* Warna utama light mode (Warm Luxury Ivory & Regal Gold) */
-  --color-bg: #FCFAF6;
-  --color-surface: #F5EFE6;
-  --color-border: #E8DEC8;
-  --color-text: #171511;
-  --color-muted: #6E6759;
-  --color-gold: #C2952E;
-  --color-gold-text: #967018;
-  --color-gold-light: #ECC880;
-  --color-gold-dark: #8C6512;
+  /* Backgrounds */
+  --color-bg:       #FFFFFF;
+  --color-surface:  #FFFFFF;
 
-  /* Radius standar */
-  --radius-card: 20px;
-  --radius-pill: 999px;
+  /* Borders */
+  --color-border:   #E5E7EB;
 
-  /* Transisi warna global — soft luxury ease */
-  --transition-colors: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Text — deep rich dark text and high-contrast muted text (WCAG AAA) */
+  --color-text:     #17140F;
+  --color-muted:    #52525B;
+
+  /* Gold accent */
+  --color-gold:      #B38226;
+  --color-gold-text: #7D560C;
+  --color-gold-light:#E8C878;
+  --color-gold-dark: #6C4909;
+
+  /* WhatsApp theme tokens */
+  --color-whatsapp:       #15803d;
+  --color-whatsapp-bg:    rgba(21, 128, 61, 0.09);
+  --color-whatsapp-border:rgba(21, 128, 61, 0.28);
+
+  /* Dual Button system: Solid Gold vs Outline Gold */
+  --btn-primary-bg:          #B38226;
+  --btn-primary-text:        #0E0C09;
+  --btn-primary-hover:       #9E6F18;
+  --btn-outline-border:      #B38226;
+  --btn-outline-text:        #7D560C;
+  --btn-outline-hover-bg:    rgba(179, 130, 38, 0.1);
+  --btn-outline-hover-border:#9E6F18;
+  --btn-outline-hover-text:  #6C4909;
+
+  --radius-card: 16px;
   --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Token dark mode (Deep Obsidian Black & Champagne Gold) */
 .dark {
   color-scheme: dark;
 
-  --color-bg: #090A0D;
-  --color-surface: #121319;
-  --color-border: #26231C;
-  --color-text: #FAF8F5;
-  --color-muted: #A39D90;
-  --color-gold: #E5C378;
-  --color-gold-text: #F3DC9B;
-  --color-gold-light: #FFF0D0;
-  --color-gold-dark: #B88E36;
+  --color-bg:       #0A0907;
+  --color-surface:  #14120D;
+  --color-border:   #2C251C;
+
+  --color-text:     #F3EFE6;
+  --color-muted:    #B2A490;
+
+  --color-gold:      #D8AA42;
+  --color-gold-text: #F0D277;
+  --color-gold-light:#FFE8A3;
+  --color-gold-dark: #A07020;
+
+  /* WhatsApp theme tokens */
+  --color-whatsapp:       #4ade80;
+  --color-whatsapp-bg:    rgba(74, 222, 128, 0.1);
+  --color-whatsapp-border:rgba(74, 222, 128, 0.25);
+
+  /* Dual Button system: Solid Gold vs Outline Gold */
+  --btn-primary-bg:          #D8AA42;
+  --btn-primary-text:        #0A0907;
+  --btn-primary-hover:       #E4BC5E;
+  --btn-outline-border:      #D8AA42;
+  --btn-outline-text:        #F0D277;
+  --btn-outline-hover-bg:    rgba(216, 170, 66, 0.12);
+  --btn-outline-hover-border:#E4BC5E;
+  --btn-outline-hover-text:  #FFE8A3;
 }
 
 /* =========================================================
-   EXPOSE TOKEN KE TAILWIND v4 via @theme
+   TAILWIND THEME TOKENS
    ========================================================= */
 @theme {
-  --color-bg: var(--color-bg);
-  --color-surface: var(--color-surface);
-  --color-border: var(--color-border);
-  --color-text: var(--color-text);
-  --color-muted: var(--color-muted);
-  --color-gold: var(--color-gold);
-  --color-gold-text: var(--color-gold-text);
+  --color-bg:         var(--color-bg);
+  --color-surface:    var(--color-surface);
+  --color-border:     var(--color-border);
+  --color-text:       var(--color-text);
+  --color-muted:      var(--color-muted);
+  --color-gold:       var(--color-gold);
+  --color-gold-text:  var(--color-gold-text);
   --color-gold-light: var(--color-gold-light);
-  --color-gold-dark: var(--color-gold-dark);
+  --color-gold-dark:  var(--color-gold-dark);
 
-  /* Tipografi: El Messiri untuk heading, DM Sans untuk deskripsi & UI */
-  --font-heading: 'El Messiri', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'Space Mono', monospace;
-  --font-serif: 'El Messiri', Georgia, serif;
-  --font-sans: 'DM Sans', system-ui, sans-serif;
-
-  /* Radius */
-  --radius-card: var(--radius-card);
-  --radius-pill: var(--radius-pill);
+  --font-heading: 'Jost', 'Futura', 'Avenir Next', sans-serif;
+  --font-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', ui-monospace, monospace;
+  --font-serif:   'Instrument Serif', Georgia, serif;
+  --font-sans:    'Inter', 'Helvetica Neue', Arial, sans-serif;
+  --font-display: 'Jost', sans-serif;
 }
 
 /* =========================================================
-   GLOBAL STYLES
+   BASE GLOBAL STYLES
    ========================================================= */
-
-/* Transisi warna halus saat toggle tema.
-   Hanya properti warna — jangan ikut-sertakan transform/opacity
-   supaya animasi drawer & Motion tetap halus. */
 *, *::before, *::after {
-  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
-  transition-duration: 320ms;
-  transition-timing-function: var(--ease-luxury);
+  box-sizing: border-box;
 }
 
-/* Motion/drawer: pastikan transform & opacity tidak ikut di-override global */
-[data-motion],
-.will-change-transform {
-  transition-property: none;
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
-/* Body styling dasar dengan DM Sans */
 body {
   font-family: var(--font-body);
   background-color: var(--color-bg);
@@ -106,177 +124,39 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Heading menggunakan font El Messiri */
+/* Color transition on theme switch */
+body,
+body * {
+  transition-property: background-color, border-color, color;
+  transition-duration: 300ms;
+  transition-timing-function: var(--ease-luxury);
+}
+
+/* Exclude elements that handle their own transitions */
+[data-motion], canvas, video, img, svg, path {
+  transition-property: none !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.02em;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.12;
+  color: var(--color-text);
 }
 
-/* Label/tag menggunakan Space Mono */
-code, pre {
-  font-family: var(--font-mono);
-}
-
-/* Semua teks deskripsi dan UI memakai DM Sans agar konsisten dan ringan. */
-p, li, button, a, input, textarea, select, .font-sans, .font-mono {
-  font-family: var(--font-body);
-}
-
-.font-mono {
-  letter-spacing: 0.01em;
-}
+code, pre, .font-mono { font-family: var(--font-mono); letter-spacing: 0.01em; }
+.font-serif  { font-family: var(--font-serif); }
+.font-heading{ font-family: var(--font-heading); }
 
 /* =========================================================
-   SCROLL BEHAVIOR & STABLE GUTTER (Anti-Jitter)
+   SCROLLBAR
    ========================================================= */
-html {
-  scroll-behavior: smooth;
-  scrollbar-gutter: stable;
-}
-
-/* Animasi rotasi cakra melingkar */
-@keyframes spin-chakra {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-chakra {
-  animation: spin-chakra 20s linear infinite;
-  transform-origin: center center;
-}
-
-.animate-spin-chakra:hover {
-  animation-duration: 9s;
-}
-
-/* Square gold controls across the navigation and mobile layout */
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
-
-@media (max-width: 640px) {
-  .btn-primary,
-  .btn-outline {
-    width: 100%;
-    min-height: 3.25rem;
-    padding-inline: 1.25rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .btn-primary::before,
-  .shine-sweep::before {
-    display: none;
-  }
-}
-
-/* =========================================================
-   TIPOGRAFI FLUID dengan clamp()
-   ========================================================= */
-.text-fluid-h1 {
-  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
-}
-
-.text-fluid-h2 {
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-}
-
-.text-fluid-h3 {
-  font-size: clamp(1.35rem, 3vw, 2.25rem);
-}
-
-.text-fluid-body {
-  font-size: clamp(1rem, 1.4vw, 1.15rem);
-}
-
-/* =========================================================
-   GRADIEN EMAS MEWAH (Reflective Metallic Gold)
-   ========================================================= */
-.gradient-gold {
-  background: linear-gradient(135deg, #ECC880 0%, #D4AF37 30%, #FFF2D1 50%, #C59835 75%, #ECC880 100%);
-}
-
-.gradient-gold-text {
-  background: linear-gradient(135deg, #D4AF37 0%, #FFF2D1 35%, #ECC880 65%, #C2952E 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  display: inline-block;
-}
-
-/* Subtle gold border glow */
-.gold-border-glow {
-  border: 1px solid rgba(229, 195, 120, 0.25);
-  box-shadow: 0 0 25px rgba(229, 195, 120, 0.06);
-}
-
-.dark .gold-border-glow {
-  border: 1px solid rgba(229, 195, 120, 0.2);
-  box-shadow: 0 0 35px rgba(229, 195, 120, 0.08);
-}
-
-/* =========================================================
-   GRAIN / NOISE OVERLAY
-   ========================================================= */
-.noise-overlay::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.025;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-}
-
-.dark .noise-overlay::before {
-  opacity: 0.04;
-}
-
-/* =========================================================
-   GLOW EMAS MEWAH DI HERO
-   ========================================================= */
-.hero-glow {
-  position: absolute;
-  top: -15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 700px;
-  background: radial-gradient(ellipse at center, rgba(229, 195, 120, 0.12) 0%, rgba(201, 162, 39, 0.04) 45%, transparent 75%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(40px);
-  contain: paint;
-  will-change: transform;
-}
-
-.dark .hero-glow {
-  background: radial-gradient(ellipse at center, rgba(229, 195, 120, 0.15) 0%, rgba(184, 134, 11, 0.05) 50%, transparent 75%);
-  filter: blur(50px);
-}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+::selection { background-color: var(--color-gold); color: #0E0C09; }
 
 /* =========================================================
    FOCUS RING
@@ -287,337 +167,453 @@ a {
   border-radius: 6px;
 }
 
-/* =========================================================
-   KARTU & GLASSMORPHISM MEWAH
-   ========================================================= */
-.card-shadow {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+button, a { -webkit-tap-highlight-color: transparent; }
+
+button:not(:disabled),
+.btn-primary,
+.btn-outline,
+[role="button"] {
+  transition:
+    background-color 200ms var(--ease-luxury),
+    border-color 200ms var(--ease-luxury),
+    color 200ms var(--ease-luxury),
+    box-shadow 200ms var(--ease-luxury),
+    transform 200ms var(--ease-luxury);
 }
 
-.dark .card-shadow {
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(229, 195, 120, 0.04);
-  border: 1px solid var(--color-border);
+button:not(:disabled):active,
+.btn-primary:active,
+.btn-outline:active,
+[role="button"]:active {
+  transform: translateY(0) scale(0.97);
 }
 
-/* =========================================================
-   SCROLLBAR CUSTOM
-   ========================================================= */
-::-webkit-scrollbar {
-  width: 8px;
+@media (hover: hover) {
+  button:not(:disabled):hover,
+  .btn-primary:hover,
+  .btn-outline:hover,
+  [role="button"]:hover {
+    transform: translateY(-2px) scale(1.015);
+  }
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: var(--radius-pill);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-gold);
-}
-
-/* Selection */
-::selection {
-  background-color: var(--color-gold);
-  color: #0A0A0D;
+button:disabled {
+  cursor: not-allowed;
 }
 
 /* =========================================================
-   TOMBOL MEWAH (LUXURY BUTTONS)
+   BUTTONS — Dual Button System
+   Solid Gold Primary + Theme Gold Nuance Outline
+   Perfect pair matching: identical height, padding, font, radius.
    ========================================================= */
-@property --specular-angle {
-  syntax: '<angle>';
-  inherits: true;
-  initial-value: 0deg;
-}
 
+/* PRIMARY — Gold fill background, dark text */
 .btn-primary {
-  --button-tint: #d4af37;
-  --button-text: #261f10;
-  --button-line: #a47c20;
-  --button-base: #d4af37;
-  --specular-angle: 0deg;
-  --specular-x: 50%;
-  --specular-y: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
-  padding: 0.85rem 2rem;
-  background: #d9ba6b;
-  color: var(--button-text);
+  gap: 0.6rem;
+  padding: 0.75rem 1.65rem;
+  min-height: 2.85rem;
+  background-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.9375rem;
-  letter-spacing: 0.02em;
-  border-radius: 3px;
-  border: 1px solid var(--button-line);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.12), rgba(80, 56, 10, 0.05)),
-    conic-gradient(
-      from calc(var(--specular-angle) - 45deg),
-      var(--button-base) 0deg,
-      color-mix(in srgb, var(--button-line) 28%, transparent) 24deg,
-      var(--button-line) 45deg,
-      color-mix(in srgb, var(--button-line) 28%, transparent) 66deg,
-      var(--button-base) 90deg,
-      var(--button-base) 360deg
-    );
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
+  font-size: 0.875rem;
+  letter-spacing: 0.015em;
+  border-radius: 12px;
+  border: 1.5px solid var(--btn-primary-bg);
   cursor: pointer;
-  position: relative;
-  isolation: isolate;
   text-decoration: none;
-  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.65);
-  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              background-color 350ms var(--ease-luxury),
-              color 350ms var(--ease-luxury),
-              border-color 350ms var(--ease-luxury),
-              box-shadow 250ms ease,
-              --specular-angle 180ms ease;
-}
-
-.dark .btn-primary {
-  --button-text: #f7e8bd;
-  --button-line: #ffe5a3;
-  --button-base: #a47c20;
-  background-color: #1a170f;
-}
-
-.btn-primary::before,
-.btn-outline::before {
-  content: '';
-  position: absolute;
-  inset: 1px;
-  border-radius: inherit;
-  background: radial-gradient(
-    120px circle at var(--specular-x) var(--specular-y),
-    color-mix(in srgb, var(--button-line) 18%, transparent),
-    transparent 72%
-  );
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 220ms ease;
-}
-
-.btn-primary > *,
-.btn-outline > * {
-  position: relative;
-  z-index: 2;
-}
-
-.btn-primary:hover::before,
-.btn-outline:hover::before,
-.btn-primary:focus-visible::before,
-.btn-outline:focus-visible::before {
-  opacity: 1;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(179, 130, 38, 0.22);
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    transform 180ms ease,
+    box-shadow 220ms ease;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px -13px rgba(212, 175, 55, 0.42);
+  background-color: var(--btn-primary-hover);
+  border-color: var(--btn-primary-hover);
+  color: var(--btn-primary-text);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(179, 130, 38, 0.35);
 }
 
 .btn-primary:active {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.98);
 }
 
-/* Tombol outline mewah */
+/* OUTLINE — Transparent bg, theme gold-colored border */
 .btn-outline {
-  --button-tint: #e5d4a5;
-  --button-text: var(--color-text);
-  --button-line: #c2952e;
-  --button-base: rgba(194, 149, 46, 0.42);
-  --specular-angle: 0deg;
-  --specular-x: 50%;
-  --specular-y: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.625rem;
-  padding: 0.85rem 2rem;
-  background-color: rgba(255, 255, 255, 0.78);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.04)),
-    conic-gradient(
-      from calc(var(--specular-angle) - 45deg),
-      var(--button-base) 0deg,
-      color-mix(in srgb, var(--button-line) 28%, transparent) 24deg,
-      var(--button-line) 45deg,
-      color-mix(in srgb, var(--button-line) 28%, transparent) 66deg,
-      var(--button-base) 90deg,
-      var(--button-base) 360deg
-    );
-  background-origin: padding-box, border-box;
-  background-clip: padding-box, border-box;
-  color: var(--button-text);
+  gap: 0.6rem;
+  padding: 0.75rem 1.65rem;
+  min-height: 2.85rem;
+  background-color: transparent;
+  color: var(--btn-outline-text);
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.9375rem;
-  border-radius: 3px;
-  border: 1px solid var(--button-line);
-  position: relative;
-  isolation: isolate;
+  font-size: 0.875rem;
+  letter-spacing: 0.015em;
+  border-radius: 12px;
+  border: 1.5px solid var(--btn-outline-border);
   cursor: pointer;
-  transition: transform 250ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              background-color 350ms var(--ease-luxury),
-              color 350ms var(--ease-luxury),
-              border-color 350ms var(--ease-luxury),
-              box-shadow 250ms ease,
-              --specular-angle 180ms ease;
   text-decoration: none;
-}
-
-.dark .btn-outline {
-  --button-line: #f4dfa8;
-  --button-base: rgba(229, 195, 120, 0.42);
-  background-color: rgba(20, 20, 23, 0.58);
-}
-
-.btn-primary:focus-visible,
-.btn-outline:focus-visible {
-  outline: 2px solid var(--color-gold-light);
-  outline-offset: 4px;
-}
-
-.btn-primary:hover > svg,
-.btn-outline:hover > svg {
-  filter: drop-shadow(0 0 5px rgba(244, 223, 168, 0.55));
+  white-space: nowrap;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    transform 180ms ease,
+    box-shadow 220ms ease;
 }
 
 .btn-outline:hover {
-  color: var(--color-gold-text);
-  box-shadow: 0 10px 26px -15px rgba(229, 195, 120, 0.38);
-  transform: translateY(-2px);
+  border-color: var(--btn-outline-hover-border);
+  color: var(--btn-outline-hover-text);
+  background-color: var(--btn-outline-hover-bg);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(179, 130, 38, 0.16);
 }
 
 .btn-outline:active {
-  transform: scale(0.97);
+  transform: translateY(0) scale(0.98);
+}
+
+/* Disabled state */
+.btn-primary:disabled,
+.btn-outline:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Full-width on mobile */
+@media (max-width: 480px) {
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
+    justify-content: center;
+    min-height: 2.85rem;
+  }
 }
 
 /* =========================================================
-   TYPEWRITER & CURSOR ANIMATION
+   GRADIENTS
    ========================================================= */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-.cursor-blink {
-  animation: blink 0.9s infinite;
+.gradient-gold-text {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 50%, var(--color-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   display: inline-block;
-  color: var(--color-gold);
-  font-weight: 300;
-  margin-left: 2px;
 }
 
-@keyframes shimmer-loader {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+.gradient-gold {
+  background: linear-gradient(135deg, var(--color-gold-light) 0%, var(--color-gold) 50%, var(--color-gold-dark) 100%);
 }
 
 /* =========================================================
-   DOT ANIMASI — "Available" badge
+   HERO GLOW
    ========================================================= */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(1.4); }
+.hero-glow {
+  position: absolute;
+  top: -15%; left: 50%;
+  transform: translateX(-50%);
+  width: 900px; height: 700px;
+  background: none;
+  pointer-events: none;
+  z-index: 0;
+  filter: none;
 }
 
-.dot-pulse {
-  animation: pulse-dot 2s ease-in-out infinite;
+.dark .hero-glow {
+  background: radial-gradient(ellipse at center,
+    rgba(212, 168, 64, 0.12) 0%,
+    rgba(160, 112, 32, 0.04) 50%,
+    transparent 75%);
 }
 
 /* =========================================================
-   SCROLL INDICATOR
+   NOISE OVERLAY (subtle grain)
    ========================================================= */
-@keyframes bounce-scroll {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(6px); }
+.noise-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
-.scroll-indicator {
-  animation: bounce-scroll 2.2s ease-in-out infinite;
+.dark .noise-overlay::before {
+  opacity: 0.025;
 }
 
 /* =========================================================
-   CONTAINER RESPONSIF
+   CONTAINER + SECTION SPACING
    ========================================================= */
 .container-main {
   width: 100%;
-  max-width: 80rem; /* 1280px / max-w-7xl */
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 }
+@media (min-width: 640px)  { .container-main { padding-inline: 2rem; } }
+@media (min-width: 1024px) { .container-main { padding-inline: 2.5rem; } }
 
-@media (min-width: 640px) {
-  .container-main {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
 }
-
 @media (min-width: 1024px) {
-  .container-main {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
   }
 }
 
 /* =========================================================
-   STATIC BADGE FALLBACK
+   ANIMATIONS
    ========================================================= */
-@keyframes swing {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink {
+  animation: blink 0.85s ease-in-out infinite;
+  display: inline-block;
+  color: var(--color-gold);
+  margin-left: 2px;
 }
 
-.swing-animation {
-  animation: swing 3.5s ease-in-out infinite;
-  transform-origin: top center;
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(1.45); }
 }
+.dot-pulse { animation: pulse-dot 2s ease-in-out infinite; }
 
-/* LANYARD CONTAINER */
-.lanyard-container {
-  touch-action: pan-y;
-  overflow: visible;
+@keyframes bounce-scroll {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(6px); }
 }
+.scroll-indicator { animation: bounce-scroll 2.2s ease-in-out infinite; }
 
-/* Canvas 3D perlu memenuhi area hero di layar kecil. */
-@media (max-width: 767px) {
-  .lanyard-container {
-    min-height: 480px;
-    margin-top: -0.5rem;
-  }
+@keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.animate-spin-chakra { animation: spin-slow 20s linear infinite; transform-origin: center; }
 
-  .lanyard-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-  }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+.animate-fade-up { animation: fade-up 0.6s var(--ease-luxury) forwards; }
 
-/* NAVBAR backdrop blur */
+/* =========================================================
+   NAVBAR BLUR
+   ========================================================= */
 .navbar-blur {
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
 }
 
-/* SECTION SPACING */
-.section-padding {
-  padding-top: 5.5rem;
-  padding-bottom: 5.5rem;
+/* =========================================================
+   TYPING GAME
+   ========================================================= */
+.typing-word--correct  { color: var(--color-text); }
+.typing-word--error    { color: #e05a5a; }
+.typing-word--upcoming { color: var(--color-muted); opacity: 0.5; }
+.typing-char--active   { position: relative; }
+.typing-char--active::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: 0;
+  height: 100%; width: 2px;
+  background: var(--color-gold);
+  border-radius: 1px;
+  animation: blink 0.8s ease-in-out infinite;
 }
 
-@media (min-width: 1024px) {
-  .section-padding {
-    padding-top: 7.5rem;
-    padding-bottom: 7.5rem;
+.typing-test-shell {
+  display: flex;
+  min-height: min(660px, calc(92vh - 64px));
+  flex-direction: column;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.typing-setting {
+  min-height: 2rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  background: transparent;
+  color: var(--color-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.typing-setting:hover {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.typing-setting--active,
+.typing-setting--active:hover {
+  border-color: var(--color-text);
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.typing-test-copy {
+  display: flex;
+  min-height: 300px;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  cursor: text;
+}
+
+.typing-test-words {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: clamp(1.1rem, 2.8vw, 1.65rem);
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.typing-test-word {
+  color: var(--color-muted);
+  opacity: 0.78;
+}
+
+.typing-test-word--current {
+  color: var(--color-text);
+  opacity: 1;
+}
+
+.typing-test-word--correct,
+.typing-test-char--correct {
+  color: #15803d;
+  opacity: 1;
+}
+
+.typing-test-word--incorrect,
+.typing-test-char--incorrect {
+  color: #dc2626;
+  opacity: 1;
+}
+
+.typing-test-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 1px;
+  background: var(--color-gold);
+  vertical-align: text-bottom;
+  animation: blink 0.85s ease-in-out infinite;
+}
+
+.typing-test-shell kbd {
+  display: inline-block;
+  min-width: 1.4rem;
+  padding: 0.08rem 0.3rem;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  text-align: center;
+}
+
+.typing-restart {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.3rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0.4rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.typing-restart:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold-text);
+}
+
+/* =========================================================
+   LANYARD CANVAS
+   ========================================================= */
+.lanyard-container { touch-action: pan-y; overflow: visible; }
+@media (max-width: 767px) {
+  .lanyard-container { min-height: 440px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button:not(:disabled),
+  .btn-primary,
+  .btn-outline,
+  [role="button"] {
+    transition-duration: 0.01ms;
+  }
+
+  button:not(:disabled):hover,
+  button:not(:disabled):active {
+    transform: none;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:active,
+  .btn-outline:hover,
+  .btn-outline:active,
+  [role="button"]:hover,
+  [role="button"]:active {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   GOLD BORDER GLOW UTILITY
+   ========================================================= */
+.gold-border-glow {
+  border: 1px solid rgba(184, 137, 42, 0.22);
+  box-shadow: 0 0 20px rgba(184, 137, 42, 0.05);
+}
+.dark .gold-border-glow {
+  border: 1px solid rgba(212, 168, 64, 0.18);
+  box-shadow: 0 0 28px rgba(212, 168, 64, 0.07);
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

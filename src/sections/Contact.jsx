@@ -1,10 +1,11 @@
 /**
- * Contact — informasi kontak langsung (tanpa overclaim)
+ * Contact — fully dual-mode safe, Font Awesome icons, clean layout.
+ * High-contrast colors in both dark and light mode, matched dual button CTA.
  */
 import { useState } from 'react';
-import { Mail, MapPin, Clock, Copy, Check, ArrowUpRight, MessageCircle } from 'lucide-react';
-import { FaWhatsapp, FaGithub, FaInstagram } from 'react-icons/fa6';
+import { ArrowUpRight } from 'lucide-react';
 import SectionTitle from '../components/ui/SectionTitle';
+import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { CONTACT, whatsappLink } from '../data/contact';
@@ -27,24 +28,28 @@ export default function Contact() {
       : 'Hello Gungde, I would like to discuss a website project.'
   );
 
+  const cardBase = {
+    background: 'var(--color-surface)',
+    border: '1px solid var(--color-border)',
+    borderRadius: '20px',
+    transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
+  };
+
   return (
     <section
       id="contact"
-      className="section-padding relative overflow-hidden bg-bg/90 dark:bg-[#07080B]"
+      className="section-padding relative overflow-hidden"
       aria-label="Contact"
       ref={ref}
+      style={{ background: 'var(--color-bg)' }}
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
-
       <div className="container-main relative z-10">
         <SectionTitle
           label={isId ? 'KONTAK' : 'CONTACT'}
-          title={isId ? 'Mari bahas kebutuhan Anda.' : 'Let’s discuss your project.'}
-          subtitle={
-            isId
-              ? 'Hubungi saya lewat WhatsApp atau email untuk konsultasi website.'
-              : 'Reach me via WhatsApp or email to discuss your website needs.'
-          }
+          title={isId ? 'Mari bahas kebutuhan Anda.' : "Let's discuss your project."}
+          subtitle={isId
+            ? 'Hubungi saya lewat WhatsApp atau email untuk konsultasi dan penawaran website.'
+            : 'Reach out via WhatsApp or email to discuss your website and marketing goals.'}
         />
 
         <div
@@ -52,158 +57,265 @@ export default function Contact() {
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 mb-10">
-            <div className="md:col-span-3 rounded-[28px] border border-gold/25 bg-gradient-to-br from-gold/[0.12] via-surface/90 to-surface/50 dark:via-[#11131A]/90 dark:to-[#0B0D12]/80 p-6 sm:p-8 shadow-[0_18px_60px_rgba(212,175,55,0.1)] relative overflow-hidden">
-              <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
-              <div className="absolute right-1/4 -bottom-24 w-44 h-44 rounded-full bg-emerald-500/[0.07] blur-3xl pointer-events-none" />
-              <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-5">
-                <div>
-                  <span className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] text-gold">
-                    <span className="h-px w-5 bg-gold/70" />
-                    {isId ? 'Kontak' : 'Contact'}
-                  </span>
-                  <h3 className="mt-2 font-heading text-2xl sm:text-3xl text-text dark:text-white">{isId ? 'Ceritakan kebutuhan proyek Anda.' : 'Tell me about your project.'}</h3>
-                  <p className="mt-2 text-base text-muted dark:text-stone-300 max-w-xl">{isId ? 'Saya akan meninjau kebutuhan dan ruang lingkupnya bersama Anda.' : 'I’ll review your needs and discuss the project scope with you.'}</p>
-                </div>
-                <a href={waLink} target="_blank" rel="noopener noreferrer" className="group shrink-0 inline-flex items-center justify-center gap-2 rounded-full bg-[#168B57] px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/15 hover:bg-[#117849] hover:-translate-y-0.5 transition-all">
-                  <FaWhatsapp size={18} />
-                  <span>{isId ? 'Chat via WhatsApp' : 'Chat on WhatsApp'}</span>
-                  <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
+          {/* Hero CTA card with matched dual button pair */}
+          <div
+            className="rounded-[24px] p-6 sm:p-8 mb-6 relative overflow-hidden shadow-2xs"
+            style={{
+              background: 'var(--color-surface)',
+              border: '1.5px solid rgba(179,130,38,0.3)',
+            }}
+          >
+            <div
+              className="absolute -right-16 -top-16 w-48 h-48 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(179,130,38,0.07), transparent 70%)' }}
+            />
+            <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+              <div className="max-w-xl">
+                <span
+                  className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] font-bold mb-2"
+                  style={{ color: 'var(--color-gold-text)' }}
+                >
+                  <span className="h-px w-5" style={{ background: 'var(--color-gold)' }} />
+                  {isId ? 'Konsultasi Terbuka' : 'Open for Inquiries'}
+                </span>
+                <h3
+                  className="text-2xl sm:text-3xl mb-2 font-bold"
+                  style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
+                >
+                  {isId ? 'Ceritakan ide dan kebutuhan proyek Anda.' : 'Tell me about your project.'}
+                </h3>
+                <p className="text-sm sm:text-base leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                  {isId
+                    ? 'Saya siap membantu merancang website profesional dan solusi pemasaran digital yang tepat untuk Anda.'
+                    : "I'm ready to craft high-performance websites and effective digital strategies tailored for you."}
+                </p>
+              </div>
+
+              {/* Dual button pair in Hero CTA card */}
+              <div className="flex flex-col sm:flex-row gap-3 shrink-0 items-stretch sm:items-center">
+                <Button
+                  variant="primary"
+                  href={waLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shadow-sm"
+                >
+                  <i className="fa-brands fa-whatsapp text-base" aria-hidden="true" />
+                  <span>{isId ? 'Chat WhatsApp' : 'Chat WhatsApp'}</span>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  href={`mailto:${CONTACT.email}`}
+                >
+                  <i className="fa-solid fa-envelope text-sm" aria-hidden="true" />
+                  <span>{isId ? 'Kirim Email' : 'Send Email'}</span>
+                </Button>
               </div>
             </div>
+          </div>
+
+          {/* 3-column contact cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+
+            {/* WhatsApp Card */}
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={isId ? 'Hubungi melalui WhatsApp' : 'Contact via WhatsApp'}
-              className="group relative min-h-[250px] p-6 sm:p-7 rounded-[24px] bg-gradient-to-br from-surface to-bg dark:from-[#12141B] dark:to-[#0A0B10] border border-border dark:border-white/[0.07] hover:border-emerald-500/45 shadow-[0_12px_36px_rgba(0,0,0,0.05)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.18)] hover:-translate-y-1 hover:shadow-emerald-500/[0.08] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
+              style={{ ...cardBase, minHeight: '230px' }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-whatsapp)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
             >
-              <div className="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-emerald-500/[0.07] blur-3xl transition-opacity duration-300 group-hover:opacity-100 opacity-70" />
+              <div
+                className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
+                style={{ background: 'var(--color-whatsapp-bg)', filter: 'blur(30px)' }}
+              />
               <div>
-                <div className="relative flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-105 transition-transform duration-300">
-                    <FaWhatsapp size={24} />
+                <div className="flex items-center justify-between mb-5">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      background: 'var(--color-whatsapp-bg)',
+                      border: '1px solid var(--color-whatsapp-border)',
+                      color: 'var(--color-whatsapp)',
+                    }}
+                  >
+                    <i className="fa-brands fa-whatsapp text-xl" aria-hidden="true" />
                   </div>
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/[0.06] px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
-                    <MessageCircle size={12} />
-                    {isId ? 'Pesan langsung' : 'Direct message'}
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-mono uppercase tracking-wider font-semibold"
+                    style={{
+                      background: 'var(--color-whatsapp-bg)',
+                      border: '1px solid var(--color-whatsapp-border)',
+                      color: 'var(--color-whatsapp)',
+                    }}
+                  >
+                    <i className="fa-solid fa-comment-dots text-[10px]" aria-hidden="true" />
+                    {isId ? 'Respon Cepat' : 'Fast Response'}
                   </span>
                 </div>
-
-                <h3 className="font-heading text-lg font-semibold text-text dark:text-white mb-1">
+                <h3 className="text-lg font-bold mb-1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}>
                   WhatsApp
                 </h3>
-                <p className="text-sm text-muted dark:text-stone-300 break-words">
+                <p className="text-sm font-mono font-semibold" style={{ color: 'var(--color-whatsapp)' }}>
                   {CONTACT.whatsappDisplay}
                 </p>
-                <p className="text-sm leading-relaxed text-muted mt-2">
-                  {isId ? 'Untuk pertanyaan dan diskusi proyek' : 'For questions and project discussions'}
+                <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'var(--color-muted)' }}>
+                  {isId ? 'Untuk pertanyaan langsung & konsultasi cepat' : 'Direct messaging and quick project consultation'}
                 </p>
               </div>
-
-              <div className="relative pt-5 mt-5 flex items-center justify-between border-t border-border/60 dark:border-white/[0.07] text-sm text-emerald-700 dark:text-emerald-400">
-                <span>{isId ? 'Chat Sekarang' : 'Start Chat'}</span>
-                <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <div
+                className="flex items-center justify-between pt-4 mt-4 text-xs sm:text-sm font-semibold"
+                style={{ borderTop: '1px solid var(--color-border)', color: 'var(--color-whatsapp)' }}
+              >
+                <span>{isId ? 'Buka WhatsApp' : 'Open WhatsApp'}</span>
+                <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
               </div>
             </a>
 
-            <div className="group relative min-h-[250px] p-6 sm:p-7 rounded-[24px] bg-gradient-to-br from-surface to-bg dark:from-[#12141B] dark:to-[#0A0B10] border border-border dark:border-white/[0.07] hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.05)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.18)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-              <div className="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-gold/[0.08] blur-3xl pointer-events-none" />
+            {/* Email Card */}
+            <div
+              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
+              style={{ ...cardBase, minHeight: '230px', cursor: 'default' }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-gold)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+            >
+              <div
+                className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
+                style={{ background: 'rgba(179,130,38,0.1)', filter: 'blur(30px)' }}
+              />
               <div>
-                <div className="relative flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/25 flex items-center justify-center text-gold group-hover:scale-105 transition-transform duration-300">
-                    <Mail size={22} />
+                <div className="flex items-center justify-between mb-5">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      background: 'rgba(179,130,38,0.12)',
+                      border: '1px solid rgba(179,130,38,0.3)',
+                      color: 'var(--color-gold)',
+                    }}
+                  >
+                    <i className="fa-solid fa-envelope-open-text text-base" aria-hidden="true" />
                   </div>
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-bg dark:bg-[#08090D] border border-border dark:border-gold/30 text-[11px] font-mono text-muted hover:text-gold hover:border-gold transition-colors cursor-pointer"
+                    aria-label="Copy email"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold cursor-pointer transition-colors shadow-2xs"
+                    style={{
+                      background: 'var(--color-bg)',
+                      border: '1px solid var(--color-border)',
+                      color: copied ? '#16a34a' : 'var(--color-text)',
+                    }}
                   >
                     {copied ? (
                       <>
-                        <Check size={12} className="text-emerald-400" />
-                        <span className="text-emerald-400">{isId ? 'Tersalin' : 'Copied!'}</span>
+                        <i className="fa-solid fa-check text-xs text-green-500" aria-hidden="true" />
+                        <span>{isId ? 'Tersalin!' : 'Copied!'}</span>
                       </>
                     ) : (
                       <>
-                        <Copy size={12} />
+                        <i className="fa-solid fa-copy text-xs text-gold" aria-hidden="true" />
                         <span>{isId ? 'Salin' : 'Copy'}</span>
                       </>
                     )}
                   </button>
                 </div>
-
-                <h3 className="font-heading text-lg font-semibold text-text dark:text-white mb-1">
+                <h3 className="text-lg font-bold mb-1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}>
                   Email
                 </h3>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="text-sm text-gold-text hover:underline break-all"
+                  className="text-xs sm:text-sm font-mono font-semibold break-all transition-colors hover:underline"
+                  style={{ color: 'var(--color-gold-text)' }}
                 >
                   {CONTACT.email}
                 </a>
-                <p className="text-sm leading-relaxed text-muted mt-2">
-                  {isId ? 'Saya akan membalas secepatnya' : 'I reply as soon as I can'}
+                <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'var(--color-muted)' }}>
+                  {isId ? 'Untuk penawaran formal atau detail RFP' : 'For formal proposals, RFPs, or inquiries'}
                 </p>
               </div>
-
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="relative pt-5 mt-5 flex items-center justify-between border-t border-border/60 dark:border-white/[0.07] text-sm text-gold-text group-hover:text-gold-light"
+                className="group/link flex items-center justify-between pt-4 mt-4 text-xs sm:text-sm font-semibold transition-colors"
+                style={{ borderTop: '1px solid var(--color-border)', color: 'var(--color-gold-text)' }}
               >
-                <span>{isId ? 'Kirim Email' : 'Send Email'}</span>
-                <ArrowUpRight size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <span>{isId ? 'Kirim Pesan Email' : 'Send An Email'}</span>
+                <ArrowUpRight size={16} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
               </a>
             </div>
 
-            <div className="group relative min-h-[250px] p-6 sm:p-7 rounded-[24px] bg-gradient-to-br from-surface to-bg dark:from-[#12141B] dark:to-[#0A0B10] border border-border dark:border-white/[0.07] hover:border-gold/45 shadow-[0_12px_36px_rgba(0,0,0,0.05)] dark:shadow-[0_14px_40px_rgba(0,0,0,0.18)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden">
-              <div className="absolute -right-12 -top-12 w-36 h-36 rounded-full bg-gold/[0.08] blur-3xl pointer-events-none" />
+            {/* Location Card */}
+            <div
+              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
+              style={{ ...cardBase, minHeight: '230px' }}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-gold)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+            >
+              <div
+                className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
+                style={{ background: 'rgba(179,130,38,0.1)', filter: 'blur(30px)' }}
+              />
               <div>
-                <div className="relative flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-gold/10 border border-gold/25 flex items-center justify-center text-gold group-hover:scale-105 transition-transform duration-300">
-                    <MapPin size={22} />
+                <div className="flex items-center justify-between mb-5">
+                  <div
+                    className="w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs"
+                    style={{
+                      background: 'rgba(179,130,38,0.12)',
+                      border: '1px solid rgba(179,130,38,0.3)',
+                      color: 'var(--color-gold)',
+                    }}
+                  >
+                    <i className="fa-solid fa-location-dot text-lg" aria-hidden="true" />
                   </div>
-                  <div className="flex items-center gap-1 text-[11px] font-mono text-stone-400">
-                    <Clock size={12} className="text-gold" />
+                  <div className="flex items-center gap-1.5 text-[11px] font-mono font-semibold" style={{ color: 'var(--color-gold-text)' }}>
+                    <i className="fa-regular fa-clock text-xs text-gold" aria-hidden="true" />
                     <span>UTC+8 (WITA)</span>
                   </div>
                 </div>
-
-                <h3 className="font-heading text-lg font-semibold text-text dark:text-white mb-1">
-                  {isId ? 'Lokasi' : 'Location'}
+                <h3 className="text-lg font-bold mb-1" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}>
+                  {isId ? 'Lokasi & Zona Waktu' : 'Location & Timezone'}
                 </h3>
-                <p className="text-sm text-muted dark:text-stone-300">
+                <p className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
                   {CONTACT.location}
                 </p>
-                <p className="text-sm leading-relaxed text-muted mt-2">
-                  {CONTACT.locationShort}
+                <p className="text-xs sm:text-sm mt-1.5" style={{ color: 'var(--color-muted)' }}>
+                  {isId ? 'Bekerja secara remote untuk klien lokal dan global' : 'Working remotely with local and global clients'}
                 </p>
               </div>
-
-              <div className="relative pt-5 mt-5 flex items-center gap-2 border-t border-border/60 dark:border-white/[0.07] text-sm text-muted">
-                <MapPin size={14} className="text-gold shrink-0" />
+              <div
+                className="flex items-center gap-2 pt-4 mt-4 text-xs sm:text-sm font-semibold"
+                style={{ borderTop: '1px solid var(--color-border)', color: 'var(--color-text)' }}
+              >
+                <i className="fa-solid fa-globe text-xs text-gold" aria-hidden="true" />
                 <span>Bali, Indonesia</span>
               </div>
             </div>
           </div>
 
-          <div className="p-6 rounded-[24px] bg-surface/60 dark:bg-[#0A0C11] border border-border dark:border-gold/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Social strip */}
+          <div
+            className="p-5 sm:p-6 rounded-[20px] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs"
+            style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
+          >
             <div className="text-center sm:text-left">
-              <span className="font-mono text-xs uppercase tracking-widest text-gold font-medium">
-              {isId ? 'Media Sosial' : 'Social'}
+              <span
+                className="font-mono text-xs uppercase tracking-widest font-bold"
+                style={{ color: 'var(--color-gold-text)' }}
+              >
+                {isId ? 'Jejaring Sosial' : 'Social Profiles'}
               </span>
-              <p className="text-sm text-muted mt-0.5">
-                @_gungde • {isId ? 'Web Developer & Pemasaran Digital' : 'Web Developer & Digital Marketing'}
+              <p className="text-xs sm:text-sm mt-0.5 font-medium" style={{ color: 'var(--color-muted)' }}>
+                @_gungde · {isId ? 'Web Developer & Praktisi Pemasaran Digital' : 'Web Developer & Digital Marketing Specialist'}
               </p>
             </div>
-
             <div className="flex items-center gap-3">
               {[
-                { icon: FaGithub, href: CONTACT.github, label: 'GitHub' },
-                { icon: FaInstagram, href: CONTACT.instagram, label: 'Instagram' },
-                { icon: FaWhatsapp, href: waLink, label: 'WhatsApp' },
-              ].map(({ icon: Icon, href, label }) => (
+                { icon: 'fa-brands fa-github',    href: CONTACT.github,    label: 'GitHub' },
+                { icon: 'fa-brands fa-instagram', href: CONTACT.instagram, label: 'Instagram' },
+                { icon: 'fa-brands fa-whatsapp',  href: waLink,            label: 'WhatsApp' },
+              ].map(({ icon, href, label }) => (
                 <a
                   key={label}
                   href={href}
@@ -211,9 +323,22 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   title={label}
-                  className="w-11 h-11 rounded-xl bg-bg dark:bg-[#07080B] border border-border dark:border-gold/25 flex items-center justify-center text-muted hover:text-gold-text dark:hover:text-gold hover:border-gold hover:scale-105 transition-all duration-300 shadow-sm"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-2xs"
+                  style={{
+                    background: 'var(--color-bg)',
+                    border: '1px solid var(--color-border)',
+                    color: 'var(--color-text)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--color-gold)';
+                    e.currentTarget.style.color = 'var(--color-gold)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--color-border)';
+                    e.currentTarget.style.color = 'var(--color-text)';
+                  }}
                 >
-                  <Icon size={18} />
+                  <i className={`${icon} text-base`} aria-hidden="true" />
                 </a>
               ))}
             </div>

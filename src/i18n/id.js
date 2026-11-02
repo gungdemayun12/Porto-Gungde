@@ -11,17 +11,17 @@ const id = {
     process: 'Proses',
     experience: 'Pengalaman',
     contact: 'Kontak',
-    hireMe: 'Hubungi',
+    hireMe: 'Hubungi Saya',
   },
 
   // Hero
   hero: {
-    badge: 'Pengembangan Web & Pemasaran Digital',
+    badge: 'Tersedia untuk Proyek — Web & Digital Marketing',
     greeting: 'Halo, saya',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
     role: 'Web Developer & Pemasaran Digital',
-    description: 'Saya mengembangkan website dan membantu kebutuhan pemasaran digital, dengan ruang lingkup yang dibahas sesuai kebutuhan proyek.',
+    description: 'Membangun website modern, cepat, dan responsif serta strategi pemasaran digital terarah untuk membantu pertumbuhan bisnis Anda.',
     cta: 'Lihat Proyek',
     ctaSecondary: 'Hubungi Saya',
     scrollDown: 'Scroll untuk jelajah',
@@ -32,25 +32,25 @@ const id = {
     experience: 'Tahun Pengalaman',
     projects: 'Proyek Selesai',
     clients: 'Klien Puas',
-    satisfaction: 'Kepuasan',
+    satisfaction: 'Tingkat Kepuasan',
   },
 
   // About
   about: {
     sectionTitle: 'Tentang Saya',
-    sectionSubtitle: 'Sedikit tentang saya',
-    bio: 'Saya adalah web developer dari Batubulan, Bali. Saya mengerjakan website dan aplikasi web, serta menerima pekerjaan pemasaran digital sesuai kebutuhan proyek.',
-    bioExtra: 'Sebelum mulai, saya membahas tujuan, materi, dan ruang lingkup pekerjaan agar proses dan hasil yang diharapkan jelas.',
+    sectionSubtitle: 'Profil & Filosofi Kerja',
+    bio: 'Saya adalah web developer berbasis di Bali yang berfokus merancang website modern yang cepat, elegan, dan fungsional, didukung strategi digital yang tepat sasaran.',
+    bioExtra: 'Setiap proyek dikerjakan secara terarah — memahami tujuan bisnis, menyusun solusi teknis yang tepat, dan memastikan proses kerja berjalan transparan.',
     location: 'Batubulan, Bali',
-    localTime: 'Waktu Lokal (WITA)',
+    localTime: 'Waktu Indonesia Tengah (WITA)',
     languages: 'Bahasa',
     languageList: 'Indonesia, Inggris, Bali',
-    howIWork: 'Cara Saya Bekerja',
+    howIWork: 'Prinsip Kerja',
     values: [
-      'Pahami tujuan sebelum menulis kode',
-      'Kode yang rapi dan mudah di-handoff',
-      'Komunikasi jelas dan update rutin',
-      'Fitur praktis yang benar-benar dibutuhkan',
+      'Pahami kebutuhan bisnis sebelum menulis baris kode',
+      'Struktur kode yang bersih, efisien, dan mudah dirawat',
+      'Komunikasi transparan dengan perkembangan berkala',
+      'Fokus pada fitur bernilai nyata dan performa maksimal',
     ],
     downloadCV: 'Unduh CV',
   },
@@ -58,99 +58,99 @@ const id = {
   // Tech Stack
   stack: {
     sectionTitle: 'Tech Stack',
-    sectionSubtitle: 'Teknologi yang saya gunakan sehari-hari',
+    sectionSubtitle: 'Teknologi modern yang saya gunakan sehari-hari',
     categories: {
       frontend: 'Frontend',
       backend: 'Backend',
-      cms: 'CMS',
-      tools: 'Tools',
+      cms: 'CMS & Platform',
+      tools: 'Alat & Utilitas',
     },
   },
 
   // Projects
   projects: {
-    sectionTitle: 'Proyek Unggulan',
-    sectionSubtitle: 'Pilihan proyek website dan aplikasi web yang pernah saya kerjakan.',
+    sectionTitle: 'Portofolio Unggulan',
+    sectionSubtitle: 'Pilihan website dan aplikasi web yang telah berhasil dibangun dengan performa optimal.',
     viewProject: 'Lihat Detail',
     visitSite: 'Kunjungi Situs',
     viewCode: 'Lihat Kode',
     allCategories: 'Semua',
-    backToProjects: 'Kembali ke Proyek',
-    problem: 'Masalah',
-    constraints: 'Kendala',
+    backToProjects: 'Kembali ke Portofolio',
+    problem: 'Tantangan',
+    constraints: 'Batasan',
     solution: 'Solusi',
-    results: 'Ruang Lingkup',
-    overview: 'Tentang Proyek',
-    gallery: 'Galeri',
+    results: 'Hasil & Ruang Lingkup',
+    overview: 'Ikhtisar Proyek',
+    gallery: 'Galeri Tampilan',
     prevProject: 'Proyek Sebelumnya',
     nextProject: 'Proyek Selanjutnya',
     year: 'Tahun',
     role: 'Peran',
-    techStack: 'Tech Stack',
+    techStack: 'Teknologi',
   },
 
   // Services
   services: {
     sectionTitle: 'Layanan',
-    sectionSubtitle: 'Pengembangan website dan dukungan pemasaran digital sesuai ruang lingkup proyek.',
+    sectionSubtitle: 'Pengembangan website profesional dan dukungan pemasaran digital yang terukur.',
   },
 
   // Process
   process: {
-    label: 'CARA KERJA',
-    sectionTitle: 'Proses Saya',
-    sectionSubtitle: 'Tahapan kerja yang dibahas dan disepakati bersama.',
+    label: 'ALUR KERJA',
+    sectionTitle: 'Proses Pengerjaan',
+    sectionSubtitle: 'Tahapan terstruktur untuk mewujudkan proyek impian Anda.',
     steps: [
       {
-        title: 'Diskusi Kebutuhan',
-        description: 'Membahas tujuan, kebutuhan, dan batasan proyek untuk menyepakati ruang lingkup pekerjaan.',
+        title: 'Konsultasi & Kebutuhan',
+        description: 'Mendiskusikan tujuan bisnis, target audiens, dan ruang lingkup proyek secara mendalam.',
       },
       {
-        title: 'Rencana & Desain',
-        description: 'Menyusun struktur halaman dan arah visual berdasarkan materi serta identitas yang tersedia.',
+        title: 'Perencanaan & Desain',
+        description: 'Menyusun wireframe, struktur navigasi, dan visual interface yang elegan serta responsif.',
       },
       {
-        title: 'Pengembangan',
-        description: 'Mengerjakan fitur yang disepakati dan membagikan perkembangan sesuai tahapan proyek.',
+        title: 'Pengembangan & Integrasi',
+        description: 'Membangun fungsionalitas dengan kode yang optimal, cepat, dan standar keamanan terkini.',
       },
       {
-        title: 'Serah Terima',
-        description: 'Meninjau hasil bersama, menyelesaikan revisi dalam ruang lingkup, lalu menyiapkan peluncuran atau serah terima.',
+        title: 'Pengujian & Peluncuran',
+        description: 'Melakukan uji coba komprehensif di semua perangkat sebelum website resmi diluncurkan.',
       },
     ],
   },
 
   // Experience
   experience: {
-    sectionTitle: 'Pengalaman',
-    sectionSubtitle: 'Pengalaman kerja dan proyek yang relevan.',
+    sectionTitle: 'Pengalaman & Pendidikan',
+    sectionSubtitle: 'Jejak langkah profesional dan fondasi keilmuan saya.',
   },
 
   // Testimonials
   testimonials: {
     sectionTitle: 'Testimoni',
-    sectionSubtitle: 'Apa kata klien tentang bekerja dengan saya',
+    sectionSubtitle: 'Apa kata mereka tentang hasil kolaborasi bersama saya',
   },
 
   // Contact
   contact: {
     sectionTitle: 'Hubungi Saya',
-    sectionSubtitle: 'Ceritakan kebutuhan website atau pemasaran digital Anda untuk membahas ruang lingkup yang sesuai.',
-    formName: 'Nama Anda',
-    formEmail: 'Email Anda',
+    sectionSubtitle: 'Siap mewujudkan ide Anda? Mari diskusikan proyek website dan strategi digital Anda.',
+    formName: 'Nama Lengkap',
+    formEmail: 'Alamat Email',
     formProjectType: 'Jenis Proyek',
-    formBudget: 'Kisaran Budget',
-    formMessage: 'Ceritakan tentang proyek Anda',
+    formBudget: 'Perkiraan Anggaran',
+    formMessage: 'Ceritakan tentang kebutuhan proyek Anda',
     formSubmit: 'Kirim Pesan',
-    formSending: 'Mengirim...',
-    formSuccess: 'Pesan berhasil dikirim! Saya akan segera membalas.',
-    formError: 'Terjadi kesalahan. Silakan coba lagi atau hubungi via WhatsApp.',
+    formSending: 'Sedang Mengirim...',
+    formSuccess: 'Pesan berhasil terkirim! Saya akan menghubungi Anda sesegera mungkin.',
+    formError: 'Terjadi kendala saat mengirim. Silakan coba kembali atau hubungi via WhatsApp.',
     projectTypes: [
-      'Website Perusahaan',
-      'Aplikasi Web',
-      'E-Commerce',
+      'Website Perusahaan (Company Profile)',
+      'Aplikasi Web Kustom',
+      'Toko Online (E-Commerce)',
       'Website WordPress',
-      'Otomasi & Integrasi',
+      'Landing Page & Pemasaran',
       'Lainnya',
     ],
     budgetRanges: [
@@ -159,32 +159,32 @@ const id = {
       'Rp 50 – 75 juta',
       'Rp 75 – 150 juta',
       'Rp 150 juta+',
-      'Mari diskusi',
+      'Mari diskusikan',
     ],
-    whatsapp: 'Chat di WhatsApp',
-    whatsappTemplate: 'Halo Gungde, saya tertarik untuk mendiskusikan sebuah proyek.',
-    email: 'Email Saya',
-    socials: 'Temukan saya di',
+    whatsapp: 'Chat via WhatsApp',
+    whatsappTemplate: 'Halo Gungde, saya tertarik untuk mendiskusikan sebuah proyek website.',
+    email: 'Kirim Email',
+    socials: 'Jejaring Sosial',
   },
 
   // Footer
   footer: {
-    tagline: 'Pengembangan website dan dukungan pemasaran digital sesuai kebutuhan proyek.',
-    rights: 'Hak cipta dilindungi.',
+    tagline: 'Pengembangan website modern dan solusi pemasaran digital yang berfokus pada hasil nyata.',
+    rights: 'Hak cipta dilindungi undang-undang.',
     backToTop: 'Kembali ke atas',
   },
   modal: {
     overview: 'Detail Proyek',
     close: 'Tutup',
-    live: 'Lihat Demo',
-    private: 'Sistem privat',
+    live: 'Kunjungi Situs',
+    private: 'Sistem Privat',
   },
 
   // 404
   notFound: {
     title: '404',
     subtitle: 'Halaman Tidak Ditemukan',
-    description: 'Halaman yang Anda cari tidak ada atau telah dipindahkan.',
+    description: 'Halaman yang Anda tuju tidak tersedia atau telah dipindahkan ke tautan baru.',
     backHome: 'Kembali ke Beranda',
   },
 };

@@ -4,7 +4,6 @@
  * logo monogram eksklusif, navigasi aktif, dan tombol hamburger animasi.
  */
 import { useState, useEffect, useCallback } from 'react';
-import { Sparkles } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 import LangToggle from '../ui/LangToggle';
 import Button from '../ui/Button';
@@ -12,7 +11,7 @@ import { useLang } from '../../hooks/useLang';
 import MobileMenu from './MobileMenu';
 
 // ID section untuk navigasi dan highlight aktif
-const NAV_SECTIONS = ['about', 'projects', 'process', 'experience', 'contact'];
+const NAV_SECTIONS = ['about', 'projects', 'arcade', 'experience', 'contact'];
 
 export default function Navbar() {
   const { t } = useLang();
@@ -90,7 +89,7 @@ export default function Navbar() {
   const navLabels = {
     about: t.nav.about,
     projects: t.nav.projects,
-    process: t.nav.process,
+    arcade: 'Arcade',
     experience: t.nav.experience,
     contact: t.nav.contact,
   };
@@ -101,8 +100,8 @@ export default function Navbar() {
         <nav
           className={`container-main max-w-6xl mx-auto rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between
             ${isScrolled
-              ? 'bg-surface/80 dark:bg-[#101218]/88 backdrop-blur-xl border border-gold/20 shadow-[0_8px_28px_rgba(0,0,0,0.12)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.45)]'
-              : 'bg-surface/35 dark:bg-[#101218]/35 backdrop-blur-md border border-border/50'
+              ? 'bg-surface/92 dark:bg-[#12100C]/92 backdrop-blur-xl border border-gold/30 shadow-[0_8px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
+              : 'bg-surface/85 dark:bg-[#12100C]/85 backdrop-blur-md border border-border shadow-xs'
             }`}
           role="navigation"
           aria-label="Main navigation"
@@ -118,7 +117,7 @@ export default function Navbar() {
           >
             {/* Monogram Seal */}
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-dark p-[1px] shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full rounded-full bg-surface dark:bg-[#0C0D12] flex items-center justify-center">
+              <div className="w-full h-full rounded-full bg-surface dark:bg-[#12100C] flex items-center justify-center">
                 <span className="font-heading text-base font-bold gradient-gold-text">G</span>
               </div>
             </div>
@@ -127,22 +126,22 @@ export default function Navbar() {
               <span className="font-heading font-semibold text-text text-base tracking-wide group-hover:text-gold-text transition-colors">
                 GUNGDEV<span className="text-gold font-serif">.</span>
               </span>
-              <span className="text-[10px] font-mono text-muted tracking-widest uppercase -mt-1 hidden sm:block">
+              <span className="text-[10px] font-mono text-muted tracking-widest uppercase -mt-0.5 hidden sm:block font-medium">
                 {t.hero.role}
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg/50 dark:bg-black/30 border border-border/50">
+          <div className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full bg-bg/80 dark:bg-black/40 border border-border shadow-2xs">
             {NAV_SECTIONS.map((id) => (
               <button
                 key={id}
                 onClick={() => scrollTo(id)}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-medium tracking-wide transition-all duration-300 cursor-pointer
+                className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-medium tracking-wide transition-all duration-300 cursor-pointer
                   ${activeSection === id
-                    ? 'text-stone-950 font-bold gradient-gold shadow-sm shadow-gold/30'
-                    : 'text-muted hover:text-text hover:bg-gold/10'
+                    ? 'bg-gold text-[#0E0C09] font-bold shadow-xs'
+                    : 'text-muted hover:text-text hover:bg-gold/15'
                   }`}
               >
                 {navLabels[id]}
@@ -157,10 +156,11 @@ export default function Navbar() {
 
             {/* Tombol Hubungi / Hire Me */}
             <Button
+              variant="primary"
               onClick={() => scrollTo('contact')}
-              className="shine-sweep text-xs py-2 px-5 cursor-pointer flex items-center gap-2"
+              className="text-xs py-2 px-4.5 rounded-full cursor-pointer flex items-center gap-2 shadow-xs"
             >
-              <Sparkles size={14} className="text-current" />
+              <i className="fa-solid fa-paper-plane text-xs" aria-hidden="true" />
               <span>{t.nav.hireMe}</span>
             </Button>
           </div>
@@ -176,12 +176,12 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
-              className="relative w-10 h-10 rounded-full border border-gold/25 bg-gold/[0.08]
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border bg-surface/90
                 flex items-center justify-center text-text
-                hover:border-gold/45 hover:bg-gold/12
+                hover:border-gold hover:bg-gold/10
                 transition-[border-color,background-color,transform] duration-400
                 ease-[cubic-bezier(0.16,1,0.3,1)]
-                cursor-pointer active:scale-[0.94]"
+                cursor-pointer active:scale-95 shadow-xs"
             >
               <span className="relative block w-5 h-3.5" aria-hidden="true">
                 <span

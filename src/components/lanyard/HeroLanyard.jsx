@@ -2,7 +2,6 @@
  * HeroLanyard — lazy 3D lanyard + fallback ringan
  */
 import { lazy, Suspense, useState, useEffect, useRef, Component } from 'react';
-import { Hand } from 'lucide-react';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDeviceCapability } from '../../hooks/useDeviceCapability';
 import StaticBadge from './StaticBadge';
@@ -91,9 +90,9 @@ export default function HeroLanyard() {
       className="lanyard-container w-full relative flex flex-col items-center justify-center"
       style={{ height: containerHeight, minHeight: '360px' }}
     >
-      <div className="absolute top-2 z-20 pointer-events-none flex items-center gap-2 px-3 py-1 rounded-full bg-surface/80 dark:bg-[#121319]/80 border border-gold/25 backdrop-blur-md shadow-sm text-text">
-        <Hand size={12} className="text-gold" />
-        <span className="text-[10px] font-mono uppercase tracking-wider text-gold-text font-medium">
+      <div className="absolute top-2 z-20 pointer-events-none flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface/90 border border-gold/35 backdrop-blur-md shadow-xs text-text">
+        <i className="fa-solid fa-hand-pointer text-xs text-gold animate-bounce" aria-hidden="true" />
+        <span className="text-[11px] font-mono uppercase tracking-wider text-gold-text font-bold">
           Drag the card
         </span>
       </div>
@@ -110,7 +109,6 @@ export default function HeroLanyard() {
               frontImage={gungdePhoto}
               backImage={gungdePhoto}
               imageFit="cover"
-              lanyardWidth={1.05}
             />
           </Suspense>
         </WebGLErrorBoundary>

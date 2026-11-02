@@ -1,8 +1,7 @@
 /**
  * ThemeToggle — tombol toggle tema light/dark
- * Menampilkan ikon matahari (☀️) atau bulan (🌙) dengan animasi rotasi.
+ * Ikon Font Awesome keren, border rapi, terlihat jelas di kedua mode.
  */
-import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
 
 export default function ThemeToggle() {
@@ -14,27 +13,28 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       aria-pressed={isDark}
-      className="relative p-2 rounded-full transition-all duration-300 hover:bg-surface cursor-pointer group"
+      className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border bg-surface/80
+        flex items-center justify-center transition-all duration-300
+        hover:border-gold hover:bg-gold/10 cursor-pointer shadow-xs active:scale-95"
     >
-      {/* Container ikon dengan animasi rotasi */}
-      <div className="relative w-5 h-5 overflow-hidden">
-        {/* Ikon matahari — terlihat di dark mode (karena klik akan ke light) */}
-        <Sun
-          size={20}
-          className={`absolute inset-0 text-gold transition-all duration-300 ${
+      <div className="relative w-4 h-4 flex items-center justify-center overflow-hidden">
+        {/* Sun icon — visible in dark mode */}
+        <i
+          className={`fa-solid fa-sun text-sm text-gold transition-all duration-300 absolute inset-0 flex items-center justify-center ${
             isDark
-              ? 'rotate-0 opacity-100 scale-100'
-              : 'rotate-90 opacity-0 scale-75'
+              ? 'opacity-100 rotate-0 scale-100'
+              : 'opacity-0 rotate-90 scale-50 pointer-events-none'
           }`}
+          aria-hidden="true"
         />
-        {/* Ikon bulan — terlihat di light mode (karena klik akan ke dark) */}
-        <Moon
-          size={20}
-          className={`absolute inset-0 text-gold transition-all duration-300 ${
+        {/* Moon icon — visible in light mode */}
+        <i
+          className={`fa-solid fa-moon text-sm text-gold-text transition-all duration-300 absolute inset-0 flex items-center justify-center ${
             isDark
-              ? '-rotate-90 opacity-0 scale-75'
-              : 'rotate-0 opacity-100 scale-100'
+              ? 'opacity-0 -rotate-90 scale-50 pointer-events-none'
+              : 'opacity-100 rotate-0 scale-100'
           }`}
+          aria-hidden="true"
         />
       </div>
     </button>

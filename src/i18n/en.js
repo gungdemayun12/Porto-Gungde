@@ -1,6 +1,6 @@
 /**
- * Teks dalam Bahasa Inggris (default)
- * Semua konten situs dikelola di sini agar mudah diedit tanpa menyentuh komponen.
+ * English Content (Default)
+ * All site copy is managed here for consistency and easy edits.
  */
 const en = {
   // Navbar
@@ -11,46 +11,46 @@ const en = {
     process: 'Process',
     experience: 'Experience',
     contact: 'Contact',
-    hireMe: 'Hire Me',
+    hireMe: 'Get In Touch',
   },
 
   // Hero
   hero: {
-    badge: 'Web Development & Digital Marketing',
+    badge: 'Available for Projects — Web & Digital Marketing',
     greeting: 'Hi, I\'m',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
     role: 'Web Developer & Digital Marketing',
-    description: 'I build websites and provide digital marketing support based on each project’s needs and agreed scope.',
+    description: 'Building modern, fast, and responsive websites combined with targeted digital marketing to help your business grow.',
     cta: 'View Projects',
-    ctaSecondary: 'Let\'s Talk',
+    ctaSecondary: 'Get In Touch',
     scrollDown: 'Scroll to explore',
   },
 
   // Stats
   stats: {
     experience: 'Years Experience',
-    projects: 'Projects Done',
-    clients: 'Happy Clients',
-    satisfaction: 'Satisfaction',
+    projects: 'Completed Projects',
+    clients: 'Satisfied Clients',
+    satisfaction: 'Satisfaction Rate',
   },
 
   // About
   about: {
     sectionTitle: 'About Me',
-    sectionSubtitle: 'A bit about who I am',
-    bio: 'I am a web developer based in Batubulan, Bali. I work on websites and web applications, and take on digital marketing work based on project needs.',
-    bioExtra: 'Before starting, I discuss the goals, available materials, and project scope so the process and expected deliverables are clear.',
+    sectionSubtitle: 'Profile & Philosophy',
+    bio: 'I am a web developer based in Bali specializing in building modern, high-performance, and responsive websites, complemented by targeted digital marketing strategies.',
+    bioExtra: 'Every project is handled with intention — understanding your business goals, implementing clean technical architectures, and ensuring transparent collaboration throughout.',
     location: 'Batubulan, Bali',
-    localTime: 'Local Time (WITA)',
+    localTime: 'Central Indonesia Time (WITA)',
     languages: 'Languages',
     languageList: 'Indonesian, English, Balinese',
-    howIWork: 'How I Work',
+    howIWork: 'Core Principles',
     values: [
-      'Understand the goal before writing code',
-      'Clean, maintainable code that is easy to hand off',
-      'Clear communication and regular updates',
-      'Practical features that serve a real purpose',
+      'Understand business objectives before writing code',
+      'Clean, maintainable, and well-structured codebase',
+      'Transparent communication with regular milestones',
+      'Focus on tangible user value and optimal performance',
     ],
     downloadCV: 'Download CV',
   },
@@ -58,30 +58,30 @@ const en = {
   // Tech Stack
   stack: {
     sectionTitle: 'Tech Stack',
-    sectionSubtitle: 'Technologies I work with daily',
+    sectionSubtitle: 'Modern technologies and tools I utilize daily',
     categories: {
       frontend: 'Frontend',
       backend: 'Backend',
-      cms: 'CMS',
-      tools: 'Tools',
+      cms: 'CMS & Platforms',
+      tools: 'Tools & Utilities',
     },
   },
 
   // Projects
   projects: {
     sectionTitle: 'Featured Projects',
-    sectionSubtitle: 'A selection of websites and web applications I have worked on.',
+    sectionSubtitle: 'A curated showcase of websites and web applications built with speed, precision, and modern design.',
     viewProject: 'View Details',
     visitSite: 'Visit Site',
     viewCode: 'View Code',
     allCategories: 'All',
     backToProjects: 'Back to Projects',
-    problem: 'The Problem',
+    problem: 'Challenge',
     constraints: 'Constraints',
-    solution: 'The Solution',
-    results: 'Project Scope',
+    solution: 'Solution',
+    results: 'Results & Scope',
     overview: 'Project Overview',
-    gallery: 'Gallery',
+    gallery: 'Preview Gallery',
     prevProject: 'Previous Project',
     nextProject: 'Next Project',
     year: 'Year',
@@ -92,65 +92,65 @@ const en = {
   // Services
   services: {
     sectionTitle: 'Services',
-    sectionSubtitle: 'Website development and digital marketing support, scoped to each project.',
+    sectionSubtitle: 'Professional website development and measurable digital marketing strategies.',
   },
 
   // Process
   process: {
-    label: 'HOW I WORK',
-    sectionTitle: 'My Process',
-    sectionSubtitle: 'A straightforward workflow agreed together.',
+    label: 'WORKFLOW',
+    sectionTitle: 'Development Process',
+    sectionSubtitle: 'A structured approach to bringing your digital vision to life.',
     steps: [
       {
-        title: 'Discovery',
-        description: 'Discussing goals, requirements, and constraints to agree on the project scope.',
+        title: 'Discovery & Consultation',
+        description: 'Deep diving into your business goals, target audience, and specific project requirements.',
       },
       {
-        title: 'Planning & Design',
-        description: 'Planning the page structure and visual direction around the available content and brand materials.',
+        title: 'Architecture & Design',
+        description: 'Crafting user flows, responsive layouts, and an elegant visual design language.',
       },
       {
-        title: 'Development',
-        description: 'Building the agreed features and sharing progress at the planned project milestones.',
+        title: 'Development & Integration',
+        description: 'Building robust features with clean, optimized code and modern security standards.',
       },
       {
-        title: 'Review & Handover',
-        description: 'Reviewing the work together, completing in-scope revisions, and preparing for launch or handover.',
+        title: 'Testing & Launch',
+        description: 'Comprehensive cross-device testing, performance tuning, and seamless production deployment.',
       },
     ],
   },
 
   // Experience
   experience: {
-    sectionTitle: 'Experience',
-    sectionSubtitle: 'Relevant work and project experience.',
+    sectionTitle: 'Experience & Education',
+    sectionSubtitle: 'My professional career milestones and educational foundation.',
   },
 
   // Testimonials
   testimonials: {
     sectionTitle: 'Testimonials',
-    sectionSubtitle: 'What clients say about working with me',
+    sectionSubtitle: 'What clients and collaborators say about working with me',
   },
 
   // Contact
   contact: {
     sectionTitle: 'Get In Touch',
-    sectionSubtitle: 'Share your website or digital marketing needs so we can discuss a suitable scope.',
-    formName: 'Your Name',
-    formEmail: 'Your Email',
+    sectionSubtitle: 'Ready to bring your ideas to life? Let\'s discuss your website and digital marketing goals.',
+    formName: 'Full Name',
+    formEmail: 'Email Address',
     formProjectType: 'Project Type',
     formBudget: 'Budget Range',
-    formMessage: 'Tell me about your project',
+    formMessage: 'Tell me about your project needs',
     formSubmit: 'Send Message',
-    formSending: 'Sending...',
-    formSuccess: 'Message sent successfully! I\'ll get back to you soon.',
-    formError: 'Something went wrong. Please try again or reach out via WhatsApp.',
+    formSending: 'Sending Message...',
+    formSuccess: 'Message sent successfully! I will get back to you shortly.',
+    formError: 'Something went wrong while sending. Please try again or reach out directly on WhatsApp.',
     projectTypes: [
-      'Company Website',
-      'Web Application',
-      'E-Commerce',
-      'WordPress Site',
-      'Automation & Integration',
+      'Company Profile Website',
+      'Custom Web Application',
+      'E-Commerce Store',
+      'WordPress Website',
+      'Landing Page & Marketing',
       'Other',
     ],
     budgetRanges: [
@@ -162,29 +162,29 @@ const en = {
       'Let\'s discuss',
     ],
     whatsapp: 'Chat on WhatsApp',
-    whatsappTemplate: 'Hi Gungde, I\'m interested in discussing a project.',
-    email: 'Email Me',
-    socials: 'Find me on',
+    whatsappTemplate: 'Hi Gungde, I\'m interested in discussing a website project.',
+    email: 'Send An Email',
+    socials: 'Social Profiles',
   },
 
   // Footer
   footer: {
-    tagline: 'Website development and digital marketing support based on project needs.',
+    tagline: 'Modern website development and digital marketing solutions focused on tangible outcomes.',
     rights: 'All rights reserved.',
     backToTop: 'Back to top',
   },
   modal: {
     overview: 'Project Detail',
     close: 'Close',
-    live: 'Live Demo',
-    private: 'Private system',
+    live: 'Visit Site',
+    private: 'Private System',
   },
 
   // 404
   notFound: {
     title: '404',
     subtitle: 'Page Not Found',
-    description: 'The page you\'re looking for doesn\'t exist or has been moved.',
+    description: 'The page you are looking for does not exist or has been moved to a new URL.',
     backHome: 'Back to Home',
   },
 };

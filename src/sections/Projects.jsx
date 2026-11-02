@@ -1,150 +1,199 @@
 /**
- * Projects — Seksi Proyek Unggulan dengan Pop-Up Modal Interaktif & Galeri Slider
- * Klik pada kartu proyek akan membuka Modal Pop-up mewah berisi galeri foto yang dapat digeser.
+ * Projects — dual-mode safe project cards with popup modal.
+ * Font Awesome icons, CSS vars for all colors.
  */
 import { useState } from 'react';
 import { AnimatePresence } from 'motion/react';
-import { ArrowUpRight, Layers } from 'lucide-react';
 import SectionTitle from '../components/ui/SectionTitle';
 import ProjectModal from '../components/ui/ProjectModal';
 import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { projectsData, projectCategories } from '../data/projects';
 
-/**
- * ProjectCard — kartu proyek dengan ringkasan dan informasi teknologi
- */
+const CATEGORY_ICONS = {
+  All: 'fa-solid fa-layer-group',
+  Website: 'fa-solid fa-globe',
+  App: 'fa-solid fa-mobile-screen-button',
+};
+
 function ProjectCard({ project, lang, onClick }) {
   const title = project.title[lang] || project.title.en;
   const summary = project.summary[lang] || project.summary.en;
 
   return (
-    <div
-      className="group relative rounded-[26px] bg-surface/70 dark:bg-[#121319]/80 border border-border/80 hover:border-gold/50
-        shadow-[0_8px_30px_rgb(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-2xl hover:shadow-gold/10
-        transition-all duration-500 flex flex-col overflow-hidden cursor-pointer h-full"
+    <article
+      className="group relative flex flex-col overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 shadow-2xs hover:shadow-md"
+      style={{
+        background: 'var(--color-surface)',
+        border: '1px solid var(--color-border)',
+      }}
       onClick={onClick}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === 'Enter' && onClick()}
       aria-label={`${lang === 'id' ? 'Buka detail proyek' : 'Open project details'}: ${title}`}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'var(--color-gold)';
+        e.currentTarget.style.transform = 'translateY(-3px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--color-border)';
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}
     >
-      {/* Mockup Top Browser Bar */}
-      <div className="px-4 py-2.5 bg-surface/90 dark:bg-[#161720] border-b border-border/70 flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-        </div>
-        <div className="text-[11px] font-mono text-muted/70 tracking-wider truncate max-w-[170px]">
-          gungde.dev/work/{project.slug}
-        </div>
-        <div className="w-3" />
-      </div>
-
-      {/* Lightweight preview: video hanya dimuat saat kartu terlihat, tanpa autoplay. */}
-      <div className="relative aspect-[16/8] overflow-hidden bg-gradient-to-br from-gold/[0.08] via-transparent to-transparent border-b border-border/60">
+      {/* Thumbnail */}
+      <div
+        className="relative aspect-[16/9] overflow-hidden"
+        style={{ background: 'var(--color-border)' }}
+      >
         {project.video ? (
           <video
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
             src={project.video}
-            muted
-            playsInline
-            preload="none"
+            muted playsInline preload="none"
             poster={project.thumbnail || undefined}
           />
         ) : project.thumbnail ? (
           <img
             src={project.thumbnail}
-            alt={`${project.name} project preview`}
-            className="w-full h-full object-cover"
-            loading="lazy"
-            decoding="async"
+            alt={`${title} preview`}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            loading="lazy" decoding="async"
           />
         ) : (
-          <div className="w-full h-full" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent pointer-events-none" />
-      </div>
-      <div className="px-4 sm:px-6 py-5 bg-gradient-to-br from-gold/[0.08] via-transparent to-transparent border-b border-border/60">
-        <div className="flex items-center justify-between gap-3">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[3px] text-xs font-sans font-medium bg-gold/10 border border-gold/30 text-gold">
-            <Layers size={13} />
-            {project.category}
-          </span>
-          <span className="font-sans text-sm text-muted">{project.year}</span>
-        </div>
-      </div>
-
-      {/* Konten & Informasi Proyek */}
-      <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
-        <div>
-          <div className="flex items-start justify-between gap-3 mb-2.5">
-            <h3 className="font-heading text-lg sm:text-xl lg:text-2xl font-normal text-text dark:text-white group-hover:text-gold transition-colors duration-300 leading-snug">
-              {title}
-            </h3>
-            <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/25 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-stone-950 transition-all duration-300 shrink-0">
-              <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </div>
+          <div
+            className="w-full h-full flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, var(--color-border) 0%, var(--color-surface) 100%)' }}
+          >
+            <span
+              className="text-4xl"
+              style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, color: 'var(--color-gold)' }}
+            >
+              {title.charAt(0)}
+            </span>
           </div>
+        )}
 
-          <p className="text-muted dark:text-stone-300 text-sm leading-relaxed line-clamp-3 mb-0">
-            {summary}
-          </p>
+        {/* Category badge */}
+        <div className="absolute top-3 left-3">
+          <span
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold tracking-wide shadow-sm"
+            style={{
+              background: 'rgba(14,12,9,0.78)',
+              color: '#F0D277',
+              border: '1px solid rgba(216,170,66,0.35)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
+            <i className="fa-solid fa-tag text-[9px]" aria-hidden="true" />
+            {project.displayCategory || project.category}
+          </span>
+        </div>
+
+        {/* Year badge */}
+        <div className="absolute top-3 right-3">
+          <span
+            className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full shadow-sm"
+            style={{
+              background: 'rgba(14,12,9,0.7)',
+              color: '#ffffff',
+              border: '1px solid rgba(255,255,255,0.2)',
+              backdropFilter: 'blur(6px)',
+            }}
+          >
+            {project.year}
+          </span>
         </div>
       </div>
-    </div>
+
+      {/* Content */}
+      <div className="flex-1 flex flex-col p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3 mb-2">
+          <h3
+            className="text-base sm:text-lg leading-snug font-semibold transition-colors duration-300"
+            style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
+          >
+            {title}
+          </h3>
+          <div
+            className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-110 shadow-2xs"
+            style={{
+              border: '1px solid var(--color-border)',
+              background: 'var(--color-bg)',
+              color: 'var(--color-text)',
+            }}
+          >
+            <i className="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true" />
+          </div>
+        </div>
+
+        <p className="text-xs sm:text-sm leading-relaxed flex-1" style={{ color: 'var(--color-muted)' }}>
+          {summary}
+        </p>
+      </div>
+    </article>
   );
 }
 
 export default function Projects() {
   const { lang } = useLang();
   const { ref, isInView } = useInView({ triggerOnce: true });
-
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // Filter proyek
   const filteredProjects = activeFilter === 'All'
     ? projectsData
     : projectsData.filter((p) => p.category === activeFilter);
 
   return (
-    <section id="projects" className="section-padding relative overflow-hidden" aria-label="Projects" ref={ref}>
+    <section
+      id="projects"
+      className="section-padding relative overflow-hidden"
+      aria-label="Projects"
+      ref={ref}
+      style={{ background: 'var(--color-bg)' }}
+    >
       <div className="container-main">
         <SectionTitle
           label={lang === 'id' ? 'PORTOFOLIO' : 'PORTFOLIO'}
           title={lang === 'id' ? 'Proyek yang pernah saya kerjakan.' : 'Selected projects.'}
           subtitle={lang === 'id'
             ? 'Beberapa website dan aplikasi web dari proyek yang pernah saya kerjakan.'
-            : 'A selection of websites and web applications from my work.'
-          }
+            : 'A selection of websites and web applications from my work.'}
         />
 
-        {/* Filter Kategori */}
-        <div className="flex flex-wrap justify-center sm:justify-start gap-2 mb-10">
-          {projectCategories.map((cat) => (
-            <button
-              key={cat}
-              type="button"
-              onClick={() => setActiveFilter(cat)}
-              className={`relative overflow-hidden px-4 py-2 rounded-[3px] text-xs font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${
-                activeFilter === cat
-                  ? 'gradient-gold text-stone-950 font-bold shadow-md shadow-gold/20 shine-sweep'
-                  : 'bg-surface/70 text-muted border border-border hover:border-gold/40 hover:text-gold-text'
-              }`}
-            >
-              {cat === 'All' ? (lang === 'id' ? 'Semua Proyek' : 'All Works') : cat}
-            </button>
-          ))}
+        {/* Filter tabs */}
+        <div className="flex flex-wrap gap-2.5 mb-10">
+          {projectCategories.map((cat) => {
+            const isActive = activeFilter === cat;
+            const iconClass = CATEGORY_ICONS[cat] || 'fa-solid fa-folder';
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveFilter(cat)}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-semibold tracking-wider transition-all duration-200 cursor-pointer shadow-2xs"
+                style={{
+                  background: isActive ? 'var(--color-gold)' : 'var(--color-surface)',
+                  color: isActive ? '#0A0907' : 'var(--color-text)',
+                  border: isActive ? '1.5px solid var(--color-gold)' : '1px solid var(--color-border)',
+                }}
+              >
+                <i className={`${iconClass} text-xs`} aria-hidden="true" />
+                <span>{cat === 'All' ? (lang === 'id' ? 'Semua' : 'All') : cat}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Grid Proyek */}
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* Grid */}
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 transition-all duration-700 ${
+          isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
           {filteredProjects.map((project, i) => (
             <div
               key={project.slug}
-              style={{ transitionDelay: `${i * 90}ms` }}
+              style={{ transitionDelay: `${i * 60}ms` }}
               className={`transition-all duration-500 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             >
               <ProjectCard
@@ -155,12 +204,20 @@ export default function Projects() {
             </div>
           ))}
         </div>
+
+        <p
+          className="mt-10 text-center text-xs font-mono font-medium tracking-wider flex items-center justify-center gap-2"
+          style={{ color: 'var(--color-muted)' }}
+        >
+          <i className="fa-solid fa-arrow-pointer text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
+          <span>{lang === 'id' ? 'Klik kartu mana saja untuk melihat detail proyek lengkap' : 'Click any card to explore full project details'}</span>
+        </p>
       </div>
 
       <AnimatePresence>
         {selectedProject && (
           <ProjectModal
-            key={selectedProject.slug || selectedProject.id || selectedProject.title?.en}
+            key={selectedProject.slug || selectedProject.id}
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
           />

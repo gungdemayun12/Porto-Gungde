@@ -1,11 +1,10 @@
 /**
  * MobileMenu — drawer navigasi mobile yang halus & elegan
- * Tween ease-out (bukan spring kaku) + stagger lembut.
+ * Dual-mode visibility terjaga 100%, Font Awesome icons, responsive.
  */
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { X, ArrowUpRight, MapPin } from 'lucide-react';
-import { FaWhatsapp, FaGithub, FaInstagram } from 'react-icons/fa6';
+import { X, ArrowUpRight } from 'lucide-react';
 import { useLang } from '../../hooks/useLang';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { CONTACT, whatsappLink } from '../../data/contact';
@@ -96,7 +95,7 @@ export default function MobileMenu({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop — direct child of AnimatePresence so exit can finish */}
+          {/* Backdrop */}
           <motion.div
             key="menu-backdrop"
             variants={prefersReduced ? undefined : backdropVariants}
@@ -105,8 +104,7 @@ export default function MobileMenu({
             exit="exit"
             transition={prefersReduced ? { duration: 0.01 } : undefined}
             onClick={onClose}
-            className="fixed inset-0 z-[100] bg-stone-950/25 dark:bg-black/55 backdrop-blur-[6px]"
-            style={{ WebkitBackdropFilter: 'blur(6px)' }}
+            className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
             aria-hidden="true"
           />
 
@@ -121,33 +119,32 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label="Mobile navigation"
             className="fixed top-0 right-0 bottom-0 z-[101] w-full sm:w-[360px] max-w-[88vw]
-              bg-bg/95 dark:bg-[#0A0B0F]/92 backdrop-blur-2xl
-              border-l border-border/80 dark:border-white/[0.07]
-              shadow-[-20px_0_50px_rgba(0,0,0,0.16)] dark:shadow-[-20px_0_50px_rgba(0,0,0,0.4)]
+              bg-bg/98 dark:bg-[#0E0C09]/98 backdrop-blur-2xl
+              border-l border-border
+              shadow-[-20px_0_50px_rgba(0,0,0,0.25)]
               flex flex-col will-change-transform"
-            style={{ WebkitBackdropFilter: 'blur(28px)' }}
           >
-            {/* Soft ambient glow — satu saja, tidak ramai */}
+            {/* Ambient glow */}
             <div
               className="pointer-events-none absolute -top-24 -right-20 w-72 h-72 rounded-full
-                bg-gold/[0.08] dark:bg-gold/[0.06] blur-3xl"
+                bg-gold/10 blur-3xl"
               aria-hidden="true"
             />
 
             {/* Header */}
             <div className="relative z-10 flex items-center justify-between px-6 sm:px-7 pt-6 pb-5
-              border-b border-border/80 dark:border-white/[0.06]">
+              border-b border-border">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold via-gold-light to-gold-dark p-px">
-                  <div className="w-full h-full rounded-full bg-bg dark:bg-[#0A0B0F] flex items-center justify-center">
+                  <div className="w-full h-full rounded-full bg-surface dark:bg-[#12100C] flex items-center justify-center">
                     <span className="font-heading font-bold text-xs gradient-gold-text">G</span>
                   </div>
                 </div>
                 <div>
-                  <span className="font-heading font-semibold text-[15px] text-text dark:text-white tracking-wide">
-                    GUNGDE<span className="text-gold">.</span>
+                  <span className="font-heading font-semibold text-[15px] text-text tracking-wide">
+                    GUNGDEV<span className="text-gold font-serif">.</span>
                   </span>
-                  <span className="block text-[10px] text-muted dark:text-white/45 tracking-wide -mt-0.5">
+                  <span className="block text-[10px] text-muted tracking-wide -mt-0.5 font-medium">
                     {t.hero.role}
                   </span>
                 </div>
@@ -157,27 +154,27 @@ export default function MobileMenu({
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="w-10 h-10 rounded-full border border-border bg-surface/70 dark:border-white/10 dark:bg-white/[0.03]
-                  flex items-center justify-center text-muted dark:text-white/60
-                  hover:text-gold-text hover:border-gold/35 hover:bg-gold/[0.08]
-                  transition-[color,border-color,background-color] duration-300 ease-out
-                  cursor-pointer active:scale-[0.96]"
+                className="w-9 h-9 rounded-full border border-border bg-surface
+                  flex items-center justify-center text-text
+                  hover:text-gold-text hover:border-gold hover:bg-gold/10
+                  transition-all duration-300 ease-out
+                  cursor-pointer active:scale-95 shadow-xs"
               >
-                <X size={17} strokeWidth={1.75} />
+                <X size={16} strokeWidth={2} />
               </button>
             </div>
 
             {/* Nav links */}
             <motion.nav
-              className="relative z-10 flex-1 min-h-0 flex flex-col justify-center px-5 sm:px-6 py-6 gap-0.5 overflow-y-auto"
+              className="relative z-10 flex-1 min-h-0 flex flex-col justify-center px-5 sm:px-6 py-6 gap-1 overflow-y-auto"
               variants={prefersReduced ? undefined : listVariants}
               initial="hidden"
               animate="visible"
               aria-label="Sections"
             >
-              <div className="px-3.5 mb-5">
-                <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-gold/60">
-                  {isId ? 'Navigasi' : 'Navigate'}
+              <div className="px-3.5 mb-4">
+                <span className="text-[10px] font-mono uppercase tracking-[0.24em] text-gold-text font-semibold">
+                  {isId ? 'Navigasi' : 'Navigation'}
                 </span>
               </div>
 
@@ -193,37 +190,37 @@ export default function MobileMenu({
                     onClick={() => handleNavClick(id)}
                     className={`group flex items-center justify-between w-full py-3.5 px-3.5 rounded-xl
                       text-left cursor-pointer
-                      transition-[background-color,border-color,color] duration-300 ease-out
+                      transition-all duration-300 ease-out
                       ${
                         isActive
-                          ? 'bg-gold/[0.09] border border-gold/20 text-text dark:text-white'
-                          : 'border border-transparent text-muted dark:text-white/50 hover:text-text dark:hover:text-white hover:bg-gold/[0.06] dark:hover:bg-white/[0.035]'
+                          ? 'bg-gold/15 border border-gold/40 text-text font-semibold'
+                          : 'border border-transparent text-muted hover:text-text hover:bg-gold/10'
                       }`}
                   >
                     <div className="flex items-baseline gap-3.5">
                       <span
-                        className={`font-mono text-[11px] tracking-wider transition-colors duration-300 ${
-                          isActive ? 'text-gold-text dark:text-gold' : 'text-muted/70 dark:text-white/20 group-hover:text-gold-text dark:group-hover:text-gold/55'
+                        className={`font-mono text-[11px] font-semibold tracking-wider transition-colors duration-300 ${
+                          isActive ? 'text-gold-text' : 'text-muted group-hover:text-gold-text'
                         }`}
                       >
                         {number}
                       </span>
                       <span
-                        className={`font-heading text-[1.3rem] sm:text-[1.45rem] tracking-wide
+                        className={`font-heading text-[1.25rem] sm:text-[1.35rem] tracking-wide
                           transition-colors duration-300 ${
-                          isActive ? 'gradient-gold-text font-semibold' : 'font-medium'
+                          isActive ? 'text-gold-text font-bold' : 'font-medium'
                         }`}
                       >
                         {navLabels[id]}
                       </span>
                     </div>
                     <ArrowUpRight
-                      size={15}
-                      strokeWidth={1.75}
-                      className={`text-gold transition-[opacity,transform] duration-300 ease-out ${
+                      size={16}
+                      strokeWidth={2}
+                      className={`text-gold transition-all duration-300 ease-out ${
                         isActive
-                          ? 'opacity-70 translate-x-0'
-                          : 'opacity-0 -translate-x-1 group-hover:opacity-50 group-hover:translate-x-0'
+                          ? 'opacity-100 translate-x-0'
+                          : 'opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0'
                       }`}
                     />
                   </motion.button>
@@ -231,21 +228,23 @@ export default function MobileMenu({
               })}
             </motion.nav>
 
-            {/* Footer — minimal, satu CTA utama */}
+            {/* Footer */}
             <motion.div
-              className="relative z-10 px-6 sm:px-7 pb-7 pt-5 border-t border-border/80 dark:border-white/[0.06] space-y-4"
+              className="relative z-10 px-6 sm:px-7 pb-7 pt-5 border-t border-border space-y-4"
               variants={prefersReduced ? undefined : footerVariants}
               initial="hidden"
               animate="visible"
             >
               <Button
+                variant="primary"
                 onClick={() => handleNavClick('contact')}
-                className="shine-sweep w-full py-3 text-xs"
+                className="w-full py-3 text-xs flex items-center justify-center gap-2"
               >
-                {t.nav.hireMe}
+                <i className="fa-solid fa-paper-plane text-xs" aria-hidden="true" />
+                <span>{t.nav.hireMe}</span>
               </Button>
 
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center justify-between gap-3 pt-1">
                 <a
                   href={whatsappLink(
                     isId
@@ -254,36 +253,36 @@ export default function MobileMenu({
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs font-mono text-muted
-                    hover:text-emerald-600 dark:text-white/50 dark:hover:text-emerald-400/90 transition-colors duration-300"
+                  className="flex items-center gap-2 text-xs font-mono font-medium text-muted
+                    hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors duration-300"
                 >
-                  <FaWhatsapp size={13} />
+                  <i className="fa-brands fa-whatsapp text-sm text-emerald-500" aria-hidden="true" />
                   <span>{CONTACT.whatsappDisplay}</span>
                 </a>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   {[
-                    { href: CONTACT.github, label: 'GitHub', Icon: FaGithub },
-                    { href: CONTACT.instagram, label: 'Instagram', Icon: FaInstagram },
-                  ].map(({ href, label, Icon }) => (
+                    { href: CONTACT.github, label: 'GitHub', icon: 'fa-brands fa-github' },
+                    { href: CONTACT.instagram, label: 'Instagram', icon: 'fa-brands fa-instagram' },
+                  ].map(({ href, label, icon }) => (
                     <a
                       key={label}
                       href={href}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-8 h-8 rounded-full border border-border dark:border-white/10
-                        flex items-center justify-center text-muted dark:text-white/40
-                        hover:text-gold-text dark:hover:text-gold hover:border-gold/30 transition-colors duration-300"
+                      className="w-8 h-8 rounded-full border border-border bg-surface
+                        flex items-center justify-center text-text
+                        hover:text-gold-text hover:border-gold hover:bg-gold/10 transition-all duration-300"
                     >
-                      <Icon size={12} />
+                      <i className={`${icon} text-xs`} aria-hidden="true" />
                     </a>
                   ))}
                 </div>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted/70 dark:text-white/25">
-                <MapPin size={10} className="text-gold/50" />
+              <div className="flex items-center gap-1.5 text-[11px] font-mono text-muted">
+                <i className="fa-solid fa-location-dot text-xs text-gold" aria-hidden="true" />
                 <span>{CONTACT.locationShort}</span>
               </div>
             </motion.div>

@@ -1,10 +1,11 @@
 /**
  * ProjectModal — detail proyek dengan open/close yang halus
+ * Dual-mode visibility terjaga, Font Awesome icons, dual button action bar.
  */
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { X, ChevronLeft, ChevronRight, ExternalLink, Calendar } from 'lucide-react';
 import { useLang } from '../../hooks/useLang';
+import Button from './Button';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -36,7 +37,7 @@ export default function ProjectModal({ project, onClose }) {
   const title = project.title[lang] || project.title.en;
   const summary = project.summary[lang] || project.summary.en;
   const detail = project.detail?.[lang] || project.detail?.en || summary;
-  const gallery = project.gallery?.length ? project.gallery : [project.thumbnail];
+  const gallery = project.gallery?.length ? project.gallery : [project.thumbnail].filter(Boolean);
 
   const handlePrevImage = () => {
     setActiveImageIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
@@ -57,33 +58,47 @@ export default function ProjectModal({ project, onClose }) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.28, ease: EASE }}
     >
+      {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3, ease: EASE }}
         onClick={onClose}
-        className="absolute inset-0 bg-stone-950/35 dark:bg-black/70 backdrop-blur-md"
+        className="absolute inset-0 bg-black/65 backdrop-blur-md"
         aria-hidden="true"
       />
 
+      {/* Modal Card */}
       <motion.div
         initial={{ opacity: 0, y: 28, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 16, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 340, damping: 34, mass: 0.85 }}
-        className="relative z-10 w-full max-w-4xl max-h-[90vh] bg-surface/98 dark:bg-[#0C0E14]/96 backdrop-blur-xl
-          border border-border dark:border-white/[0.08] rounded-[22px]
-          shadow-[0_24px_70px_rgba(0,0,0,0.2)] dark:shadow-[0_24px_70px_rgba(0,0,0,0.55)]
+        className="relative z-10 w-full max-w-4xl max-h-[90vh] rounded-[22px]
+          border border-border shadow-[0_24px_70px_rgba(0,0,0,0.35)]
           flex flex-col overflow-hidden will-change-transform"
+        style={{ background: 'var(--color-surface)' }}
       >
-        <div className="px-6 py-4 border-b border-border dark:border-white/[0.06] flex items-center justify-between bg-bg/80 dark:bg-[#08090D]/80 shrink-0">
+        {/* Header */}
+        <div
+          className="px-6 py-4 border-b border-border flex items-center justify-between shrink-0"
+          style={{ background: 'var(--color-bg)' }}
+        >
           <div className="flex items-center gap-3">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-medium bg-gold/12 text-gold border border-gold/25">
-              {project.category}
+            <span
+              className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
+              style={{
+                background: 'rgba(179,130,38,0.12)',
+                color: 'var(--color-gold-text)',
+                border: '1px solid rgba(179,130,38,0.3)',
+              }}
+            >
+              <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
+              {project.displayCategory || project.category}
             </span>
-            <span className="text-xs font-mono text-muted flex items-center gap-1">
-              <Calendar size={13} className="text-gold/80" />
+            <span className="text-xs font-mono font-medium flex items-center gap-1.5" style={{ color: 'var(--color-muted)' }}>
+              <i className="fa-regular fa-calendar text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
               {project.year}
             </span>
           </div>
@@ -92,26 +107,44 @@ export default function ProjectModal({ project, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 rounded-full border border-border bg-surface
-              flex items-center justify-center text-muted dark:border-white/10 dark:bg-white/[0.04] dark:text-white/70
-              hover:text-gold-text dark:hover:text-gold hover:border-gold/40 transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full border border-border flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs"
+            style={{
+              background: 'var(--color-surface)',
+              color: 'var(--color-text)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--color-gold)';
+              e.currentTarget.style.color = 'var(--color-gold)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--color-border)';
+              e.currentTarget.style.color = 'var(--color-text)';
+            }}
           >
-            <X size={17} strokeWidth={1.75} />
+            <i className="fa-solid fa-xmark text-sm" aria-hidden="true" />
           </button>
         </div>
 
+        {/* Scrollable Body */}
         <div className="overflow-y-auto p-6 sm:p-8 space-y-7">
           <div>
-            <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-semibold text-text dark:text-white tracking-wide leading-snug mb-2">
+            <h2
+              className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-wide leading-snug mb-2"
+              style={{ color: 'var(--color-text)' }}
+            >
               {title}
             </h2>
-            <p className="text-base text-muted leading-relaxed max-w-2xl">
+            <p className="text-sm sm:text-base leading-relaxed max-w-2xl" style={{ color: 'var(--color-muted)' }}>
               {summary}
             </p>
           </div>
 
+          {/* Media gallery */}
           <div className="space-y-3">
-            <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden bg-surface dark:bg-black/50 border border-border dark:border-white/[0.06] group">
+            <div
+              className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border group shadow-sm"
+              style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
+            >
               {project.video ? (
                 <video
                   src={project.video}
@@ -122,13 +155,17 @@ export default function ProjectModal({ project, onClose }) {
                   preload="metadata"
                   poster={project.thumbnail || undefined}
                 />
-              ) : (
+              ) : gallery.length > 0 ? (
                 <img
                   src={gallery[activeImageIndex]}
                   alt={`${title} Preview ${activeImageIndex + 1}`}
                   loading="lazy"
                   className="w-full h-full object-cover transition-opacity duration-500"
                 />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gold/40">
+                  {title.charAt(0)}
+                </div>
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
 
@@ -139,41 +176,45 @@ export default function ProjectModal({ project, onClose }) {
                     onClick={handlePrevImage}
                     aria-label={isId ? 'Gambar sebelumnya' : 'Previous image'}
                     className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
-                      bg-black/55 border border-white/15 text-white flex items-center justify-center
-                      hover:bg-gold hover:text-stone-950 hover:border-gold transition-colors duration-300 cursor-pointer"
+                      bg-black/60 border border-white/20 text-white flex items-center justify-center
+                      hover:bg-gold hover:text-[#0E0C09] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
-                    <ChevronLeft size={20} />
+                    <i className="fa-solid fa-chevron-left text-sm" aria-hidden="true" />
                   </button>
                   <button
                     type="button"
                     onClick={handleNextImage}
                     aria-label={isId ? 'Gambar berikutnya' : 'Next image'}
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
-                      bg-black/55 border border-white/15 text-white flex items-center justify-center
-                      hover:bg-gold hover:text-stone-950 hover:border-gold transition-colors duration-300 cursor-pointer"
+                      bg-black/60 border border-white/20 text-white flex items-center justify-center
+                      hover:bg-gold hover:text-[#0E0C09] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
-                    <ChevronRight size={20} />
+                    <i className="fa-solid fa-chevron-right text-sm" aria-hidden="true" />
                   </button>
                 </>
               )}
 
-              <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/10 text-[11px] font-mono text-gold">
-                {String(activeImageIndex + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}
-              </div>
+              {gallery.length > 0 && (
+                <div className="absolute bottom-3 right-3 px-3 py-1 rounded-full bg-black/75 backdrop-blur-md border border-white/15 text-[11px] font-mono text-gold font-semibold">
+                  {String(activeImageIndex + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}
+                </div>
+              )}
             </div>
 
+            {/* Thumbnail carousel strip */}
             {gallery.length > 1 && (
-              <div className="flex items-center gap-3 overflow-x-auto pb-1 pt-1">
+              <div className="flex items-center gap-2.5 overflow-x-auto pb-1 pt-1">
                 {gallery.map((imgUrl, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-20 sm:w-24 aspect-[16/10] rounded-lg overflow-hidden border transition-all shrink-0 cursor-pointer ${
-                      activeImageIndex === idx
-                        ? 'border-gold/70 opacity-100'
-                        : 'border-white/10 opacity-50 hover:opacity-80'
-                    }`}
+                    className="relative w-20 sm:w-24 aspect-[16/10] rounded-lg overflow-hidden border transition-all shrink-0 cursor-pointer"
+                    style={{
+                      borderColor: activeImageIndex === idx ? 'var(--color-gold)' : 'var(--color-border)',
+                      opacity: activeImageIndex === idx ? 1 : 0.6,
+                      transform: activeImageIndex === idx ? 'scale(1.02)' : 'scale(1)',
+                    }}
                   >
                     <img src={imgUrl} alt="" className="w-full h-full object-cover" />
                   </button>
@@ -182,38 +223,51 @@ export default function ProjectModal({ project, onClose }) {
             )}
           </div>
 
-          <div className="rounded-2xl border border-border bg-bg/70 dark:border-white/[0.06] dark:bg-white/[0.02] p-5 sm:p-6">
-            <div className="mb-3 flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-gold/80">
+          {/* Project description box */}
+          <div
+            className="rounded-2xl border p-5 sm:p-6 shadow-2xs"
+            style={{
+              borderColor: 'var(--color-border)',
+              background: 'var(--color-bg)',
+            }}
+          >
+            <div className="mb-3 flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] font-semibold" style={{ color: 'var(--color-gold-text)' }}>
+              <i className="fa-solid fa-circle-info text-xs" aria-hidden="true" />
               <span>{isId ? 'Detail Proyek' : 'Project Detail'}</span>
             </div>
-            <p className="text-sm sm:text-base leading-relaxed text-text/80 dark:text-stone-300 whitespace-pre-line">
+            <p className="text-sm sm:text-base leading-relaxed whitespace-pre-line" style={{ color: 'var(--color-text)' }}>
               {detail}
             </p>
           </div>
+
         </div>
 
-        <div className="px-6 py-4 border-t border-border dark:border-white/[0.06] bg-bg/80 dark:bg-[#08090D]/80 flex items-center justify-between shrink-0">
-          <button
-            type="button"
+        {/* Action bar / Footer — matched dual button pair */}
+        <div
+          className="px-6 py-4 border-t border-border flex items-center justify-between gap-3 shrink-0"
+          style={{ background: 'var(--color-bg)' }}
+        >
+          <Button
+            variant="outline"
             onClick={onClose}
-            className="px-5 py-2 rounded-full border border-border text-muted font-mono text-xs
-              dark:border-white/10 dark:text-stone-400 hover:border-gold/40 hover:text-gold-text dark:hover:text-gold transition-colors cursor-pointer"
           >
-            {isId ? 'Tutup' : 'Close'}
-          </button>
+            <i className="fa-solid fa-xmark text-xs" aria-hidden="true" />
+            <span>{isId ? 'Tutup' : 'Close'}</span>
+          </Button>
 
           {project.liveUrl && project.liveUrl !== '#' ? (
-            <a
+            <Button
+              variant="primary"
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary text-xs py-2 px-5 flex items-center gap-2"
             >
-              <span>{isId ? 'Lihat Live' : 'Live Demo'}</span>
-              <ExternalLink size={14} className="text-current" />
-            </a>
+              <span>{isId ? 'Kunjungi Situs' : 'Visit Live Site'}</span>
+              <i className="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true" />
+            </Button>
           ) : (
-            <span className="text-xs font-mono text-muted">
+            <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+              <i className="fa-solid fa-lock text-xs mr-1.5" aria-hidden="true" />
               {isId ? 'Sistem privat' : 'Private system'}
             </span>
           )}
