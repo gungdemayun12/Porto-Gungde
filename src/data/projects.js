@@ -114,6 +114,7 @@ export const projectsData = [
       '/images/project/maikebalitour1%20(3).png',
       '/images/project/maikebalitour1%20(4).png',
       '/images/project/maikebalitour1%20(1).png',
+      '/images/project/maikebalitour7.png',
     ],
     stack: ['WordPress', 'Booking System', 'Tour Packages', 'Responsive UI', 'SEO'],
     summaryEn: 'A booking-focused website for Maikebali Tour, where travellers can explore tour options, review package information, and ask about availability or booking.',
