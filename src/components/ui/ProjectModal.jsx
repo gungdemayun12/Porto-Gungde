@@ -97,10 +97,6 @@ export default function ProjectModal({ project, onClose }) {
               <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
               {project.displayCategory || project.category}
             </span>
-            <span className="text-xs font-mono font-medium flex items-center gap-1.5" style={{ color: 'var(--color-muted)' }}>
-              <i className="fa-regular fa-calendar text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
-              {project.year}
-            </span>
           </div>
 
           <button

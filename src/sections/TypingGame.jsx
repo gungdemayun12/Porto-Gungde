@@ -1,6 +1,6 @@
 /**
- * Arcade — 2 mini-game cards, popup modals, fully dual-mode safe.
- * Games: Typing Speed Test + Memory Match
+ * Arcade — three mini-game cards, popup modals, fully dual-mode safe.
+ * Games: Typing Speed Test, Memory Match, and Block Escape.
  * Font Awesome icons, high contrast text in light and dark mode.
  */
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -30,6 +30,32 @@ const MEMORY_LEVELS = [
   { id: 'hard', pairs: 8, columns: 4 },
 ];
 const EMOJIS = ['⚛️', '🎨', '🚀', '💻', '🌐', '⚡', '🎵', '🔭'];
+const BLOCK_LEVELS = {
+  easy: [
+    { id: 'target', x: 0, y: 2, length: 2, direction: 'h' },
+    { id: 'a', x: 2, y: 1, length: 2, direction: 'v' },
+    { id: 'b', x: 3, y: 2, length: 2, direction: 'v' },
+    { id: 'c', x: 5, y: 2, length: 2, direction: 'v' },
+  ],
+  normal: [
+    { id: 'target', x: 0, y: 2, length: 2, direction: 'h' },
+    { id: 'a', x: 2, y: 1, length: 2, direction: 'v' },
+    { id: 'b', x: 3, y: 2, length: 2, direction: 'v' },
+    { id: 'c', x: 5, y: 2, length: 2, direction: 'v' },
+    { id: 'd', x: 2, y: 0, length: 2, direction: 'h' },
+  ],
+  hard: [
+    { id: 'target', x: 0, y: 2, length: 2, direction: 'h' },
+    { id: 'a', x: 2, y: 1, length: 2, direction: 'v' },
+    { id: 'b', x: 3, y: 2, length: 2, direction: 'v' },
+    { id: 'c', x: 4, y: 2, length: 2, direction: 'v' },
+    { id: 'd', x: 2, y: 0, length: 3, direction: 'h' },
+    { id: 'e', x: 5, y: 0, length: 2, direction: 'v' },
+    { id: 'f', x: 0, y: 0, length: 2, direction: 'h' },
+    { id: 'g', x: 0, y: 4, length: 2, direction: 'v' },
+    { id: 'h', x: 2, y: 5, length: 3, direction: 'h' },
+  ],
+};
 
 function currentTime() {
   return Date.now();
@@ -503,6 +529,282 @@ function MemoryMatch({ lang }) {
   );
 }
 
+/* ═══ BLOCK ESCAPE ═══ */
+function BlockEscape({ lang }) {
+  const isId = lang === 'id';
+  const [level, setLevel] = useState('easy');
+  const [pieces, setPieces] = useState(() => BLOCK_LEVELS.easy.map((piece) => ({ ...piece })));
+  const [selectedId, setSelectedId] = useState('target');
+  const [history, setHistory] = useState([]);
+  const [moves, setMoves] = useState(0);
+  const [startedAt, setStartedAt] = useState(null);
+  const [elapsed, setElapsed] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
+  const bestKey = `block-escape-best-${level}`;
+  const [best, setBest] = useState(() => Number(localStorage.getItem(bestKey)) || 0);
+  const selectedPiece = pieces.find((piece) => piece.id === selectedId) || pieces[0];
+  const labels = {
+    easy: isId ? 'Mudah' : 'Easy',
+    normal: isId ? 'Sedang' : 'Normal',
+    hard: isId ? 'Sulit' : 'Hard',
+  };
+
+  useEffect(() => {
+    if (!startedAt || isFinished) return undefined;
+    const timerId = window.setInterval(() => setElapsed(Date.now() - startedAt), 100);
+    return () => window.clearInterval(timerId);
+  }, [startedAt, isFinished]);
+
+  const resetGame = (nextLevel = level) => {
+    setPieces(BLOCK_LEVELS[nextLevel].map((piece) => ({ ...piece })));
+    setSelectedId('target');
+    setHistory([]);
+    setMoves(0);
+    setStartedAt(null);
+    setElapsed(0);
+    setIsFinished(false);
+  };
+
+  const chooseLevel = (nextLevel) => {
+    setLevel(nextLevel);
+    setBest(Number(localStorage.getItem(`block-escape-best-${nextLevel}`)) || 0);
+    resetGame(nextLevel);
+  };
+
+  const canMove = (pieceId, direction) => {
+    const piece = pieces.find((item) => item.id === pieceId);
+    const allowedDirections = piece?.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
+    if (!piece || !allowedDirections.includes(direction)) return false;
+
+    if (pieceId === 'target' && direction === 'right' && piece.x + piece.length === 6) {
+      return 'exit';
+    }
+
+    const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+    const nextX = piece.x + (piece.direction === 'h' ? delta : 0);
+    const nextY = piece.y + (piece.direction === 'v' ? delta : 0);
+    if (
+      nextX < 0 ||
+      nextY < 0 ||
+      nextX + (piece.direction === 'h' ? piece.length : 1) > 6 ||
+      nextY + (piece.direction === 'v' ? piece.length : 1) > 6
+    ) {
+      return false;
+    }
+
+    const nextCell = piece.direction === 'h'
+      ? { x: direction === 'right' ? nextX + piece.length - 1 : nextX, y: piece.y }
+      : { x: piece.x, y: direction === 'down' ? nextY + piece.length - 1 : nextY };
+
+    return !pieces.some((other) => {
+      if (other.id === pieceId) return false;
+      return Array.from({ length: other.length }, (_, index) => ({
+        x: other.x + (other.direction === 'h' ? index : 0),
+        y: other.y + (other.direction === 'v' ? index : 0),
+      })).some((cell) => cell.x === nextCell.x && cell.y === nextCell.y);
+    });
+  };
+
+  const moveSelected = (direction) => {
+    if (isFinished || !selectedPiece) return;
+    const moveResult = canMove(selectedPiece.id, direction);
+    if (!moveResult) return;
+
+    const nextMoves = moves + 1;
+    if (moveResult === 'exit') {
+      setHistory((previous) => [...previous, { pieces, moves }]);
+      setMoves(nextMoves);
+      setElapsed(startedAt ? Date.now() - startedAt : 0);
+      setIsFinished(true);
+      if (!best || nextMoves < best) {
+        setBest(nextMoves);
+        localStorage.setItem(bestKey, String(nextMoves));
+      }
+      return;
+    }
+
+    const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+    const nextPieces = pieces.map((piece) => piece.id !== selectedPiece.id
+      ? piece
+      : {
+          ...piece,
+          x: piece.x + (piece.direction === 'h' ? delta : 0),
+          y: piece.y + (piece.direction === 'v' ? delta : 0),
+        });
+    setHistory((previous) => [...previous, { pieces, moves }]);
+    setPieces(nextPieces);
+    setMoves(nextMoves);
+    if (!startedAt) setStartedAt(Date.now());
+  };
+
+  const undoMove = () => {
+    const previous = history[history.length - 1];
+    if (!previous) return;
+    setPieces(previous.pieces);
+    setMoves(previous.moves);
+    setHistory((items) => items.slice(0, -1));
+    setIsFinished(false);
+  };
+
+  const onBoardKeyDown = (event) => {
+    const direction = {
+      ArrowUp: 'up',
+      ArrowDown: 'down',
+      ArrowLeft: 'left',
+      ArrowRight: 'right',
+    }[event.key];
+    if (!direction) return;
+    event.preventDefault();
+    moveSelected(direction);
+  };
+
+  const directionButtons = [
+    { direction: 'up', icon: 'fa-arrow-up', label: isId ? 'Atas' : 'Up' },
+    { direction: 'down', icon: 'fa-arrow-down', label: isId ? 'Bawah' : 'Down' },
+    { direction: 'left', icon: 'fa-arrow-left', label: isId ? 'Kiri' : 'Left' },
+    { direction: 'right', icon: 'fa-arrow-right', label: isId ? 'Kanan / keluar' : 'Right / exit' },
+  ];
+
+  return (
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
+            {isId ? 'Pilih level puzzle' : 'Choose puzzle level'}
+          </p>
+          <div className="mt-2 flex flex-wrap gap-1">
+            {Object.keys(BLOCK_LEVELS).map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => chooseLevel(item)}
+                className={`typing-setting ${level === item ? 'typing-setting--active' : ''}`}
+                aria-pressed={level === item}
+              >
+                {labels[item]}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <button type="button" onClick={undoMove} disabled={!history.length} className="typing-restart disabled:cursor-not-allowed disabled:opacity-40">
+            <i className="fa-solid fa-rotate-left" aria-hidden="true" />
+            {isId ? 'URUNGKAN' : 'UNDO'}
+          </button>
+          <button type="button" onClick={() => resetGame()} className="typing-restart">
+            <i className="fa-solid fa-arrow-rotate-right" aria-hidden="true" />
+            {isId ? 'ULANGI' : 'RESET'}
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          { label: isId ? 'Langkah' : 'Moves', value: String(moves) },
+          { label: isId ? 'Waktu' : 'Time', value: `${(elapsed / 1000).toFixed(1)}s` },
+          { label: isId ? 'Terbaik' : 'Best', value: best ? `${best}` : '—' },
+        ].map((stat) => (
+          <div key={stat.label} className="rounded-xl border px-3 py-2 text-center" style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}>
+            <div className="font-mono text-[10px] uppercase tracking-wider text-muted">{stat.label}</div>
+            <div className="mt-1 font-mono text-lg font-bold tabular-nums text-text">{stat.value}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-center sm:gap-8">
+        <div className="relative w-full max-w-[340px]">
+          <div
+            role="group"
+            aria-label={isId ? 'Papan puzzle blok. Pilih blok lalu gunakan tombol arah.' : 'Block puzzle board. Select a block and use the direction buttons.'}
+            tabIndex={0}
+            onKeyDown={onBoardKeyDown}
+            className="relative aspect-square overflow-hidden rounded-2xl border-2 border-border outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            style={{
+              backgroundColor: 'var(--color-bg)',
+              backgroundImage: 'linear-gradient(to right, var(--color-border) 1px, transparent 1px), linear-gradient(to bottom, var(--color-border) 1px, transparent 1px)',
+              backgroundSize: '16.6667% 16.6667%',
+            }}
+          >
+            {pieces.map((piece, index) => {
+              const isSelected = selectedId === piece.id;
+              const isTarget = piece.id === 'target';
+              const colors = ['#64748b', '#0f766e', '#7c3aed', '#2563eb', '#c2410c', '#475569', '#be185d'];
+              const cellPercent = 100 / 6;
+              return (
+                <button
+                  key={piece.id}
+                  type="button"
+                  aria-pressed={isSelected}
+                  aria-label={isTarget
+                    ? (isId ? 'Blok kunci' : 'Key block')
+                    : `${isId ? 'Blok' : 'Block'} ${piece.id.toUpperCase()}`}
+                  onClick={() => setSelectedId(piece.id)}
+                  className="absolute flex items-center justify-center rounded-xl border-2 text-white shadow-md transition-all duration-150 focus-visible:z-10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  style={{
+                    left: `calc(${piece.x * cellPercent}% + 3px)`,
+                    top: `calc(${piece.y * cellPercent}% + 3px)`,
+                    width: `calc(${(piece.direction === 'h' ? piece.length : 1) * cellPercent}% - 6px)`,
+                    height: `calc(${(piece.direction === 'v' ? piece.length : 1) * cellPercent}% - 6px)`,
+                    background: isTarget
+                      ? 'linear-gradient(135deg, #f3cb68, #a8731c)'
+                      : `linear-gradient(135deg, ${colors[index % colors.length]}, ${colors[(index + 2) % colors.length]})`,
+                    borderColor: isSelected ? '#fff1b8' : isTarget ? '#ffd976' : 'rgba(255,255,255,0.3)',
+                    boxShadow: isSelected ? '0 0 0 3px rgba(216,170,66,0.42), 0 8px 18px rgba(0,0,0,0.2)' : undefined,
+                    zIndex: isSelected ? 2 : 1,
+                  }}
+                >
+                  {isTarget ? <i className="fa-solid fa-key text-sm sm:text-base" aria-hidden="true" /> : <span className="h-1 w-1/2 rounded-full bg-white/40" />}
+                </button>
+              );
+            })}
+            <div className="pointer-events-none absolute right-1 top-[35%] text-gold" aria-hidden="true">
+              <i className="fa-solid fa-arrow-right-long text-xl drop-shadow" />
+            </div>
+          </div>
+          <p className="mt-2 text-center text-xs text-muted">
+            {isId ? 'Geser blok kunci ke pintu keluar di kanan.' : 'Slide the key block to the exit on the right.'}
+          </p>
+        </div>
+
+        <div className="w-full max-w-[340px] space-y-3 sm:max-w-[220px]">
+          <div className="rounded-xl border p-3" style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}>
+            <p className="mb-3 text-center font-mono text-[10px] uppercase tracking-wider text-muted">
+              {isId ? 'Gerakkan blok terpilih' : 'Move selected block'}
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              {directionButtons.map(({ direction, icon, label }) => (
+                <button
+                  key={direction}
+                  type="button"
+                  onClick={() => moveSelected(direction)}
+                  disabled={!canMove(selectedPiece?.id, direction) || isFinished}
+                  aria-label={label}
+                  className="flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-2 text-xs font-semibold text-text transition-all hover:border-gold hover:bg-gold/10 hover:text-gold-text active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border disabled:hover:bg-surface"
+                >
+                  <i className={`fa-solid ${icon}`} aria-hidden="true" />
+                  <span>{label}</span>
+                </button>
+              ))}
+            </div>
+            <p className="mt-3 text-center text-[10px] text-muted">
+              {isId ? 'Tombol panah keyboard juga dapat digunakan.' : 'Keyboard arrow keys also work.'}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {isFinished && (
+        <div className="rounded-xl border p-4 text-center shadow-sm" style={{ borderColor: 'var(--color-gold)', background: 'var(--color-bg)' }}>
+          <i className="fa-solid fa-trophy mb-2 block text-2xl text-gold" aria-hidden="true" />
+          <p className="text-sm font-semibold text-text">
+            {isId ? `Berhasil! Kunci keluar dalam ${moves} langkah.` : `Solved! The key escaped in ${moves} moves.`}
+          </p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ═══ GAME MODAL ═══ */
 function GameModal({ game, onClose, lang }) {
   const isId = lang === 'id';
@@ -522,11 +824,13 @@ function GameModal({ game, onClose, lang }) {
   const titles = {
     typing: { en: 'Typing Speed Test', id: 'Tes Kecepatan Mengetik' },
     memory: { en: 'Memory Match', id: 'Memory Match' },
+    blocks: { en: 'Block Escape', id: 'Teka-teki Geser Blok' },
   };
 
   const icons = {
     typing: 'fa-solid fa-keyboard',
     memory: 'fa-solid fa-brain',
+    blocks: 'fa-solid fa-cubes-stacked',
   };
 
   return (
@@ -567,7 +871,7 @@ function GameModal({ game, onClose, lang }) {
             </button>
             <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
               {isId ? 'ARCADE' : 'ARCADE'} <span className="mx-1 opacity-50">/</span>
-              {game === 'typing' ? 'TYPING.EXE' : 'MEMORY.EXE'}
+              {game === 'typing' ? 'TYPING.EXE' : game === 'memory' ? 'MEMORY.EXE' : 'BLOCKS.EXE'}
             </span>
             <i className={`${icons[game]} ml-2 text-sm text-gold`} aria-hidden="true" />
             <span
@@ -598,7 +902,9 @@ function GameModal({ game, onClose, lang }) {
         <div className={`overflow-y-auto ${game === 'typing' ? 'p-0' : 'p-4 sm:p-6'}`}>
           {game === 'typing'
             ? <TypingTest lang={lang} onClose={onClose} />
-            : <MemoryMatch lang={lang} />}
+            : game === 'memory'
+              ? <MemoryMatch lang={lang} />
+              : <BlockEscape lang={lang} />}
         </div>
       </motion.div>
     </motion.div>
@@ -633,6 +939,16 @@ export default function Arcade() {
       },
       tag: { en: 'Memory', id: 'Memori' },
     },
+    {
+      id: 'blocks',
+      iconClass: 'fa-solid fa-cubes-stacked',
+      title: { en: 'Block Escape', id: 'Teka-teki Geser Blok' },
+      description: {
+        en: 'Clear a path through traffic and slide the key block to the exit. Choose a level and solve it with as few moves as you can.',
+        id: 'Buka jalan di antara blok dan geser blok kunci menuju pintu keluar. Pilih level dan pecahkan dengan langkah sesedikit mungkin.',
+      },
+      tag: { en: 'Logic', id: 'Logika' },
+    },
   ];
 
   return (
@@ -651,7 +967,7 @@ export default function Arcade() {
         />
 
         <div
-          className={`grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-2xl mx-auto transition-all duration-700 ${
+          className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto transition-all duration-700 ${
             isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >

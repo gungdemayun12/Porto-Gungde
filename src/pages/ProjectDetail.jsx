@@ -4,7 +4,7 @@
  */
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ExternalLink, Calendar, User, Code } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, User, Code } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import { useLang } from '../hooks/useLang';
 import { projectsData } from '../data/projects';
@@ -66,7 +66,6 @@ export default function ProjectDetail() {
             <span className="font-mono text-xs text-gold-text uppercase tracking-wider px-3 py-1 bg-gold/10 rounded-full">
               {project.displayCategory || project.category}
             </span>
-            <span className="font-mono text-xs text-muted">{project.year}</span>
           </div>
 
           <h1 className="text-fluid-h1 font-bold text-text mb-4">{title}</h1>
@@ -105,14 +104,7 @@ export default function ProjectDetail() {
         )}
 
         {/* Meta info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-surface border border-border">
-            <Calendar size={18} className="text-gold shrink-0" />
-            <div>
-              <span className="text-xs text-muted block">{t.projects.year}</span>
-              <span className="text-text font-medium">{project.year}</span>
-            </div>
-          </div>
+        <div className="grid grid-cols-1 gap-4 mb-12">
           <div className="flex items-center gap-3 p-4 rounded-xl bg-surface border border-border">
             <User size={18} className="text-gold shrink-0" />
             <div>

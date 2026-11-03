@@ -49,13 +49,15 @@ function LanyardSkeleton() {
 
 export default function HeroLanyard() {
   const { isMobile, isTablet } = useBreakpoint();
-  const { shouldUseFallback } = useDeviceCapability();
-  const useMobileFallback = shouldUseFallback;
+  const { shouldUseFallback, webglAvailable, prefersReducedMotion } = useDeviceCapability();
+  const useMobileFallback =
+    !webglAvailable ||
+    prefersReducedMotion ||
+    ((!isMobile && !isTablet) && shouldUseFallback);
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(isMobile || isTablet);
 
-  // Beri ruang lebih besar di HP agar kartu tidak terlihat kecil dan terpotong.
-  const containerHeight = isMobile ? '480px' : isTablet ? '540px' : '570px';
+  const containerHeight = isMobile ? '390px' : isTablet ? '460px' : '570px';
 
   useEffect(() => {
     const el = containerRef.current;
@@ -101,7 +103,6 @@ export default function HeroLanyard() {
         <WebGLErrorBoundary fallback={<StaticBadge />}>
           <Suspense fallback={<LanyardSkeleton />}>
             <Lanyard3D
-              // Use the same 3D lanyard on phones, with lower render cost in Lanyard.
               position={[0, 0, isMobile ? 15 : 17.5]}
               gravity={[0, isMobile ? -32 : -40, 0]}
               fov={isMobile ? 16 : 19}

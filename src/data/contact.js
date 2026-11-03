@@ -4,7 +4,7 @@
 export const CONTACT = {
   whatsappDisplay: '0821 4733 1906',
   whatsappE164: '6282147331906',
-  email: 'gugdemayun64@gmail.com',
+  email: 'gungdemayun64@gmail.com',
   location: 'Jalan Mawar No. 8, Batubulan',
   locationShort: 'Batubulan, Bali',
   github: 'https://github.com/gungdemayun12',

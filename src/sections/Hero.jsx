@@ -24,14 +24,14 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[92vh] flex items-center overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-20"
+      className="relative flex items-center overflow-hidden pt-24 pb-10 sm:pt-32 sm:pb-16 lg:min-h-[92vh] lg:pb-20"
       aria-label="Hero"
     >
       <div className="container-main relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-8 lg:gap-8 items-center">
 
           {/* ── LEFT: Copy ── */}
-          <div className="lg:col-span-6 space-y-7 text-center lg:text-left order-2 lg:order-1">
+          <div className="lg:col-span-6 space-y-5 sm:space-y-7 text-center lg:text-left order-2 lg:order-1">
 
             {/* Status badge */}
             <div

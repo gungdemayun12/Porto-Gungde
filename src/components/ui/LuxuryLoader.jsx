@@ -1,15 +1,17 @@
 import { useEffect, useState } from 'react';
-import ParticleText from './ParticleText';
+import LatticeLoader from './LatticeLoader';
 
 export default function LuxuryLoader({ onComplete }) {
   const [visible, setVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
+  const [status, setStatus] = useState('working');
 
   useEffect(() => {
     const isMobile = window.matchMedia('(max-width: 640px)').matches;
     const delay = isMobile ? 850 : 1250;
 
     const exitTimer = setTimeout(() => {
+      setStatus('done');
       setIsExiting(true);
     }, delay);
     const removeTimer = setTimeout(() => {
@@ -34,17 +36,27 @@ export default function LuxuryLoader({ onComplete }) {
       aria-label="Loading"
     >
       <div className="flex flex-col items-center gap-5">
-        <div className="h-24 w-[min(86vw,520px)]">
-          <ParticleText
-            text="GUNGDEV"
-            color="#d4af37"
-            highlightColor="#fff1a8"
-            particleSize={2.2}
-            density={4}
-            gatherDuration={560}
-          />
-        </div>
-        <span className="font-mono text-[10px] tracking-[0.35em] text-gold-light/70">PORTFOLIO</span>
+        <span className="font-heading text-3xl font-semibold tracking-[0.2em] text-gold-light">
+          GUNGDEV
+        </span>
+        <LatticeLoader
+          status={status}
+          label="Loading portfolio"
+          doneLabel="Ready"
+          errorLabel="Unable to load"
+          pattern="orbit"
+          color="#d4af37"
+          doneColor="#22c55e"
+          showTimer={false}
+          fontSize={13}
+          cellSize={7}
+          gap={3}
+          glow
+          className="text-gold-light"
+        />
+        <span className="font-mono text-[10px] tracking-[0.35em] text-gold-light/70">
+          PORTFOLIO
+        </span>
       </div>
     </div>
   );

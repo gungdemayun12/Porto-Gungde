@@ -42,11 +42,12 @@ export default function Footer() {
           {/* Brand block (col 1-5) */}
           <div className="md:col-span-5 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-dark p-px">
-                <div className="w-full h-full rounded-full bg-surface dark:bg-[#12100C] flex items-center justify-center">
-                  <span className="font-heading font-bold text-xs gradient-gold-text">G</span>
-                </div>
-              </div>
+              <img
+                src="/images/logo/gungdev-logo-gd.png"
+                alt=""
+                aria-hidden="true"
+                className="h-10 w-10 object-contain drop-shadow-sm"
+              />
               <p
                 className="text-xl font-bold tracking-wide"
                 style={{

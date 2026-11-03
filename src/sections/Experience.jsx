@@ -48,27 +48,16 @@ const EDUCATION = [
   },
 ];
 
-const LEARNING_SKILLS = [
-  { name: 'Next.js', icon: 'fa-solid fa-code' },
-  { name: 'Laravel', icon: 'fa-brands fa-laravel' },
-  { name: 'PostgreSQL', icon: 'fa-solid fa-database' },
-  { name: 'Figma', icon: 'fa-brands fa-figma' },
-  { name: 'TypeScript', icon: 'fa-brands fa-js' },
-];
-
-function TimelineDot({ animated = false }) {
+function TimelineDot() {
   return (
     <div
       className="absolute left-0 top-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-2xs"
       style={{
-        borderColor: animated ? 'var(--color-gold)' : 'var(--color-border)',
+        borderColor: 'var(--color-border)',
         background: 'var(--color-bg)',
       }}
     >
-      <div
-        className={`w-2 h-2 rounded-full ${animated ? 'dot-pulse' : ''}`}
-        style={{ background: 'var(--color-gold)' }}
-      />
+      <div className="w-2 h-2 rounded-full" style={{ background: 'var(--color-gold)' }} />
     </div>
   );
 }
@@ -237,49 +226,6 @@ export default function Experience() {
                 ))}
               </div>
 
-              {/* Currently learning */}
-              <div className="relative pl-9">
-                <TimelineDot animated />
-                <span
-                  className="inline-block text-xs font-mono font-semibold mb-2"
-                  style={{ color: 'var(--color-gold-text)' }}
-                >
-                  {isId ? 'Saat ini' : 'Ongoing'}
-                </span>
-                <div
-                  className="rounded-xl border p-4 sm:p-5 shadow-2xs"
-                  style={{
-                    borderColor: 'var(--color-gold)',
-                    background: 'linear-gradient(135deg, rgba(179,130,38,0.08) 0%, var(--color-surface) 100%)',
-                  }}
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 rounded-full dot-pulse" style={{ background: 'var(--color-gold)' }} />
-                    <span
-                      className="text-xs font-mono uppercase tracking-wider font-bold"
-                      style={{ color: 'var(--color-gold-text)' }}
-                    >
-                      {isId ? 'Sedang Dipelajari & Dikembangkan' : 'Currently Learning & Refining'}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {LEARNING_SKILLS.map(({ name, icon }) => (
-                      <span
-                        key={name}
-                        className="inline-flex items-center gap-1.5 text-xs font-mono font-medium px-2.5 py-1 rounded-lg border shadow-2xs"
-                        style={{
-                          background: 'var(--color-bg)',
-                          borderColor: 'var(--color-border)',
-                          color: 'var(--color-text)',
-                        }}
-                      >
-                        <i className={`${icon} text-[11px]`} style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
-                        {name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

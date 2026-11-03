@@ -9,6 +9,8 @@ import { useLang } from '../../hooks/useLang';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { CONTACT, whatsappLink } from '../../data/contact';
 import Button from '../ui/Button';
+import LangToggle from '../ui/LangToggle';
+import ThemeToggle from '../ui/ThemeToggle';
 
 /* Soft luxury curve — silky, no bounce */
 const EASE = [0.16, 1, 0.3, 1];
@@ -135,11 +137,11 @@ export default function MobileMenu({
             <div className="relative z-10 flex items-center justify-between px-6 sm:px-7 pt-6 pb-5
               border-b border-border">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gold via-gold-light to-gold-dark p-px">
-                  <div className="w-full h-full rounded-full bg-surface dark:bg-[#12100C] flex items-center justify-center">
-                    <span className="font-heading font-bold text-xs gradient-gold-text">G</span>
-                  </div>
-                </div>
+                <img
+                  src="/images/logo/gungdev-logo-gd.png"
+                  alt="Gungde"
+                  className="h-10 w-10 shrink-0 object-contain drop-shadow-sm"
+                />
                 <div>
                   <span className="font-heading font-semibold text-[15px] text-text tracking-wide">
                     GUNGDEV<span className="text-gold font-serif">.</span>
@@ -243,6 +245,11 @@ export default function MobileMenu({
                 <i className="fa-solid fa-paper-plane text-xs" aria-hidden="true" />
                 <span>{t.nav.hireMe}</span>
               </Button>
+
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <LangToggle />
+                <ThemeToggle showLabel />
+              </div>
 
               <div className="flex items-center justify-between gap-3 pt-1">
                 <a

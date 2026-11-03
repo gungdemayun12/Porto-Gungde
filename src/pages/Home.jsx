@@ -1,6 +1,6 @@
 /**
  * Home — halaman beranda (one-page)
- * Hero -> About -> Projects -> Arcade -> Experience -> Contact
+ * Hero -> Projects -> About -> Arcade -> Experience -> Contact
  */
 import Hero from '../sections/Hero';
 import About from '../sections/About';
@@ -13,8 +13,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <About />
       <Projects />
+      <About />
       <Arcade />
       <Experience />
       <Contact />

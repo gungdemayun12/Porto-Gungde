@@ -90,20 +90,6 @@ function ProjectCard({ project, lang, onClick }) {
           </span>
         </div>
 
-        {/* Year badge */}
-        <div className="absolute top-3 right-3">
-          <span
-            className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full shadow-sm"
-            style={{
-              background: 'rgba(14,12,9,0.7)',
-              color: '#ffffff',
-              border: '1px solid rgba(255,255,255,0.2)',
-              backdropFilter: 'blur(6px)',
-            }}
-          >
-            {project.year}
-          </span>
-        </div>
       </div>
 
       {/* Content */}

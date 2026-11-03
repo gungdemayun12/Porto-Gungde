@@ -37,11 +37,11 @@ export default function Lanyard({
   lanyardWidth = 1,
 }) {
   const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth < 768
+    () => typeof window !== 'undefined' && window.innerWidth < 1024
   );
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -50,7 +50,7 @@ export default function Lanyard({
     <div className="lanyard-wrapper" style={{ touchAction: isMobile ? 'pan-y' : 'none' }}>
       <Canvas
         camera={{ position, fov }}
-        dpr={isMobile ? 1 : [1, 1.5]}
+        dpr={isMobile ? 0.75 : [1, 1.5]}
         frameloop="always"
         gl={{
           alpha: transparent,
@@ -70,7 +70,7 @@ export default function Lanyard({
 
         <Physics
           gravity={gravity}
-          timeStep={isMobile ? 1 / 24 : 1 / 50}
+          timeStep={isMobile ? 1 / 30 : 1 / 50}
           interpolate={!isMobile}
         >
           <Band
@@ -145,7 +145,7 @@ function Band({
     const baseImg = baseMap.image;
     if (!baseImg) return baseMap;
 
-    const maxSide = isMobile ? 512 : 1024;
+    const maxSide = isMobile ? 384 : 1024;
     const srcW = baseImg.width || 1024;
     const srcH = baseImg.height || 1024;
     const scale = Math.min(1, maxSide / Math.max(srcW, srcH));
@@ -184,7 +184,7 @@ function Band({
     const composite = new THREE.CanvasTexture(canvas);
     composite.colorSpace = THREE.SRGBColorSpace;
     composite.flipY = baseMap.flipY;
-    composite.anisotropy = isMobile ? 2 : 8;
+    composite.anisotropy = isMobile ? 1 : 8;
     composite.generateMipmaps = !isMobile;
     composite.minFilter = isMobile ? THREE.LinearFilter : THREE.LinearMipmapLinearFilter;
     composite.magFilter = THREE.LinearFilter;

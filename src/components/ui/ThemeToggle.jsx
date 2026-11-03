@@ -3,40 +3,61 @@
  * Ikon Font Awesome keren, border rapi, terlihat jelas di kedua mode.
  */
 import { useTheme } from '../../hooks/useTheme';
+import { useLang } from '../../hooks/useLang';
 
-export default function ThemeToggle() {
-  const { isDark, toggleTheme } = useTheme();
+export default function ThemeToggle({ showLabel = false }) {
+  const { isDark, setTheme } = useTheme();
+  const { lang } = useLang();
+  const isId = lang === 'id';
+
+  if (!showLabel) {
+    return (
+      <button
+        type="button"
+        onClick={() => setTheme(isDark ? 'light' : 'dark')}
+        aria-label={isDark
+          ? (isId ? 'Beralih ke mode terang' : 'Switch to light mode')
+          : (isId ? 'Beralih ke mode gelap' : 'Switch to dark mode')}
+        aria-pressed={isDark}
+        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface/80
+          text-gold-text shadow-xs transition-all duration-300 hover:border-gold hover:bg-gold/10
+          hover:text-gold active:scale-95 sm:h-10 sm:w-10"
+      >
+        <i className={`fa-solid ${isDark ? 'fa-sun' : 'fa-moon'} text-sm`} aria-hidden="true" />
+      </button>
+    );
+  }
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      aria-pressed={isDark}
-      className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border bg-surface/80
-        flex items-center justify-center transition-all duration-300
-        hover:border-gold hover:bg-gold/10 cursor-pointer shadow-xs active:scale-95"
+    <div
+      role="group"
+      aria-label={isId ? 'Tema warna' : 'Color theme'}
+      className="inline-flex items-center gap-1 rounded-full border border-border bg-surface/80 p-1 shadow-xs"
     >
-      <div className="relative w-4 h-4 flex items-center justify-center overflow-hidden">
-        {/* Sun icon — visible in dark mode */}
-        <i
-          className={`fa-solid fa-sun text-sm text-gold transition-all duration-300 absolute inset-0 flex items-center justify-center ${
-            isDark
-              ? 'opacity-100 rotate-0 scale-100'
-              : 'opacity-0 rotate-90 scale-50 pointer-events-none'
-          }`}
-          aria-hidden="true"
-        />
-        {/* Moon icon — visible in light mode */}
-        <i
-          className={`fa-solid fa-moon text-sm text-gold-text transition-all duration-300 absolute inset-0 flex items-center justify-center ${
-            isDark
-              ? 'opacity-0 -rotate-90 scale-50 pointer-events-none'
-              : 'opacity-100 rotate-0 scale-100'
-          }`}
-          aria-hidden="true"
-        />
-      </div>
-    </button>
+      {[
+        { theme: 'light', label: isId ? 'Terang' : 'Light', icon: 'fa-sun', name: isId ? 'Mode terang' : 'Light mode' },
+        { theme: 'dark', label: isId ? 'Gelap' : 'Dark', icon: 'fa-moon', name: isId ? 'Mode gelap' : 'Dark mode' },
+      ].map(({ theme, label, icon, name }) => {
+        const selected = (theme === 'dark') === isDark;
+        return (
+          <button
+            key={theme}
+            type="button"
+            onClick={() => setTheme(theme)}
+            aria-label={name}
+            aria-pressed={selected}
+            className={`flex min-h-8 items-center justify-center gap-2 rounded-full px-2.5 text-xs font-semibold
+              transition-all duration-200 active:scale-95 ${
+                selected
+                  ? 'bg-gold/15 text-gold-text ring-1 ring-gold/25'
+                  : 'text-muted hover:bg-gold/10 hover:text-gold-text'
+              }`}
+          >
+            <i className={`fa-solid ${icon} text-xs`} aria-hidden="true" />
+            <span>{label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
 }

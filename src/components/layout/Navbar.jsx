@@ -113,17 +113,17 @@ export default function Navbar() {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 sm:gap-3 group"
           >
-            {/* Monogram Seal */}
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-gold-light via-gold to-gold-dark p-[1px] shadow-sm group-hover:scale-105 transition-transform duration-300">
-              <div className="w-full h-full rounded-full bg-surface dark:bg-[#12100C] flex items-center justify-center">
-                <span className="font-heading text-base font-bold gradient-gold-text">G</span>
-              </div>
-            </div>
+            <img
+              src="/images/logo/gungdev-logo-gd.png"
+              alt=""
+              aria-hidden="true"
+              className="h-8 w-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
+            />
             {/* Nama Brand */}
             <div className="flex flex-col">
-              <span className="font-heading font-semibold text-text text-base tracking-wide group-hover:text-gold-text transition-colors">
+              <span className="font-heading font-semibold text-text text-sm tracking-wide group-hover:text-gold-text transition-colors sm:text-base">
                 GUNGDEV<span className="text-gold font-serif">.</span>
               </span>
               <span className="text-[10px] font-mono text-muted tracking-widest uppercase -mt-0.5 hidden sm:block font-medium">
@@ -151,7 +151,7 @@ export default function Navbar() {
 
           {/* Action Hub Desktop */}
           <div className="hidden lg:flex items-center gap-2.5">
-            <LangToggle />
+            <LangToggle compact />
             <ThemeToggle />
 
             {/* Tombol Hubungi / Hire Me */}
@@ -167,7 +167,7 @@ export default function Navbar() {
 
           {/* Mobile Right Controls: Lang, Theme, & Animated Hamburger */}
           <div className="flex lg:hidden items-center gap-2">
-            <LangToggle />
+            <LangToggle compact />
             <ThemeToggle />
 
             {/* Hamburger — morph halus ke X */}
