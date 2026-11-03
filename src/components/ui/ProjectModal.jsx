@@ -97,6 +97,19 @@ export default function ProjectModal({ project, onClose }) {
               <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
               {project.displayCategory || project.category}
             </span>
+            {project.privateSystem && (
+              <span
+                className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
+                style={{
+                  background: 'rgba(179,130,38,0.12)',
+                  color: 'var(--color-gold-text)',
+                  border: '1px solid rgba(179,130,38,0.3)',
+                }}
+              >
+                <i className="fa-solid fa-lock text-[10px] mr-1.5" aria-hidden="true" />
+                {isId ? 'Sistem Privat' : 'Private System'}
+              </span>
+            )}
           </div>
 
           <button
@@ -251,7 +264,12 @@ export default function ProjectModal({ project, onClose }) {
             <span>{isId ? 'Tutup' : 'Close'}</span>
           </Button>
 
-          {project.liveUrl && project.liveUrl !== '#' ? (
+          {project.privateSystem ? (
+            <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+              <i className="fa-solid fa-lock text-xs mr-1.5" aria-hidden="true" />
+              {isId ? 'Sistem privat' : 'Private system'}
+            </span>
+          ) : project.liveUrl && project.liveUrl !== '#' ? (
             <Button
               variant="primary"
               href={project.liveUrl}

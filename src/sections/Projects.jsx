@@ -88,6 +88,20 @@ function ProjectCard({ project, lang, onClick }) {
             <i className="fa-solid fa-tag text-[9px]" aria-hidden="true" />
             {project.displayCategory || project.category}
           </span>
+          {project.privateSystem && (
+            <span
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold tracking-wide shadow-sm"
+              style={{
+                background: 'rgba(14,12,9,0.78)',
+                color: '#F0D277',
+                border: '1px solid rgba(216,170,66,0.35)',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <i className="fa-solid fa-lock text-[9px]" aria-hidden="true" />
+              {lang === 'id' ? 'Sistem Privat' : 'Private System'}
+            </span>
+          )}
         </div>
 
       </div>

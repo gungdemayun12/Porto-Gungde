@@ -4,7 +4,7 @@
  */
 import { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, ArrowRight, ExternalLink, User, Code } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Lock, User, Code } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import { useLang } from '../hooks/useLang';
 import { projectsData } from '../data/projects';
@@ -66,6 +66,12 @@ export default function ProjectDetail() {
             <span className="font-mono text-xs text-gold-text uppercase tracking-wider px-3 py-1 bg-gold/10 rounded-full">
               {project.displayCategory || project.category}
             </span>
+            {project.privateSystem && (
+              <span className="font-mono text-xs text-gold-text uppercase tracking-wider px-3 py-1 bg-gold/10 rounded-full">
+                <Lock size={12} className="inline-block mr-1.5" />
+                {lang === 'id' ? 'Sistem Privat' : 'Private System'}
+              </span>
+            )}
           </div>
 
           <h1 className="text-fluid-h1 font-bold text-text mb-4">{title}</h1>
@@ -137,7 +143,12 @@ export default function ProjectDetail() {
 
         {/* Link eksternal */}
         <div className="flex flex-wrap gap-4 mb-16">
-          {project.liveUrl && (
+          {project.privateSystem ? (
+            <span className="btn-outline">
+              <Lock size={16} />
+              {lang === 'id' ? 'Sistem privat' : 'Private system'}
+            </span>
+          ) : project.liveUrl && (
             <a
               href={project.liveUrl}
               target="_blank"
