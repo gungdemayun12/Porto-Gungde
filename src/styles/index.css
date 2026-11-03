@@ -563,6 +563,195 @@ button:disabled {
   color: var(--color-gold-text);
 }
 
+.typing-mobile-input {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1.5rem;
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.typing-mobile-input input {
+  width: 100%;
+  min-height: 2.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.65rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.7rem 0.85rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.typing-mobile-input input:focus {
+  border-color: var(--color-gold);
+  outline: 2px solid color-mix(in srgb, var(--color-gold) 28%, transparent);
+  outline-offset: 1px;
+}
+
+.game-result {
+  display: grid;
+  min-height: min(600px, calc(92vh - 64px));
+  place-items: center;
+  padding: clamp(1.25rem, 5vw, 3rem);
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--color-gold) 12%, transparent), transparent 58%),
+    var(--color-bg);
+  color: var(--color-text);
+}
+
+.game-result__card {
+  width: min(100%, 34rem);
+  text-align: center;
+}
+
+.game-result__icon {
+  display: grid;
+  width: 4.25rem;
+  height: 4.25rem;
+  margin: 0 auto 1.1rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-gold) 45%, var(--color-border));
+  border-radius: 1.35rem;
+  background: color-mix(in srgb, var(--color-gold) 14%, var(--color-surface));
+  color: var(--color-gold);
+  font-size: 1.6rem;
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--color-gold) 16%, transparent);
+}
+
+.game-result__eyebrow {
+  color: var(--color-gold-text);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.game-result__title {
+  margin-top: 0.55rem;
+  color: var(--color-text);
+  font-family: var(--font-heading);
+  font-size: clamp(1.45rem, 5vw, 2.2rem);
+  font-weight: 700;
+}
+
+.game-result__subtitle {
+  margin-top: 0.35rem;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.game-result__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.6rem;
+}
+
+.game-result__stat {
+  display: grid;
+  min-height: 4.4rem;
+  align-content: center;
+  gap: 0.3rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.8rem;
+  background: var(--color-surface);
+  padding: 0.65rem;
+}
+
+.game-result__stat span {
+  color: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.game-result__stat strong {
+  color: var(--color-text);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.game-result__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
+}
+
+.game-result__play,
+.game-result__close {
+  display: inline-flex;
+  min-height: 2.8rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.65rem;
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.game-result__play {
+  border-color: var(--color-gold);
+  background: var(--color-gold);
+  color: #fff;
+}
+
+.game-result__close {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.game-result__play:hover,
+.game-result__close:hover {
+  transform: translateY(-2px);
+}
+
+.game-result__close:hover {
+  border-color: var(--color-gold);
+}
+
+@media (max-width: 639px) {
+  .typing-test-shell {
+    min-height: min(660px, calc(88dvh - 56px));
+  }
+
+  .typing-test-copy {
+    min-height: 220px;
+    padding: 1.15rem;
+  }
+
+  .typing-test-words {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .typing-setting {
+    min-height: 2.25rem;
+    padding: 0.4rem 0.55rem;
+    font-size: 0.6rem;
+  }
+
+  .game-result {
+    min-height: min(560px, calc(88dvh - 56px));
+    padding: 1.25rem;
+  }
+
+  .game-result__actions {
+    flex-direction: column;
+  }
+}
+
 /* =========================================================
    LANYARD CANVAS
    ========================================================= */

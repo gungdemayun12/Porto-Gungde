@@ -11,14 +11,56 @@ import { useInView } from '../hooks/useInView';
 
 const WORD_BANK = {
   en: {
-    words: 'the quiet morning brings a new journey across the island discover hidden places meet local people and enjoy every moment together',
-    code: 'const trip = await explore("Bali"); function plan(days) { return days.map((day) => discover(day)); }',
-    shell: 'cd bali-trip && npm run explore && git status --short && echo "ready for the next adventure"',
+    words: [
+      'the quiet morning brings a new journey across the island discover hidden places and enjoy every moment',
+      'meet local people taste traditional food and find a new favorite place along the coast',
+      'a little curiosity can turn an ordinary day into a wonderful story worth remembering',
+      'follow the ocean breeze through green hills and discover a peaceful corner of Bali',
+      'every journey starts with one small step and a willingness to explore something new',
+      'sunlight dances across the water while boats return slowly to the village shore',
+      'take your time notice the details and let each new experience surprise you',
+      'friends shared stories beneath the trees as the evening sky turned soft orange',
+    ],
+    code: [
+      'const trip = await explore("Bali"); function plan(days) { return days.map((day) => discover(day)); }',
+      'const places = await getPlaces("Ubud"); const favorites = places.filter((place) => place.rating > 4);',
+      'function greet(name) { return `Welcome to Bali, ${name}!`; } const message = greet("traveler");',
+      'const itinerary = days.map((day) => ({ date: day.date, activity: chooseExperience(day) }));',
+      'async function loadTours() { const response = await fetch("/api/tours"); return response.json(); }',
+    ],
+    shell: [
+      'cd bali-trip && npm run explore && git status --short && echo "ready for the next adventure"',
+      'npm install && npm run dev && git status --short && echo "local site is ready"',
+      'git checkout -b feature/tour-cards && npm run build && git status --short',
+      'mkdir island-guide && cd island-guide && npm create vite@latest . && npm run dev',
+      'npm run lint && npm run test && git add src && git commit -m "improve tour guide"',
+    ],
   },
   id: {
-    words: 'pagi yang tenang membawa perjalanan baru menyusuri pulau menemukan tempat indah bertemu warga lokal dan menikmati setiap momen bersama',
-    code: 'const perjalanan = await jelajahi("Bali"); function rencana(hari) { return hari.map((tujuan) => temukan(tujuan)); }',
-    shell: 'cd wisata-bali && npm run jelajah && git status --short && echo "siap untuk petualangan berikutnya"',
+    words: [
+      'pagi yang tenang membawa perjalanan baru menyusuri pulau dan menemukan tempat indah',
+      'bertemu warga lokal mencicipi makanan tradisional dan menikmati setiap momen bersama',
+      'rasa ingin tahu membuat hari biasa berubah menjadi cerita baru yang menyenangkan',
+      'ikuti semilir angin melewati bukit hijau dan temukan sudut Bali yang damai',
+      'setiap perjalanan dimulai dari satu langkah kecil dan keberanian untuk mencoba',
+      'cahaya matahari berkilau di laut sementara perahu kembali ke tepi desa',
+      'nikmati perjalanan perlahan perhatikan hal kecil dan biarkan pengalaman memberi kejutan',
+      'teman berbagi cerita di bawah pepohonan saat langit senja berubah jingga',
+    ],
+    code: [
+      'const perjalanan = await jelajahi("Bali"); function rencana(hari) { return hari.map((tujuan) => temukan(tujuan)); }',
+      'const tempat = await cariTempat("Ubud"); const favorit = tempat.filter((lokasi) => lokasi.nilai > 4);',
+      'function sapa(nama) { return `Selamat datang di Bali, ${nama}!`; } const pesan = sapa("wisatawan");',
+      'const jadwal = hari.map((tanggal) => ({ tanggal: tanggal.tanggal, kegiatan: pilihAktivitas(tanggal) }));',
+      'async function ambilTur() { const respons = await fetch("/api/tur"); return respons.json(); }',
+    ],
+    shell: [
+      'cd wisata-bali && npm run jelajah && git status --short && echo "siap untuk petualangan berikutnya"',
+      'npm install && npm run dev && git status --short && echo "website lokal siap"',
+      'git checkout -b fitur-kartu-tur && npm run build && git status --short',
+      'mkdir panduan-pulau && cd panduan-pulau && npm create vite@latest . && npm run dev',
+      'npm run lint && npm run test && git add src && git commit -m "perbarui panduan wisata"',
+    ],
   },
 };
 
@@ -70,6 +112,87 @@ function shuffleArray(arr) {
   return a;
 }
 
+function makeTypingRound(language, mode, previousText = '') {
+  const sentences = shuffleArray(WORD_BANK[language][mode]);
+  const previousFirstSentence = WORD_BANK[language][mode]
+    .find((sentence) => previousText.startsWith(sentence));
+  if (previousFirstSentence && sentences[0] === previousFirstSentence) {
+    sentences.push(sentences.shift());
+  }
+  const passage = sentences.join(' ');
+  if (passage === previousText) {
+    sentences.push(sentences.shift());
+  }
+  const sentence = sentences.join(' ');
+  const source = sentence.split(/\s+/).filter(Boolean);
+  return {
+    sentence,
+    words: Array.from({ length: 240 }, (_, index) => source[index % source.length]),
+  };
+}
+
+function makeMemoryDeck(level) {
+  const config = MEMORY_LEVELS.find((item) => item.id === level) || MEMORY_LEVELS[1];
+  const emojis = EMOJIS.slice(0, config.pairs);
+  const counts = new Map(emojis.map((emoji) => [emoji, 2]));
+  const deck = [];
+
+  const placeCards = (index) => {
+    if (index === config.pairs * 2) return true;
+    const candidates = shuffleArray(emojis.filter((emoji) => counts.get(emoji) > 0));
+    for (const emoji of candidates) {
+      const left = index % config.columns > 0 ? deck[index - 1]?.emoji : null;
+      const above = index >= config.columns ? deck[index - config.columns]?.emoji : null;
+      if (emoji === left || emoji === above) continue;
+
+      const pairIndex = emojis.indexOf(emoji);
+      const cardId = pairIndex * 2 + (2 - counts.get(emoji));
+      counts.set(emoji, counts.get(emoji) - 1);
+      deck.push({ id: cardId, emoji });
+      if (placeCards(index + 1)) return true;
+      deck.pop();
+      counts.set(emoji, counts.get(emoji) + 1);
+    }
+    return false;
+  };
+
+  if (!placeCards(0)) {
+    throw new Error(`Unable to arrange a no-adjacent memory deck for level "${level}".`);
+  }
+  return deck;
+}
+
+function GameResult({ title, stats, onPlayAgain, onClose, lang }) {
+  const isId = lang === 'id';
+  return (
+    <div className="game-result" role="status" aria-live="polite">
+      <div className="game-result__card">
+        <div className="game-result__icon"><i className="fa-solid fa-trophy" aria-hidden="true" /></div>
+        <p className="game-result__eyebrow">{isId ? 'PERMAINAN SELESAI' : 'GAME COMPLETE'}</p>
+        <h3 className="game-result__title">{isId ? 'Hebat! Kamu berhasil.' : 'Well done! You did it.'}</h3>
+        <p className="game-result__subtitle">{title}</p>
+        <div className="game-result__stats">
+          {stats.map(({ label, value }) => (
+            <div className="game-result__stat" key={label}>
+              <span>{label}</span>
+              <strong>{value}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="game-result__actions">
+          <button type="button" className="game-result__play" onClick={onPlayAgain}>
+            <i className="fa-solid fa-rotate-right" aria-hidden="true" />
+            {isId ? 'Main Lagi' : 'Play Again'}
+          </button>
+          <button type="button" className="game-result__close" onClick={onClose}>
+            {isId ? 'Kembali ke Arcade' : 'Back to Arcade'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ═══ TYPING TEST ═══ */
 function TypingTest({ lang, onClose }) {
   const isId = lang === 'id';
@@ -86,12 +209,16 @@ function TypingTest({ lang, onClose }) {
   const [correctCharacters, setCorrectCharacters] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
   const targetRef = useRef(null);
+  const mobileInputRef = useRef(null);
   const tabRef = useRef(false);
   const bestKey = `typing-best-${testLang}-${mode}-${duration}`;
   const [best, setBest] = useState(() => Number(localStorage.getItem(bestKey)) || 0);
-
-  const source = WORD_BANK[testLang][mode].split(' ');
-  const words = Array.from({ length: 240 }, (_, index) => source[index % source.length]);
+  const [round, setRound] = useState(() => makeTypingRound(
+    testLang,
+    mode,
+    localStorage.getItem(`typing-last-${testLang}-${mode}`) || ''
+  ));
+  const words = round.words;
   const currentWord = words[wordIndex] || '';
   const liveCorrectCharacters = correctCharacters + Array.from(currentInput).reduce(
     (count, character, index) => count + (character === currentWord[index] ? 1 : 0),
@@ -102,7 +229,9 @@ function TypingTest({ lang, onClose }) {
   const accuracy = keystrokes > 0 ? Math.round((correctKeystrokes / keystrokes) * 100) : 100;
   const remaining = Math.max(0, duration * 1000 - elapsed);
 
-  const reset = useCallback(() => {
+  const reset = useCallback((nextLanguage = testLang, nextMode = mode) => {
+    const lastSentence = localStorage.getItem(`typing-last-${nextLanguage}-${nextMode}`);
+    setRound((previous) => makeTypingRound(nextLanguage, nextMode, lastSentence || previous.sentence));
     setWordIndex(0);
     setCurrentInput('');
     setCompletedWords([]);
@@ -113,11 +242,21 @@ function TypingTest({ lang, onClose }) {
     setCorrectCharacters(0);
     setIsFinished(false);
     targetRef.current?.focus();
-  }, []);
+  }, [mode, testLang]);
+
+  useEffect(() => {
+    localStorage.setItem(`typing-last-${testLang}-${mode}`, round.sentence);
+  }, [mode, round.sentence, testLang]);
 
   useEffect(() => {
     targetRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (!isFinished) {
+      targetRef.current?.focus();
+    }
+  }, [isFinished]);
 
   useEffect(() => {
     if (!startTime || isFinished) return undefined;
@@ -138,11 +277,68 @@ function TypingTest({ lang, onClose }) {
     return () => window.clearInterval(interval);
   }, [best, bestKey, duration, isFinished, liveCorrectCharacters, startTime]);
 
-  const changeSetting = (setter, value, nextBestKey) => {
+  const changeSetting = (setter, value, nextBestKey, nextLanguage = testLang, nextMode = mode) => {
     setter(value);
     setBest(Number(localStorage.getItem(nextBestKey)) || 0);
-    reset();
+    reset(nextLanguage, nextMode);
     targetRef.current?.focus();
+  };
+
+  const finishTest = (finishTime = currentTime()) => {
+    const finalElapsed = Math.max(100, finishTime - (startTime || finishTime));
+    const finalWpm = Math.round((liveCorrectCharacters / 5) / (finalElapsed / 60000));
+    setElapsed(finalElapsed);
+    setIsFinished(true);
+    if (finalWpm > best) {
+      setBest(finalWpm);
+      localStorage.setItem(bestKey, String(finalWpm));
+    }
+  };
+
+  const submitWord = (typedWord) => {
+    if (!typedWord || isFinished) return;
+    const isCorrect = typedWord === currentWord;
+    setCompletedWords((value) => [...value, isCorrect]);
+    if (isCorrect) setCorrectCharacters((value) => value + currentWord.length);
+    setCurrentInput('');
+    if (wordIndex + 1 >= words.length) {
+      finishTest();
+    } else {
+      setWordIndex((value) => value + 1);
+    }
+  };
+
+  const handleMobileInput = (event) => {
+    const value = event.target.value;
+    if (value.includes(' ') || value.includes('\n')) {
+      const typedWord = value.trim();
+      const addedCharacters = typedWord.slice(currentInput.length);
+      for (let index = 0; index < addedCharacters.length; index += 1) {
+        const character = addedCharacters[index];
+        if (character === currentWord[currentInput.length + index]) {
+          setCorrectKeystrokes((count) => count + 1);
+        }
+        setKeystrokes((count) => count + 1);
+      }
+      submitWord(typedWord);
+      return;
+    }
+
+    if (value.length < currentInput.length) {
+      setCurrentInput(value);
+      return;
+    }
+
+    const addedCharacters = value.slice(currentInput.length);
+    for (let index = 0; index < addedCharacters.length; index += 1) {
+      const character = addedCharacters[index];
+      if (!startTime) setStartTime(currentTime());
+      if (character === currentWord[currentInput.length + index]) {
+        setCorrectKeystrokes((count) => count + 1);
+      }
+      setKeystrokes((count) => count + 1);
+    }
+    setCurrentInput(value.slice(0, currentWord.length + 4));
   };
 
   const handleKeyDown = (event) => {
@@ -171,23 +367,7 @@ function TypingTest({ lang, onClose }) {
 
     if (event.key === ' ' || event.key === 'Enter') {
       event.preventDefault();
-      if (!currentInput) return;
-      const isCorrect = currentInput === currentWord;
-      setCompletedWords((value) => [...value, isCorrect]);
-      if (isCorrect) setCorrectCharacters((value) => value + currentWord.length);
-      setCurrentInput('');
-      setWordIndex((value) => value + 1);
-      if (wordIndex + 1 >= words.length) {
-        const finalElapsed = currentTime() - startTime;
-        const finalCorrectCharacters = correctCharacters + (isCorrect ? currentWord.length : 0);
-        const finalWpm = Math.round((finalCorrectCharacters / 5) / (finalElapsed / 60000));
-        setElapsed(finalElapsed);
-        setIsFinished(true);
-        if (finalWpm > best) {
-          setBest(finalWpm);
-          localStorage.setItem(bestKey, String(finalWpm));
-        }
-      }
+      submitWord(currentInput);
       return;
     }
 
@@ -211,6 +391,23 @@ function TypingTest({ lang, onClose }) {
   const visibleStart = Math.max(0, wordIndex - 4);
   const visibleWords = words.slice(visibleStart, wordIndex + 44);
 
+  if (isFinished) {
+    return (
+      <GameResult
+        title={isId ? 'Tes Kecepatan Mengetik' : 'Typing Speed Test'}
+        lang={lang}
+        onPlayAgain={reset}
+        onClose={onClose}
+        stats={[
+          { label: 'WPM', value: String(wpm) },
+          { label: isId ? 'Akurasi' : 'Accuracy', value: `${accuracy}%` },
+          { label: isId ? 'Durasi' : 'Duration', value: `${(elapsed / 1000).toFixed(1)}s` },
+          { label: isId ? 'Rekor' : 'Best', value: best ? `${best} WPM` : '—' },
+        ]}
+      />
+    );
+  }
+
   return (
     <div
       ref={targetRef}
@@ -228,7 +425,7 @@ function TypingTest({ lang, onClose }) {
             <button
               key={item}
               type="button"
-              onClick={() => changeSetting(setMode, item, `typing-best-${testLang}-${item}-${duration}`)}
+              onClick={() => changeSetting(setMode, item, `typing-best-${testLang}-${item}-${duration}`, testLang, item)}
               className={`typing-setting ${mode === item ? 'typing-setting--active' : ''}`}
               aria-pressed={mode === item}
             >
@@ -242,7 +439,7 @@ function TypingTest({ lang, onClose }) {
             <button
               key={item}
               type="button"
-              onClick={() => changeSetting(setTestLang, item, `typing-best-${item}-${mode}-${duration}`)}
+              onClick={() => changeSetting(setTestLang, item, `typing-best-${item}-${mode}-${duration}`, item, mode)}
               className={`typing-setting ${testLang === item ? 'typing-setting--active' : ''}`}
               aria-pressed={testLang === item}
             >
@@ -275,7 +472,7 @@ function TypingTest({ lang, onClose }) {
         ))}
       </div>
 
-      <div className="typing-test-copy" onClick={() => targetRef.current?.focus()}>
+      <div className="typing-test-copy" onClick={() => mobileInputRef.current?.focus()}>
         <div className="mb-5 font-mono text-[10px] uppercase tracking-[0.2em] text-muted">
           {testLang === 'id' ? 'BAHASA INDONESIA' : 'ENGLISH'}
           <span className="ml-3 opacity-60">{mode.toUpperCase()}</span>
@@ -320,12 +517,22 @@ function TypingTest({ lang, onClose }) {
             {isId ? 'Mulai mengetik untuk memulai tes' : 'Start typing to begin the test'}
           </p>
         )}
-        {isFinished && (
-          <div className="mt-6 inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-semibold text-text">
-            <i className="fa-solid fa-trophy text-gold" aria-hidden="true" />
-            {isId ? 'Tes selesai' : 'Test complete'} · {wpm} WPM
-          </div>
-        )}
+        <label className="typing-mobile-input" onClick={(event) => event.stopPropagation()}>
+          <span>{isId ? 'Ketik di sini untuk bermain' : 'Type here to play'}</span>
+          <input
+            ref={mobileInputRef}
+            type="text"
+            inputMode="text"
+            autoCapitalize="off"
+            autoCorrect="off"
+            spellCheck="false"
+            value={currentInput}
+            onChange={handleMobileInput}
+            onKeyDown={(event) => event.stopPropagation()}
+            aria-label={isId ? 'Ketik kata untuk tes' : 'Type the words for the test'}
+            placeholder={isId ? 'Mulai mengetik…' : 'Start typing…'}
+          />
+        </label>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3">
@@ -334,7 +541,7 @@ function TypingTest({ lang, onClose }) {
           <span><kbd>Tab</kbd> + <kbd>Enter</kbd> {isId ? 'ulang tes' : 'restart'}</span>
           <span><kbd>Esc</kbd> {isId ? 'tutup' : 'close'}</span>
         </div>
-        <button type="button" onClick={reset} className="typing-restart">
+        <button type="button" onClick={() => reset()} className="typing-restart">
           <i className="fa-solid fa-rotate-right" aria-hidden="true" />
           {isId ? 'MULAI ULANG' : 'RESTART'}
         </button>
@@ -344,15 +551,10 @@ function TypingTest({ lang, onClose }) {
 }
 
 /* ═══ MEMORY MATCH ═══ */
-function MemoryMatch({ lang }) {
+function MemoryMatch({ lang, onClose }) {
   const isId = lang === 'id';
   const [level, setLevel] = useState('normal');
-  const [cards, setCards] = useState(() =>
-    EMOJIS.slice(0, 6).flatMap((emoji, pairIndex) => [
-      { id: pairIndex * 2, emoji },
-      { id: pairIndex * 2 + 1, emoji },
-    ])
-  );
+  const [cards, setCards] = useState(() => makeMemoryDeck('normal'));
   const [flipped, setFlipped] = useState([]);
   const [matched, setMatched] = useState([]);
   const [moves, setMoves] = useState(0);
@@ -366,13 +568,7 @@ function MemoryMatch({ lang }) {
   const [bestMoves, setBestMoves] = useState(() => Number(localStorage.getItem(bestKey)) || 0);
 
   const initGame = (nextLevel = level) => {
-    const config = MEMORY_LEVELS.find((item) => item.id === nextLevel) || MEMORY_LEVELS[1];
-    const selectedEmojis = EMOJIS.slice(0, config.pairs);
-    const pairs = selectedEmojis.flatMap((emoji, pairIndex) => [
-      { id: pairIndex * 2, emoji },
-      { id: pairIndex * 2 + 1, emoji },
-    ]);
-    setCards(shuffleArray(pairs));
+    setCards(makeMemoryDeck(nextLevel));
     clearInterval(timerRef.current);
     clearTimeout(mismatchTimerRef.current);
     setFlipped([]);
@@ -436,6 +632,23 @@ function MemoryMatch({ lang }) {
     normal: isId ? 'Sedang' : 'Normal',
     hard: isId ? 'Sulit' : 'Hard',
   };
+
+  if (isFinished) {
+    return (
+      <GameResult
+        title={isId ? 'Memory Match' : 'Memory Match'}
+        lang={lang}
+        onPlayAgain={() => initGame()}
+        onClose={onClose}
+        stats={[
+          { label: isId ? 'Langkah' : 'Moves', value: String(moves) },
+          { label: isId ? 'Waktu' : 'Time', value: `${elapsedSec}s` },
+          { label: isId ? 'Level' : 'Level', value: labels[level] },
+          { label: isId ? 'Rekor' : 'Best', value: bestMoves ? `${bestMoves} ${isId ? 'langkah' : 'moves'}` : '—' },
+        ]}
+      />
+    );
+  }
 
   return (
     <div className="space-y-5">
@@ -514,23 +727,12 @@ function MemoryMatch({ lang }) {
         })}
       </div>
 
-      {isFinished && (
-        <div
-          className="p-4 rounded-xl border animate-fade-up text-center shadow-sm"
-          style={{ borderColor: 'var(--color-gold)', background: 'var(--color-bg)' }}
-        >
-          <i className="fa-solid fa-trophy text-2xl mb-2 text-gold block" aria-hidden="true" />
-          <p className="text-sm font-mono font-bold" style={{ color: 'var(--color-text)' }}>
-            {isId ? `Hebat! ${moves} langkah dalam ${elapsedSec} detik` : `Great! ${moves} moves in ${elapsedSec} seconds`}
-          </p>
-        </div>
-      )}
     </div>
   );
 }
 
 /* ═══ BLOCK ESCAPE ═══ */
-function BlockEscape({ lang }) {
+function BlockEscape({ lang, onClose }) {
   const isId = lang === 'id';
   const [level, setLevel] = useState('easy');
   const [pieces, setPieces] = useState(() => BLOCK_LEVELS.easy.map((piece) => ({ ...piece })));
@@ -540,6 +742,9 @@ function BlockEscape({ lang }) {
   const [startedAt, setStartedAt] = useState(null);
   const [elapsed, setElapsed] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const boardRef = useRef(null);
+  const dragRef = useRef(null);
+  const [dragOffset, setDragOffset] = useState(null);
   const bestKey = `block-escape-best-${level}`;
   const [best, setBest] = useState(() => Number(localStorage.getItem(bestKey)) || 0);
   const selectedPiece = pieces.find((piece) => piece.id === selectedId) || pieces[0];
@@ -571,8 +776,8 @@ function BlockEscape({ lang }) {
     resetGame(nextLevel);
   };
 
-  const canMove = (pieceId, direction) => {
-    const piece = pieces.find((item) => item.id === pieceId);
+  const canMove = (pieceId, direction, board = pieces) => {
+    const piece = board.find((item) => item.id === pieceId);
     const allowedDirections = piece?.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
     if (!piece || !allowedDirections.includes(direction)) return false;
 
@@ -596,7 +801,7 @@ function BlockEscape({ lang }) {
       ? { x: direction === 'right' ? nextX + piece.length - 1 : nextX, y: piece.y }
       : { x: piece.x, y: direction === 'down' ? nextY + piece.length - 1 : nextY };
 
-    return !pieces.some((other) => {
+    return !board.some((other) => {
       if (other.id === pieceId) return false;
       return Array.from({ length: other.length }, (_, index) => ({
         x: other.x + (other.direction === 'h' ? index : 0),
@@ -605,36 +810,133 @@ function BlockEscape({ lang }) {
     });
   };
 
-  const moveSelected = (direction) => {
-    if (isFinished || !selectedPiece) return;
-    const moveResult = canMove(selectedPiece.id, direction);
-    if (!moveResult) return;
+  const moveSelected = (direction, distance = 1, pieceId = selectedPiece?.id) => {
+    if (isFinished || !pieceId) return;
+    let nextPieces = pieces;
+    let completedSteps = 0;
+    let didExit = false;
+    const moveTime = Date.now();
 
-    const nextMoves = moves + 1;
-    if (moveResult === 'exit') {
-      setHistory((previous) => [...previous, { pieces, moves }]);
-      setMoves(nextMoves);
-      setElapsed(startedAt ? Date.now() - startedAt : 0);
+    for (let step = 0; step < distance; step += 1) {
+      const moveResult = canMove(pieceId, direction, nextPieces);
+      if (!moveResult) break;
+      completedSteps += 1;
+      if (moveResult === 'exit') {
+        didExit = true;
+        break;
+      }
+
+      const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+      nextPieces = nextPieces.map((piece) => piece.id !== pieceId
+        ? piece
+        : {
+            ...piece,
+            x: piece.x + (piece.direction === 'h' ? delta : 0),
+            y: piece.y + (piece.direction === 'v' ? delta : 0),
+          });
+    }
+
+    if (!completedSteps) return;
+    setSelectedId(pieceId);
+    setHistory((previous) => [...previous, { pieces, moves }]);
+    setPieces(nextPieces);
+    const nextMoves = moves + completedSteps;
+    setMoves(nextMoves);
+    if (!startedAt) setStartedAt(moveTime);
+
+    if (didExit) {
+      setElapsed(moveTime - (startedAt || moveTime));
       setIsFinished(true);
       if (!best || nextMoves < best) {
         setBest(nextMoves);
         localStorage.setItem(bestKey, String(nextMoves));
       }
-      return;
     }
+  };
 
-    const delta = direction === 'right' || direction === 'down' ? 1 : -1;
-    const nextPieces = pieces.map((piece) => piece.id !== selectedPiece.id
-      ? piece
-      : {
-          ...piece,
-          x: piece.x + (piece.direction === 'h' ? delta : 0),
-          y: piece.y + (piece.direction === 'v' ? delta : 0),
-        });
-    setHistory((previous) => [...previous, { pieces, moves }]);
-    setPieces(nextPieces);
-    setMoves(nextMoves);
-    if (!startedAt) setStartedAt(Date.now());
+  const beginDrag = (event, piece) => {
+    if (event.button !== 0 && event.pointerType === 'mouse') return;
+    event.currentTarget.setPointerCapture(event.pointerId);
+    const directions = piece.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
+    const maxSteps = Object.fromEntries(directions.map((direction) => {
+      let board = pieces;
+      let steps = 0;
+      while (true) {
+        const result = canMove(piece.id, direction, board);
+        if (!result) break;
+        steps += 1;
+        if (result === 'exit') break;
+        const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+        board = board.map((item) => item.id !== piece.id
+          ? item
+          : {
+              ...item,
+              x: item.x + (item.direction === 'h' ? delta : 0),
+              y: item.y + (item.direction === 'v' ? delta : 0),
+            });
+      }
+      return [direction, steps];
+    }));
+    dragRef.current = {
+      id: piece.id,
+      x: event.clientX,
+      y: event.clientY,
+      maxSteps,
+    };
+    setDragOffset({ id: piece.id, x: 0, y: 0 });
+    setSelectedId(piece.id);
+  };
+
+  const updateDrag = (event, piece) => {
+    const drag = dragRef.current;
+    if (!drag || drag.id !== piece.id || !boardRef.current) return;
+
+    const deltaX = piece.direction === 'h' ? event.clientX - drag.x : 0;
+    const deltaY = piece.direction === 'v' ? event.clientY - drag.y : 0;
+    const delta = piece.direction === 'h' ? deltaX : deltaY;
+    if (Math.abs(delta) < 1) return;
+
+    const direction = piece.direction === 'h'
+      ? delta > 0 ? 'right' : 'left'
+      : delta > 0 ? 'down' : 'up';
+    const boardRect = boardRef.current.getBoundingClientRect();
+    const cellSize = (piece.direction === 'h' ? boardRect.width : boardRect.height) / 6;
+    const maxOffset = drag.maxSteps[direction] * cellSize;
+    const clampedDelta = Math.sign(delta) * Math.min(Math.abs(delta), maxOffset);
+    setDragOffset({
+      id: piece.id,
+      x: piece.direction === 'h' ? clampedDelta : 0,
+      y: piece.direction === 'v' ? clampedDelta : 0,
+    });
+  };
+
+  const endDrag = (event) => {
+    const drag = dragRef.current;
+    dragRef.current = null;
+    setDragOffset(null);
+    if (!drag || !boardRef.current) return;
+
+    const boardRect = boardRef.current.getBoundingClientRect();
+    const deltaX = event.clientX - drag.x;
+    const deltaY = event.clientY - drag.y;
+    const piece = pieces.find((item) => item.id === drag.id);
+    if (!piece) return;
+
+    const delta = piece.direction === 'h' ? deltaX : deltaY;
+    const cellSize = (piece.direction === 'h' ? boardRect.width : boardRect.height) / 6;
+    const distance = Math.abs(delta) < cellSize * 0.35
+      ? 0
+      : Math.max(1, Math.round(Math.abs(delta) / cellSize));
+    if (!distance) return;
+    const direction = piece.direction === 'h'
+      ? delta > 0 ? 'right' : 'left'
+      : delta > 0 ? 'down' : 'up';
+    moveSelected(direction, Math.min(distance, drag.maxSteps[direction]), piece.id);
+  };
+
+  const cancelDrag = () => {
+    dragRef.current = null;
+    setDragOffset(null);
   };
 
   const undoMove = () => {
@@ -658,12 +960,22 @@ function BlockEscape({ lang }) {
     moveSelected(direction);
   };
 
-  const directionButtons = [
-    { direction: 'up', icon: 'fa-arrow-up', label: isId ? 'Atas' : 'Up' },
-    { direction: 'down', icon: 'fa-arrow-down', label: isId ? 'Bawah' : 'Down' },
-    { direction: 'left', icon: 'fa-arrow-left', label: isId ? 'Kiri' : 'Left' },
-    { direction: 'right', icon: 'fa-arrow-right', label: isId ? 'Kanan / keluar' : 'Right / exit' },
-  ];
+  if (isFinished) {
+    return (
+      <GameResult
+        title={isId ? 'Teka-teki Geser Blok' : 'Block Escape'}
+        lang={lang}
+        onPlayAgain={() => resetGame()}
+        onClose={onClose}
+        stats={[
+          { label: isId ? 'Langkah' : 'Moves', value: String(moves) },
+          { label: isId ? 'Waktu' : 'Time', value: `${(elapsed / 1000).toFixed(1)}s` },
+          { label: isId ? 'Level' : 'Level', value: labels[level] },
+          { label: isId ? 'Rekor' : 'Best', value: best ? String(best) : '—' },
+        ]}
+      />
+    );
+  }
 
   return (
     <div className="space-y-5">
@@ -714,8 +1026,9 @@ function BlockEscape({ lang }) {
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-start sm:justify-center sm:gap-8">
         <div className="relative w-full max-w-[340px]">
           <div
+            ref={boardRef}
             role="group"
-            aria-label={isId ? 'Papan puzzle blok. Pilih blok lalu gunakan tombol arah.' : 'Block puzzle board. Select a block and use the direction buttons.'}
+            aria-label={isId ? 'Papan puzzle blok. Geser setiap blok searah jalurnya.' : 'Block puzzle board. Drag each block along its track.'}
             tabIndex={0}
             onKeyDown={onBoardKeyDown}
             className="relative aspect-square overflow-hidden rounded-2xl border-2 border-border outline-none focus-visible:ring-2 focus-visible:ring-gold"
@@ -734,6 +1047,10 @@ function BlockEscape({ lang }) {
                 <button
                   key={piece.id}
                   type="button"
+                  onPointerDown={(event) => beginDrag(event, piece)}
+                  onPointerMove={(event) => updateDrag(event, piece)}
+                  onPointerUp={endDrag}
+                  onPointerCancel={cancelDrag}
                   aria-pressed={isSelected}
                   aria-label={isTarget
                     ? (isId ? 'Blok kunci' : 'Key block')
@@ -751,6 +1068,14 @@ function BlockEscape({ lang }) {
                     borderColor: isSelected ? '#fff1b8' : isTarget ? '#ffd976' : 'rgba(255,255,255,0.3)',
                     boxShadow: isSelected ? '0 0 0 3px rgba(216,170,66,0.42), 0 8px 18px rgba(0,0,0,0.2)' : undefined,
                     zIndex: isSelected ? 2 : 1,
+                    touchAction: 'none',
+                    userSelect: 'none',
+                    transform: dragOffset?.id === piece.id
+                      ? `translate3d(${dragOffset.x}px, ${dragOffset.y}px, 0)`
+                      : undefined,
+                    transition: dragOffset?.id === piece.id
+                      ? 'none'
+                      : 'left 160ms cubic-bezier(0.22, 1, 0.36, 1), top 160ms cubic-bezier(0.22, 1, 0.36, 1), transform 160ms cubic-bezier(0.22, 1, 0.36, 1)',
                   }}
                 >
                   {isTarget ? <i className="fa-solid fa-key text-sm sm:text-base" aria-hidden="true" /> : <span className="h-1 w-1/2 rounded-full bg-white/40" />}
@@ -762,45 +1087,12 @@ function BlockEscape({ lang }) {
             </div>
           </div>
           <p className="mt-2 text-center text-xs text-muted">
-            {isId ? 'Geser blok kunci ke pintu keluar di kanan.' : 'Slide the key block to the exit on the right.'}
+            {isId ? 'Sentuh lalu geser setiap blok searah jalurnya. Buka jalan agar kunci keluar ke kanan.' : 'Touch and drag blocks along their tracks. Clear the path for the key to exit on the right.'}
           </p>
         </div>
 
-        <div className="w-full max-w-[340px] space-y-3 sm:max-w-[220px]">
-          <div className="rounded-xl border p-3" style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}>
-            <p className="mb-3 text-center font-mono text-[10px] uppercase tracking-wider text-muted">
-              {isId ? 'Gerakkan blok terpilih' : 'Move selected block'}
-            </p>
-            <div className="grid grid-cols-2 gap-2">
-              {directionButtons.map(({ direction, icon, label }) => (
-                <button
-                  key={direction}
-                  type="button"
-                  onClick={() => moveSelected(direction)}
-                  disabled={!canMove(selectedPiece?.id, direction) || isFinished}
-                  aria-label={label}
-                  className="flex min-h-11 items-center justify-center gap-2 rounded-lg border border-border bg-surface px-2 text-xs font-semibold text-text transition-all hover:border-gold hover:bg-gold/10 hover:text-gold-text active:scale-95 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-border disabled:hover:bg-surface"
-                >
-                  <i className={`fa-solid ${icon}`} aria-hidden="true" />
-                  <span>{label}</span>
-                </button>
-              ))}
-            </div>
-            <p className="mt-3 text-center text-[10px] text-muted">
-              {isId ? 'Tombol panah keyboard juga dapat digunakan.' : 'Keyboard arrow keys also work.'}
-            </p>
-          </div>
-        </div>
       </div>
 
-      {isFinished && (
-        <div className="rounded-xl border p-4 text-center shadow-sm" style={{ borderColor: 'var(--color-gold)', background: 'var(--color-bg)' }}>
-          <i className="fa-solid fa-trophy mb-2 block text-2xl text-gold" aria-hidden="true" />
-          <p className="text-sm font-semibold text-text">
-            {isId ? `Berhasil! Kunci keluar dalam ${moves} langkah.` : `Solved! The key escaped in ${moves} moves.`}
-          </p>
-        </div>
-      )}
     </div>
   );
 }
@@ -835,7 +1127,7 @@ function GameModal({ game, onClose, lang }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-start justify-center p-2 sm:items-center sm:p-6"
       initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       transition={{ duration: 0.22 }}
     >
@@ -852,7 +1144,7 @@ function GameModal({ game, onClose, lang }) {
         role="dialog"
         aria-modal="true"
         aria-label={isId ? titles[game].id : titles[game].en}
-        className="relative z-10 w-full max-w-5xl max-h-[92vh] rounded-xl flex flex-col overflow-hidden shadow-2xl border"
+        className="relative z-10 my-auto flex max-h-[calc(100dvh-1rem)] w-full max-w-5xl flex-col overflow-hidden rounded-xl border shadow-2xl sm:max-h-[92vh]"
         style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
       >
         {/* Header */}
@@ -899,12 +1191,12 @@ function GameModal({ game, onClose, lang }) {
           </button>
         </div>
         {/* Content */}
-        <div className={`overflow-y-auto ${game === 'typing' ? 'p-0' : 'p-4 sm:p-6'}`}>
+        <div className={`min-h-0 overflow-y-auto overscroll-contain ${game === 'typing' ? 'p-0' : 'p-4 sm:p-6'}`}>
           {game === 'typing'
             ? <TypingTest lang={lang} onClose={onClose} />
             : game === 'memory'
-              ? <MemoryMatch lang={lang} />
-              : <BlockEscape lang={lang} />}
+              ? <MemoryMatch lang={lang} onClose={onClose} />
+              : <BlockEscape lang={lang} onClose={onClose} />}
         </div>
       </motion.div>
     </motion.div>
