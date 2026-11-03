@@ -85,6 +85,7 @@ const BLOCK_LEVELS = {
     { id: 'b', x: 3, y: 2, length: 2, direction: 'v' },
     { id: 'c', x: 5, y: 2, length: 2, direction: 'v' },
     { id: 'd', x: 2, y: 0, length: 2, direction: 'h' },
+    { id: 'e', x: 3, y: 4, length: 2, direction: 'h' },
   ],
   hard: [
     { id: 'target', x: 0, y: 2, length: 2, direction: 'h' },
@@ -96,7 +97,21 @@ const BLOCK_LEVELS = {
     { id: 'f', x: 0, y: 0, length: 2, direction: 'h' },
     { id: 'g', x: 0, y: 4, length: 2, direction: 'v' },
     { id: 'h', x: 2, y: 5, length: 3, direction: 'h' },
+    { id: 'i', x: 3, y: 4, length: 2, direction: 'h' },
+    { id: 'j', x: 5, y: 2, length: 2, direction: 'v' },
   ],
+};
+
+const BLOCK_SCRAMBLE_STEPS = {
+  easy: [8, 14],
+  normal: [18, 28],
+  hard: [28, 42],
+};
+
+const BLOCK_MIN_SOLUTION_STEPS = {
+  easy: 5,
+  normal: 9,
+  hard: 16,
 };
 
 function currentTime() {
@@ -110,6 +125,162 @@ function shuffleArray(arr) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function getBlockMoveResult(board, pieceId, direction) {
+  const piece = board.find((item) => item.id === pieceId);
+  const allowedDirections = piece?.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
+  if (!piece || !allowedDirections.includes(direction)) return false;
+
+  if (pieceId === 'target' && direction === 'right' && piece.x + piece.length === 6) {
+    return 'exit';
+  }
+
+  const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+  const nextX = piece.x + (piece.direction === 'h' ? delta : 0);
+  const nextY = piece.y + (piece.direction === 'v' ? delta : 0);
+  if (
+    nextX < 0 ||
+    nextY < 0 ||
+    nextX + (piece.direction === 'h' ? piece.length : 1) > 6 ||
+    nextY + (piece.direction === 'v' ? piece.length : 1) > 6
+  ) {
+    return false;
+  }
+
+  const nextCell = piece.direction === 'h'
+    ? { x: direction === 'right' ? nextX + piece.length - 1 : nextX, y: piece.y }
+    : { x: piece.x, y: direction === 'down' ? nextY + piece.length - 1 : nextY };
+
+  return !board.some((other) => {
+    if (other.id === pieceId) return false;
+    return Array.from({ length: other.length }, (_, index) => ({
+      x: other.x + (other.direction === 'h' ? index : 0),
+      y: other.y + (other.direction === 'v' ? index : 0),
+    })).some((cell) => cell.x === nextCell.x && cell.y === nextCell.y);
+  });
+}
+
+function moveBlockOneCell(board, pieceId, direction) {
+  const delta = direction === 'right' || direction === 'down' ? 1 : -1;
+  return board.map((piece) => piece.id !== pieceId
+    ? piece
+    : {
+        ...piece,
+        x: piece.x + (piece.direction === 'h' ? delta : 0),
+        y: piece.y + (piece.direction === 'v' ? delta : 0),
+      });
+}
+
+function blockBoardKey(board) {
+  return board
+    .map(({ id, x, y }) => `${id}:${x},${y}`)
+    .join('|');
+}
+
+function hasEscapeWithinMoves(startBoard, maxMoves) {
+  const queue = [{ board: startBoard, moves: 0 }];
+  const visited = new Set([blockBoardKey(startBoard)]);
+
+  for (let index = 0; index < queue.length; index += 1) {
+    const { board, moves } = queue[index];
+    if (moves >= maxMoves) continue;
+
+    for (const piece of board) {
+      const directions = piece.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
+      for (const direction of directions) {
+        const result = getBlockMoveResult(board, piece.id, direction);
+        if (result === 'exit') return true;
+        if (result !== true) continue;
+
+        const nextBoard = moveBlockOneCell(board, piece.id, direction);
+        const key = blockBoardKey(nextBoard);
+        if (visited.has(key)) continue;
+        visited.add(key);
+        queue.push({ board: nextBoard, moves: moves + 1 });
+      }
+    }
+  }
+  return false;
+}
+
+function makeBlockChallenge(level) {
+  const baseBoard = BLOCK_LEVELS[level].map((piece) => ({ ...piece }));
+  const previousChallenge = localStorage.getItem(`block-escape-layout-${level}`);
+  const [minSteps, maxSteps] = BLOCK_SCRAMBLE_STEPS[level];
+  const minimumSolutionSteps = BLOCK_MIN_SOLUTION_STEPS[level];
+
+  for (let attempt = 0; attempt < 100; attempt += 1) {
+    let board = baseBoard.map((piece) => ({ ...piece }));
+    const visited = new Set([blockBoardKey(board)]);
+    const desiredSteps = minSteps + Math.floor(Math.random() * (maxSteps - minSteps + 1));
+    let movedSteps = 0;
+
+    while (movedSteps < desiredSteps) {
+      const options = board.flatMap((piece) => (
+        (piece.direction === 'h' ? ['left', 'right'] : ['up', 'down'])
+          .filter((direction) => getBlockMoveResult(board, piece.id, direction) === true)
+          .map((direction) => ({ pieceId: piece.id, direction }))
+      ));
+
+      const unseenOptions = shuffleArray(options).filter(({ pieceId, direction }) => (
+        !visited.has(blockBoardKey(moveBlockOneCell(board, pieceId, direction)))
+      ));
+      if (!unseenOptions.length) break;
+
+      const [move] = unseenOptions;
+      board = moveBlockOneCell(board, move.pieceId, move.direction);
+      visited.add(blockBoardKey(board));
+      movedSteps += 1;
+    }
+
+    const layout = blockBoardKey(board);
+    const target = board.find((piece) => piece.id === 'target');
+    if (
+      movedSteps >= minSteps &&
+      target.x < 4 &&
+      layout !== previousChallenge &&
+      !hasEscapeWithinMoves(board, minimumSolutionSteps - 1)
+    ) {
+      localStorage.setItem(`block-escape-layout-${level}`, layout);
+      return board;
+    }
+  }
+
+  const fallbackCandidates = [baseBoard, ...baseBoard.flatMap((_, index) => {
+    const piece = baseBoard[index];
+    return (piece.direction === 'h' ? ['left', 'right'] : ['up', 'down'])
+      .filter((direction) => getBlockMoveResult(baseBoard, piece.id, direction) === true)
+      .map((direction) => moveBlockOneCell(baseBoard, piece.id, direction));
+  })];
+  for (const candidate of shuffleArray(fallbackCandidates)) {
+    const layout = blockBoardKey(candidate);
+    const target = candidate.find((piece) => piece.id === 'target');
+    if (
+      layout !== previousChallenge &&
+      target.x < 4 &&
+      !hasEscapeWithinMoves(candidate, minimumSolutionSteps - 1)
+    ) {
+      localStorage.setItem(`block-escape-layout-${level}`, layout);
+      return candidate;
+    }
+  }
+
+  const alternativeCandidates = shuffleArray(baseBoard.flatMap((piece) => (
+      (piece.direction === 'h' ? ['left', 'right'] : ['up', 'down'])
+        .filter((direction) => getBlockMoveResult(baseBoard, piece.id, direction) === true)
+        .map((direction) => moveBlockOneCell(baseBoard, piece.id, direction))
+    )));
+  const alternative = alternativeCandidates.find((candidate) => (
+    blockBoardKey(candidate) !== previousChallenge &&
+    candidate.find((piece) => piece.id === 'target').x < 4 &&
+    !hasEscapeWithinMoves(candidate, minimumSolutionSteps - 1)
+  ));
+  if (!alternative) {
+    throw new Error(`Unable to create a sufficiently challenging Block Escape layout for level "${level}".`);
+  }
+  localStorage.setItem(`block-escape-layout-${level}`, blockBoardKey(alternative));
+  return alternative;
 }
 
 function makeTypingRound(language, mode, previousText = '') {
@@ -735,7 +906,7 @@ function MemoryMatch({ lang, onClose }) {
 function BlockEscape({ lang, onClose }) {
   const isId = lang === 'id';
   const [level, setLevel] = useState('easy');
-  const [pieces, setPieces] = useState(() => BLOCK_LEVELS.easy.map((piece) => ({ ...piece })));
+  const [pieces, setPieces] = useState(() => makeBlockChallenge('easy'));
   const [selectedId, setSelectedId] = useState('target');
   const [history, setHistory] = useState([]);
   const [moves, setMoves] = useState(0);
@@ -761,7 +932,7 @@ function BlockEscape({ lang, onClose }) {
   }, [startedAt, isFinished]);
 
   const resetGame = (nextLevel = level) => {
-    setPieces(BLOCK_LEVELS[nextLevel].map((piece) => ({ ...piece })));
+    setPieces(makeBlockChallenge(nextLevel));
     setSelectedId('target');
     setHistory([]);
     setMoves(0);
@@ -777,37 +948,7 @@ function BlockEscape({ lang, onClose }) {
   };
 
   const canMove = (pieceId, direction, board = pieces) => {
-    const piece = board.find((item) => item.id === pieceId);
-    const allowedDirections = piece?.direction === 'h' ? ['left', 'right'] : ['up', 'down'];
-    if (!piece || !allowedDirections.includes(direction)) return false;
-
-    if (pieceId === 'target' && direction === 'right' && piece.x + piece.length === 6) {
-      return 'exit';
-    }
-
-    const delta = direction === 'right' || direction === 'down' ? 1 : -1;
-    const nextX = piece.x + (piece.direction === 'h' ? delta : 0);
-    const nextY = piece.y + (piece.direction === 'v' ? delta : 0);
-    if (
-      nextX < 0 ||
-      nextY < 0 ||
-      nextX + (piece.direction === 'h' ? piece.length : 1) > 6 ||
-      nextY + (piece.direction === 'v' ? piece.length : 1) > 6
-    ) {
-      return false;
-    }
-
-    const nextCell = piece.direction === 'h'
-      ? { x: direction === 'right' ? nextX + piece.length - 1 : nextX, y: piece.y }
-      : { x: piece.x, y: direction === 'down' ? nextY + piece.length - 1 : nextY };
-
-    return !board.some((other) => {
-      if (other.id === pieceId) return false;
-      return Array.from({ length: other.length }, (_, index) => ({
-        x: other.x + (other.direction === 'h' ? index : 0),
-        y: other.y + (other.direction === 'v' ? index : 0),
-      })).some((cell) => cell.x === nextCell.x && cell.y === nextCell.y);
-    });
+    return getBlockMoveResult(board, pieceId, direction);
   };
 
   const moveSelected = (direction, distance = 1, pieceId = selectedPiece?.id) => {
@@ -826,14 +967,7 @@ function BlockEscape({ lang, onClose }) {
         break;
       }
 
-      const delta = direction === 'right' || direction === 'down' ? 1 : -1;
-      nextPieces = nextPieces.map((piece) => piece.id !== pieceId
-        ? piece
-        : {
-            ...piece,
-            x: piece.x + (piece.direction === 'h' ? delta : 0),
-            y: piece.y + (piece.direction === 'v' ? delta : 0),
-          });
+      nextPieces = moveBlockOneCell(nextPieces, pieceId, direction);
     }
 
     if (!completedSteps) return;
@@ -866,14 +1000,7 @@ function BlockEscape({ lang, onClose }) {
         if (!result) break;
         steps += 1;
         if (result === 'exit') break;
-        const delta = direction === 'right' || direction === 'down' ? 1 : -1;
-        board = board.map((item) => item.id !== piece.id
-          ? item
-          : {
-              ...item,
-              x: item.x + (item.direction === 'h' ? delta : 0),
-              y: item.y + (item.direction === 'v' ? delta : 0),
-            });
+        board = moveBlockOneCell(board, piece.id, direction);
       }
       return [direction, steps];
     }));
