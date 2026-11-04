@@ -88,31 +88,7 @@ export default function ProjectModal({ project, onClose }) {
           style={{ background: 'var(--color-bg)' }}
         >
           <div className="flex items-center gap-2.5 flex-wrap">
-            <span
-              className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
-              style={{
-                background: 'rgba(179,130,38,0.12)',
-                color: 'var(--color-gold-text)',
-                border: '1px solid rgba(179,130,38,0.3)',
-              }}
-            >
-              <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
-              {project.displayCategory || project.category}
-            </span>
-            {project.location && (
-              <span
-                className="px-3 py-1 rounded-full text-xs font-mono font-semibold hidden sm:inline-flex items-center"
-                style={{
-                  background: 'var(--color-surface)',
-                  color: 'var(--color-muted)',
-                  border: '1px solid var(--color-border)',
-                }}
-              >
-                <i className="fa-solid fa-location-dot text-[10px] mr-1.5 text-gold" aria-hidden="true" />
-                {project.location}
-              </span>
-            )}
-            {project.privateSystem && (
+            {project.privateSystem ? (
               <span
                 className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
                 style={{
@@ -123,6 +99,18 @@ export default function ProjectModal({ project, onClose }) {
               >
                 <i className="fa-solid fa-lock text-[10px] mr-1.5" aria-hidden="true" />
                 {isId ? 'Sistem Privat' : 'Private System'}
+              </span>
+            ) : (
+              <span
+                className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
+                style={{
+                  background: 'rgba(179,130,38,0.12)',
+                  color: 'var(--color-gold-text)',
+                  border: '1px solid rgba(179,130,38,0.3)',
+                }}
+              >
+                <i className="fa-solid fa-globe text-[10px] mr-1.5" aria-hidden="true" />
+                Web
               </span>
             )}
           </div>
@@ -246,31 +234,6 @@ export default function ProjectModal({ project, onClose }) {
               </div>
             )}
           </div>
-
-          {/* Tech stack badges */}
-          {project.stack?.length > 0 && (
-            <div className="space-y-2.5">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] font-semibold" style={{ color: 'var(--color-gold-text)' }}>
-                <i className="fa-solid fa-layer-group text-xs" aria-hidden="true" />
-                <span>{t.projects.techStack || (isId ? 'Teknologi & Fitur' : 'Technologies & Stack')}</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {project.stack.map((item, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 rounded-lg text-xs font-mono border"
-                    style={{
-                      background: 'var(--color-bg)',
-                      borderColor: 'var(--color-border)',
-                      color: 'var(--color-text)',
-                    }}
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Project description box */}
           <div

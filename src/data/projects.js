@@ -3,25 +3,27 @@
  * Setiap proyek dilengkapi galeri tangkapan layar, spesifikasi teknis, dan ringkasan fitur.
  */
 
-const project = (data) => ({
-  year: data.year || 2025,
-  thumbnail: data.thumbnail || null,
-  ...data,
-  category: data.type || (data.category === 'Web Tool' || data.category === 'App' ? 'App' : 'Website'),
-  displayCategory: data.displayCategory || data.category,
-  title: { en: data.name, id: data.name },
-  summary: { en: data.summaryEn, id: data.summaryId },
-  detail: { en: data.detailEn, id: data.detailId },
-  results: { en: data.resultsEn, id: data.resultsId },
-  role: typeof data.role === 'object' ? data.role : { en: data.role || 'Web Developer', id: data.role || 'Web Developer' },
-});
+const project = (data) => {
+  const item = { ...data };
+  delete item.stack;
+  return {
+    year: item.year || 2025,
+    thumbnail: item.thumbnail || null,
+    ...item,
+    category: item.privateSystem ? 'Private System' : 'Web',
+    displayCategory: item.privateSystem ? 'Private System' : 'Web',
+    title: { en: item.name, id: item.name },
+    summary: { en: item.summaryEn, id: item.summaryId },
+    detail: { en: item.detailEn, id: item.detailId },
+    results: { en: item.resultsEn, id: item.resultsId },
+    role: typeof item.role === 'object' ? item.role : { en: item.role || 'Web Developer', id: item.role || 'Web Developer' },
+  };
+};
 
 export const projectsData = [
   project({
     slug: 'ubud-digital-creative',
     name: 'Ubud Digital Creative',
-    category: 'Website',
-    displayCategory: 'Visual Production Studio',
     location: 'Ubud, Bali',
     role: { en: 'Full-Stack Developer', id: 'Full-Stack Developer' },
     year: 2025,
@@ -36,7 +38,6 @@ export const projectsData = [
       '/images/project/ubuddigitalcreative1%20(7).png',
       '/images/project/ubuddigitalcreative1%20(8).png',
     ],
-    stack: ['WordPress / Custom Theme', 'Tailwind CSS', 'Framer Motion', 'Masonry Photo Gallery', 'Bilingual (EN/ID)', 'WhatsApp Booking API', 'Dark Luxury UI'],
     summaryEn: 'A high-end visual production studio website in Ubud, Bali, highlighting luxury photography, 4K aerial videography, villa architectural shoots, and content creation for premium brands.',
     summaryId: 'Website studio produksi visual mewah di Ubud, Bali, yang menampilkan layanan fotografi premium, videografi drone 4K, pemotretan arsitektur villa, dan manajemen konten media sosial.',
     detailEn: 'Ubud Digital Creative is a premier creative media and visual production house founded by Gusde Bathya in Ubud, Bali. With over 6+ years of industry experience, 200+ completed projects, and 120+ satisfied international and local clients, the studio specializes in luxury hospitality imagery, villa architectural documentation for Airbnb and Booking.com, commercial brand shoots, drone aerial cinematography, and social media growth strategies.\n\nThe website was engineered to reflect the studio\'s sophisticated dark-luxury aesthetic accented with warm gold tones. Key highlights include an interactive masonry portfolio with high-resolution media previews, structured 4-step creative workflow breakdowns (Brief & Concept, Production Shoot, Color Grading Post-Production, and Cloud Gallery Handover), bilingual localization (English & Indonesian), and an integrated WhatsApp consultation channel for immediate client booking inquiries.',
@@ -59,8 +60,6 @@ export const projectsData = [
   project({
     slug: 'undangan-digital-sony-dan-dewi',
     name: 'Undangan Digital — Sonyo & Dewi',
-    category: 'Website',
-    displayCategory: 'Digital Invitation',
     location: 'Bali',
     role: { en: 'Frontend & Interactive Web Developer', id: 'Frontend & Interactive Web Developer' },
     year: 2025,
@@ -72,7 +71,6 @@ export const projectsData = [
       '/images/project/undangan%20digital%20(4).png',
       '/images/project/undangan%20digital%20(5).png',
     ],
-    stack: ['Custom Web App', 'Interactive Audio API', 'Balinese Hindu Wedding UI', 'Google Maps Geolocation', 'RSVP & Guestbook', 'Digital Gift QRIS', 'Mobile-First UX'],
     summaryEn: 'An elegant, interactive Balinese Hindu wedding invitation for Sonyo & Dewi, featuring custom guest personalization, ceremony countdown, background audio player, interactive maps, and digital RSVP.',
     summaryId: 'Undangan pernikahan digital adat Bali (Pawiwahan) yang elegan dan interaktif untuk Sonyo & Dewi, dilengkapi personalisasi nama tamu, pemutar musik latar, hitung mundur acara, peta lokasi, dan buku tamu digital.',
     detailEn: 'Designed for the traditional Balinese Hindu wedding (Pawiwahan) of I Nyoman Kerta Wijaya (Sonyo) and Putu Dewi Yuliantari (Dewi), this web-based digital invitation replaces conventional paper cards with an immersive, multimedia experience tailored for mobile devices.\n\nGuests receive personalized invitation links that dynamically display their names on the welcome envelope. Upon clicking "Buka Undangan", smooth page animations unfold alongside traditional ambient background music with play/pause controls. The invitation includes formal Balinese Hindu greetings (Om Swastyastu), bride and groom family ancestry profiles, ceremony and reception schedule with an active countdown timer, Google Maps navigation to the venue, a romantic pre-wedding photo gallery, a digital angpao (cash gift) section with one-click bank account copying, and an interactive RSVP guestbook for blessings and attendance confirmations.',
@@ -95,8 +93,6 @@ export const projectsData = [
   project({
     slug: 'receipt-generator',
     name: 'Cetak Struk Online — Thermal Receipt Generator',
-    category: 'App',
-    displayCategory: 'Web POS & Utility App',
     role: { en: 'Web Application Engineer', id: 'Web Application Engineer' },
     year: 2025,
     thumbnail: '/images/project/receipt%20generator1%20(1).png',
@@ -107,7 +103,6 @@ export const projectsData = [
       '/images/project/receipt%20generator1%20(4).png',
       '/images/project/receipt%20generator1%20(5).png',
     ],
-    stack: ['React', 'Tailwind CSS', 'Web Bluetooth ESC/POS API', 'Thermal Printing Engine (58mm/80mm)', 'Dynamic Math Engine', 'Canvas & PDF Export'],
     summaryEn: 'A comprehensive web-based thermal receipt generator and editor for small businesses, featuring live 58mm/80mm thermal paper preview, customizable logos, dynamic item calculations, and direct Bluetooth ESC/POS printer support.',
     summaryId: 'Aplikasi web pembuat dan editor struk thermal untuk UMKM dan ritel, dilengkapi pratinjau langsung ukuran kertas 58mm/80mm, kustomisasi logo toko, perhitungan harga otomatis, dan koneksi printer Bluetooth thermal.',
     detailEn: 'Cetak Struk Online is a specialized web utility developed to help retail merchants, food stalls, and freelancers design, calculate, and print authentic point-of-sale thermal receipts directly from any browser without requiring expensive POS hardware.\n\nThe application features a clean two-panel interface: an intuitive input control panel on the left and a pixel-accurate thermal receipt simulation on the right. Users can configure store logos (image upload or styled typography), store headers (address, tax ID, phone number), cashier and customer metadata, invoice numbers, and transaction timestamps. The dynamic transaction table auto-calculates line items, quantities, subtotal, discounts, tax (PPN), payment methods (Cash, QRIS, Transfer), and exact change. Built-in layout tools allow instant switching between standard 58mm and 80mm thermal paper widths, monospaced thermal fonts (Courier Prime), dashed or double divider borders, barcode/QR code generation, and direct ESC/POS Bluetooth printing or high-resolution PNG/PDF export.',
@@ -130,8 +125,6 @@ export const projectsData = [
   project({
     slug: 'zeisa-spa-seminyak-bali',
     name: 'Zeisa Spa Seminyak Bali',
-    category: 'Website',
-    displayCategory: 'Spa & Wellness Sanctuary',
     location: 'Seminyak, Bali',
     role: { en: 'Web Developer & SEO Specialist', id: 'Web Developer & SEO Specialist' },
     year: 2025,
@@ -143,7 +136,6 @@ export const projectsData = [
       '/images/project/spa1%20(4).png',
       '/images/project/spa1%20(5).png',
     ],
-    stack: ['WordPress / Custom Theme', 'Spa Booking Gateway', 'Treatment Showcase', 'WhatsApp CTA', 'Local SEO & Schema Markup', 'Responsive UI'],
     summaryEn: 'A tranquil, luxury spa website in Seminyak, Bali, showcasing traditional Balinese massage rituals, body treatments, transparent pricing tiers, and direct WhatsApp reservation flows.',
     summaryId: 'Website spa dan wellness mewah di Seminyak, Bali, yang menyajikan paket pijat tradisional Bali, perawatan tubuh, daftar harga transparan, dan reservasi cepat via WhatsApp.',
     detailEn: 'Zeisa Spa Seminyak is a wellness sanctuary nestled in the heart of Seminyak, Bali, offering authentic Balinese healing therapies, holistic body scrubs, natural facial rejuvenation, and relaxing couple rituals.\n\nThe website was designed to evoke calm, relaxation, and luxury from the very first impression, using warm earthy tones, organic textures, and peaceful imagery. Visitors can explore detailed treatment descriptions with clear 60, 90, and 120-minute pricing options. To maximize booking conversions for international tourists and local expatriates, the site features prominent one-click WhatsApp reservation buttons that automatically pre-fill the guest\'s desired treatment package, date, and time. Integrated Google Maps directions ensure guests can easily navigate to the Seminyak sanctuary.',
@@ -166,8 +158,6 @@ export const projectsData = [
   project({
     slug: 'warung-lestari-pos',
     name: 'Warung Lestari POS',
-    category: 'App',
-    displayCategory: 'F&B Point of Sale',
     location: 'Bali',
     role: { en: 'Full-Stack Software Engineer', id: 'Full-Stack Software Engineer' },
     year: 2026,
@@ -184,7 +174,6 @@ export const projectsData = [
       '/images/project/warunglestari%20(7).png',
       '/images/project/warunglestari%20(8).png',
     ],
-    stack: ['React', 'Point of Sale', 'Role-Based Access (RBAC)', 'Inventory & Stock Tracking', 'Daily Cash Closing', 'Financial Analytics', 'PDF/Excel Export'],
     summaryEn: 'A private web-based POS system for food & beverage businesses, featuring multi-role access control, live cashier ordering, real-time inventory tracking, and daily cash reconciliation.',
     summaryId: 'Sistem POS privat berbasis web untuk bisnis kuliner dan toko makanan, dilengkapi manajemen hak akses bertingkat (RBAC), transaksi kasir cepat, pelacakan stok real-time, serta rekonsiliasi kas harian.',
     detailEn: 'Built specifically for Warung Lestari to modernize daily food-and-beverage operations, this private Point of Sale application unites cashier workflows, inventory monitoring, and business analytics into a centralized platform. The system implements granular Role-Based Access Control (RBAC), separating privileges between Super Admin (unrestricted access to dashboard metrics, stock audits, expense logging, daily closing, and role permissions) and Cashier (an intuitive, fast-paced ordering interface with customizable permissions). Key operational features include quick touchscreen-friendly order creation with custom item notes, automated stock deductions tied directly to sales invoices, menu catalog management with purchase cost (HPP) and profit margin analysis, comprehensive transaction history with receipt printing and PDF/Excel exports, automated stock movement audit logs, interactive financial revenue analytics, and end-of-day cash reconciliation (Daily Closing) to match physical drawer cash against system records. As a dedicated internal business platform, this showcase highlights the software architecture, user experience, and features while safeguarding internal business data.',
@@ -206,8 +195,6 @@ export const projectsData = [
   project({
     slug: 'big-tree-jewelry-classes-pos',
     name: 'Big Tree Jewelry Classes POS',
-    category: 'App',
-    displayCategory: 'Point of Sale (Multi-Branch)',
     location: 'Ubud, Bali',
     role: { en: 'Full-Stack Software Engineer', id: 'Full-Stack Software Engineer' },
     year: 2025,
@@ -225,7 +212,6 @@ export const projectsData = [
       '/images/project/posbigtree%20(9).png',
       '/images/project/posbigtree%20(10).png',
     ],
-    stack: ['React', 'Node.js', 'Multi-Branch Management (6 Outlets)', 'Role-Based Access (Super Admin & Cashier)', 'Silver Stock Audit', 'Daily Cash Closing', 'Payroll & Expenses'],
     summaryEn: 'A private, multi-branch POS for Big Tree Jewelry Classes, bringing branch sales, class transactions, silver inventory, staff operations, and business reports into one role-managed system.',
     summaryId: 'Sistem POS privat multi-cabang untuk Big Tree Jewelry Classes yang menyatukan penjualan cabang, transaksi kelas, inventaris perak, operasional staf, dan laporan bisnis dalam satu sistem dengan akses berbasis peran.',
     detailEn: 'Built to support Big Tree Jewelry Classes across six branches—Big Tree, Lumbung, Signature, Padi, Alam Ubud, and The Legend—this private system brings key store operations into one POS. The dashboard gives an at-a-glance view of branch sales, transactions, users, and silver stock. Staff can process jewelry-class purchases with participant counts, add-ons, payment details, and online-platform bookings, while managers can review revenue by channel, transactions, daily cash closing and reconciliation, silver inventory and usage, silversmith activity, payroll, and operating expenses. User management shows SUPER_ADMIN and KASIR roles, with access organized around each role’s responsibilities. The ten screenshots in this gallery show the system’s login, multi-branch overview, operational dashboards, reports, and checkout flow. This is a private system, so the portfolio showcases its interface without offering public access.',
@@ -248,13 +234,10 @@ export const projectsData = [
   project({
     slug: 'absensi-online-qr-code',
     name: 'Absensi Online QR Code',
-    category: 'App',
-    displayCategory: 'Attendance Management Web App',
     role: { en: 'Frontend Web Developer', id: 'Frontend Web Developer' },
     year: 2025,
     thumbnail: '/images/project/absensi.png',
     video: '/videos/absensi-online.mp4',
-    stack: ['React', 'QR Code Scanner (Html5-QRCode)', 'Real-time Attendance Dashboard', 'Export to Excel/CSV', 'Mobile Responsive UI', 'Web App'],
     summaryEn: 'An attendance web app that records check-ins through dynamic QR scanning and brings attendance records into an administrative review dashboard.',
     summaryId: 'Aplikasi web absensi yang mencatat kehadiran melalui pemindaian QR interaktif dan menyajikan data kehadiran dalam dashboard admin untuk ditinjau.',
     detailEn: 'The application combines a high-speed QR-based check-in flow with an administrative dashboard for monitoring employee or student attendance records. The camera scanner provides rapid QR code detection on mobile devices and laptops, ensuring seamless check-in and check-out logs with automated timestamps. Administrators can inspect attendance timelines, filter records by department or date range, and export attendance logs for payroll and auditing.',
@@ -276,8 +259,6 @@ export const projectsData = [
   project({
     slug: 'meru-jewelry-classes',
     name: 'Meru Jewelry Classes Bali',
-    category: 'Website',
-    displayCategory: 'Artisan Workshop & Booking Platform',
     location: 'Canggu, Bali',
     role: { en: 'Frontend & Web Developer', id: 'Frontend & Web Developer' },
     year: 2024,
@@ -289,15 +270,6 @@ export const projectsData = [
       '/images/project/meru1%20(4).png',
       '/images/project/meru1%20(5).png',
       '/images/project/meru1%20(6).png',
-    ],
-    stack: [
-      'WordPress / Custom Theme',
-      'Interactive 8-Branch Bali Map',
-      'Workshop Package Architecture (IDR Rates)',
-      'Dual-Channel Booking Engine (Form & WhatsApp API)',
-      'Artisan Workflow Visualizer (4 Steps)',
-      'Local SEO & Schema Markup',
-      'TripAdvisor & Google Reviews Showcase',
     ],
     summaryEn: 'A premier artisan jewelry workshop platform in Canggu, Bali, featuring an interactive 8-branch studio locator map, a 4-step silversmithing craft guide, tiered course packages, and an instant dual-channel reservation system.',
     summaryId: 'Website resmi studio kerajinan perhiasan perak di Canggu, Bali, dilengkapi peta interaktif 8 cabang studio, panduan visual 4 tahap menenun perak, katalog paket berjenjang, dan alur reservasi terintegrasi.',
@@ -325,8 +297,6 @@ export const projectsData = [
   project({
     slug: 'bali-charming-tours',
     name: 'Bali Charming Tours',
-    category: 'Website',
-    displayCategory: '6-Step Travel Booking & Checkout Engine',
     location: 'Denpasar, Bali',
     role: { en: 'Full-Stack Web Developer', id: 'Full-Stack Web Developer' },
     year: 2024,
@@ -341,16 +311,6 @@ export const projectsData = [
       '/images/project/balicharming%20(7).png',
       '/images/project/balicharming%20(8).png',
       '/images/project/balicharming%20(9).png',
-    ],
-    stack: [
-      'WordPress / Custom E-Commerce Engine',
-      'Multi-Step Booking State Machine (6 Stages)',
-      '3D Secure Credit Card Payment Gateway (Visa/Mastercard)',
-      'Dynamic Zone-Based Hotel Pickup Engine',
-      'Interactive Hour-by-Hour Itinerary Timeline',
-      'Automated PDF Booking Voucher Generation',
-      'Multi-Currency & Real-Time Pax Calculation',
-      'WhatsApp Concierge Integration',
     ],
     summaryEn: 'A full-scale travel portal and tour booking engine in Bali, featuring an end-to-end 6-stage checkout workflow, 3D Secure credit card payment processing, zone-based pickup selection, and dynamic itinerary timelines.',
     summaryId: 'Portal perjalanan dan mesin reservasi tour Bali berskala penuh, dilengkapi alur transaksi 6 tahap terintegrasi, pembayaran kartu kredit 3D Secure, pemilihan zona penjemputan hotel, dan linimasa itinerary dinamis.',
@@ -378,8 +338,6 @@ export const projectsData = [
   project({
     slug: 'bali-bruce-tours',
     name: 'Bali Bruce Tours',
-    category: 'Website',
-    displayCategory: 'Private Tour Reservation & Promo Engine',
     location: 'Denpasar, Bali',
     role: { en: 'Frontend & E-Commerce Developer', id: 'Frontend & E-Commerce Developer' },
     year: 2024,
@@ -391,15 +349,6 @@ export const projectsData = [
       '/images/project/balibrucetour%20(4).png',
       '/images/project/balibrucetour%20(5).png',
       '/images/project/balibrucetour%20(6).png',
-    ],
-    stack: [
-      'WordPress / WooCommerce',
-      'Private Charter Rate Engine (Per-Car Pricing)',
-      'Promotional Coupon & Discount Code Engine',
-      'Interactive Accordion Itinerary System',
-      'Overland Expedition Multi-Day Catalog',
-      'Mobile Drawer Cart & Streamlined Checkout',
-      'WhatsApp Concierge Floating Bar',
     ],
     summaryEn: 'A private tour reservation platform for Bali and overland Indonesian expeditions (Komodo & Bromo–Ijen), highlighting fixed per-car charter rates (IDR 800K/Car), a promotional discount code validator, and a 5-pillar trust architecture.',
     summaryId: 'Platform reservasi tour privat keliling Bali dan ekspedisi overland (Komodo & Bromo–Ijen), menampilkan tarif sewa per mobil pasti (IDR 800K/Mobil), sistem validasi kupon promo, dan arsitektur kepercayaan 5 pilar.',
@@ -427,8 +376,6 @@ export const projectsData = [
   project({
     slug: 'kakluna-bali-trans',
     name: 'Kakluna Bali Trans',
-    category: 'Website',
-    displayCategory: 'Airport Transfer & Island Transport Portal',
     location: 'Denpasar, Bali',
     role: { en: 'Frontend & Web Developer', id: 'Frontend & Web Developer' },
     year: 2024,
@@ -440,15 +387,6 @@ export const projectsData = [
       '/images/project/kakluna%20(4).png',
       '/images/project/kakluna%20(5).png',
       '/images/project/kakluna%20(6).png',
-    ],
-    stack: [
-      'WordPress / Custom Theme',
-      'Tiered Pax Pricing Matrix (1-5 Pax)',
-      'Interactive Zone Pickup Selector Chips',
-      'Airport Transfer Flight Logistics Handler',
-      'Fleet Capacity & Luggage Specification UI',
-      'Interactive Road Moments Photo Grid',
-      'Automated WhatsApp Routing Engine',
     ],
     summaryEn: 'A specialized island transport and Ngurah Rai Airport transfer portal in Bali, featuring a tiered passenger pricing matrix (1–5 Pax), interactive pickup zone selector chips, and a real-guest photo showcase.',
     summaryId: 'Portal transportasi keliling pulau dan antar-jemput Bandara Ngurah Rai di Bali, dilengkapi matriks tarif berjenjang kapasitas penumpang (1–5 Pax), selektor zona penjemputan interaktif, dan galeri perjalanan wisatawan.',
@@ -476,8 +414,6 @@ export const projectsData = [
   project({
     slug: 'maikebali-tour',
     name: 'Maikebali Tour',
-    category: 'Website',
-    displayCategory: 'Adventure & Tour Booking',
     location: 'Ubud, Bali',
     role: { en: 'Frontend & Web Developer', id: 'Frontend & Web Developer' },
     year: 2024,
@@ -490,7 +426,6 @@ export const projectsData = [
       '/images/project/maikebalitour1%20(1).png',
       '/images/project/maikebalitour7.png',
     ],
-    stack: ['WordPress / Custom Theme', 'Adventure Catalog', 'Activity Booking Engine', 'WhatsApp CTA Gateway', 'Responsive Design', 'SEO'],
     summaryEn: 'An adventure and holiday package website for Maikebali Tour, helping travelers discover adrenaline activities, cultural circuits, and request bookings directly via WhatsApp.',
     summaryId: 'Website wisata petualangan dan paket liburan Maikebali Tour, membantu wisatawan menemukan aktivitas seru, rute wisata budaya, dan memesan langsung via WhatsApp.',
     detailEn: 'Maikebali Tour specializes in thrilling outdoor activities and holiday experiences in Bali, including ATV Quad Biking through jungle tracks, Ayung River White Water Rafting, Mount Batur Sunrise 4WD Jeep Tours, and Nusa Penida island hopping.\n\nThe website presents each adventure with high-resolution action photos, detailed safety inclusions (helmets, boots, insurance, buffet lunch), duration, and physical requirements. A streamlined booking funnel guides travelers directly to WhatsApp customer support to confirm dates, arrange hotel pick-up times, and secure their adventure slots.',
@@ -511,4 +446,4 @@ export const projectsData = [
   }),
 ];
 
-export const projectCategories = ['All', 'Website', 'App'];
+export const projectCategories = ['All', 'Web', 'Private System'];

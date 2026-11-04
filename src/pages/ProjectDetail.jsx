@@ -1,6 +1,6 @@
 /**
  * ProjectDetail — halaman detail proyek (/projects/:slug)
- * Hero preview, meta info terstruktur, tech stack badges, overview,
+ * Hero preview, meta info terstruktur, overview,
  * hasil & ruang lingkup, galeri interaktif dengan lightbox, serta navigasi prev/next.
  */
 import { useEffect, useState } from 'react';
@@ -109,32 +109,6 @@ export default function ProjectDetail() {
         {/* Header proyek */}
         <div className="mb-10 max-w-4xl">
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            <span
-              className="font-mono text-xs font-semibold px-3 py-1 rounded-full border"
-              style={{
-                background: 'rgba(179,130,38,0.12)',
-                color: 'var(--color-gold-text)',
-                borderColor: 'rgba(179,130,38,0.3)',
-              }}
-            >
-              <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
-              {project.displayCategory || project.category}
-            </span>
-
-            {project.location && (
-              <span
-                className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
-                style={{
-                  background: 'var(--color-surface)',
-                  color: 'var(--color-muted)',
-                  borderColor: 'var(--color-border)',
-                }}
-              >
-                <i className="fa-solid fa-location-dot text-[11px] text-gold" aria-hidden="true" />
-                <span>{project.location}</span>
-              </span>
-            )}
-
             {project.privateSystem ? (
               <span
                 className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
@@ -151,13 +125,13 @@ export default function ProjectDetail() {
               <span
                 className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
                 style={{
-                  background: 'var(--color-surface)',
-                  color: 'var(--color-muted)',
-                  borderColor: 'var(--color-border)',
+                  background: 'rgba(179,130,38,0.12)',
+                  color: 'var(--color-gold-text)',
+                  borderColor: 'rgba(179,130,38,0.3)',
                 }}
               >
                 <Globe size={12} />
-                <span>{project.category}</span>
+                <span>Web</span>
               </span>
             )}
 
@@ -243,9 +217,9 @@ export default function ProjectDetail() {
               <Layers size={18} />
             </div>
             <div>
-              <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Spesialisasi' : 'Category'}</span>
+              <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Kategori' : 'Category'}</span>
               <span className="text-sm font-semibold text-text truncate max-w-[140px] block">
-                {project.displayCategory || project.category}
+                {project.privateSystem ? (isId ? 'Sistem Privat' : 'Private System') : 'Web'}
               </span>
             </div>
           </div>
@@ -272,31 +246,6 @@ export default function ProjectDetail() {
             </div>
           </div>
         </div>
-
-        {/* Tech Stack Pills */}
-        {project.stack?.length > 0 && (
-          <div className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-8 shadow-2xs">
-            <div className="flex items-center gap-2 mb-4 text-xs font-mono uppercase tracking-[0.18em] font-semibold text-gold-text">
-              <Layers size={16} />
-              <span>{t.projects.techStack || (isId ? 'Teknologi & Lingkup Teknis' : 'Tech Stack & Technologies')}</span>
-            </div>
-            <div className="flex flex-wrap gap-2 sm:gap-2.5">
-              {project.stack.map((item, idx) => (
-                <span
-                  key={idx}
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium border"
-                  style={{
-                    background: 'var(--color-bg)',
-                    borderColor: 'var(--color-border)',
-                    color: 'var(--color-text)',
-                  }}
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Overview Box */}
         <div className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-8 shadow-2xs">
