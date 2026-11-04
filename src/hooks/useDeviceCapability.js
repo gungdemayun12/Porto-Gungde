@@ -13,7 +13,7 @@ export function useDeviceCapability() {
   }));
 
   useEffect(() => {
-    let webglAvailable = false;
+    let webglAvailable;
     try {
       const canvas = document.createElement('canvas');
       webglAvailable = !!(

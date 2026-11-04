@@ -3,6 +3,7 @@
  * Dual-mode visibility terjaga, Font Awesome icons, dual button action bar.
  */
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useLang } from '../../hooks/useLang';
 import Button from './Button';
@@ -10,7 +11,8 @@ import Button from './Button';
 const EASE = [0.22, 1, 0.36, 1];
 
 export default function ProjectModal({ project, onClose }) {
-  const { lang } = useLang();
+  const { t, lang } = useLang();
+  const navigate = useNavigate();
   const isId = lang === 'id';
 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
@@ -85,7 +87,7 @@ export default function ProjectModal({ project, onClose }) {
           className="px-6 py-4 border-b border-border flex items-center justify-between shrink-0"
           style={{ background: 'var(--color-bg)' }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <span
               className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
               style={{
@@ -97,6 +99,19 @@ export default function ProjectModal({ project, onClose }) {
               <i className="fa-solid fa-tag text-[10px] mr-1.5" aria-hidden="true" />
               {project.displayCategory || project.category}
             </span>
+            {project.location && (
+              <span
+                className="px-3 py-1 rounded-full text-xs font-mono font-semibold hidden sm:inline-flex items-center"
+                style={{
+                  background: 'var(--color-surface)',
+                  color: 'var(--color-muted)',
+                  border: '1px solid var(--color-border)',
+                }}
+              >
+                <i className="fa-solid fa-location-dot text-[10px] mr-1.5 text-gold" aria-hidden="true" />
+                {project.location}
+              </span>
+            )}
             {project.privateSystem && (
               <span
                 className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
@@ -232,6 +247,31 @@ export default function ProjectModal({ project, onClose }) {
             )}
           </div>
 
+          {/* Tech stack badges */}
+          {project.stack?.length > 0 && (
+            <div className="space-y-2.5">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] font-semibold" style={{ color: 'var(--color-gold-text)' }}>
+                <i className="fa-solid fa-layer-group text-xs" aria-hidden="true" />
+                <span>{t.projects.techStack || (isId ? 'Teknologi & Fitur' : 'Technologies & Stack')}</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {project.stack.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 rounded-lg text-xs font-mono border"
+                    style={{
+                      background: 'var(--color-bg)',
+                      borderColor: 'var(--color-border)',
+                      color: 'var(--color-text)',
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Project description box */}
           <div
             className="rounded-2xl border p-5 sm:p-6 shadow-2xs"
@@ -249,42 +289,81 @@ export default function ProjectModal({ project, onClose }) {
             </p>
           </div>
 
+          {/* Results / Key Highlights */}
+          {project.results?.[lang]?.length > 0 && (
+            <div
+              className="rounded-2xl border p-5 sm:p-6 shadow-2xs"
+              style={{
+                borderColor: 'var(--color-border)',
+                background: 'var(--color-bg)',
+              }}
+            >
+              <div className="mb-3.5 flex items-center gap-2 text-xs font-mono uppercase tracking-[0.18em] font-semibold" style={{ color: 'var(--color-gold-text)' }}>
+                <i className="fa-solid fa-list-check text-xs" aria-hidden="true" />
+                <span>{t.projects.keyFeatures || (isId ? 'Fitur Utama & Lingkup Kerja' : 'Key Highlights & Scope')}</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {project.results[lang].map((res, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm" style={{ color: 'var(--color-muted)' }}>
+                    <i className="fa-solid fa-circle-check text-xs mt-1 shrink-0" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
+                    <span>{res}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
 
-        {/* Action bar / Footer — matched dual button pair */}
+        {/* Action bar / Footer */}
         <div
-          className="px-6 py-4 border-t border-border flex items-center justify-between gap-3 shrink-0"
+          className="px-6 py-4 border-t border-border flex flex-wrap items-center justify-between gap-3 shrink-0"
           style={{ background: 'var(--color-bg)' }}
         >
-          <Button
-            variant="outline"
-            onClick={onClose}
-          >
-            <i className="fa-solid fa-xmark text-xs" aria-hidden="true" />
-            <span>{isId ? 'Tutup' : 'Close'}</span>
-          </Button>
-
-          {project.privateSystem ? (
-            <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
-              <i className="fa-solid fa-lock text-xs mr-1.5" aria-hidden="true" />
-              {isId ? 'Sistem privat' : 'Private system'}
-            </span>
-          ) : project.liveUrl && project.liveUrl !== '#' ? (
+          <div className="flex items-center gap-2.5">
             <Button
-              variant="primary"
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              variant="outline"
+              onClick={onClose}
             >
-              <span>{isId ? 'Kunjungi Situs' : 'Visit Live Site'}</span>
-              <i className="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true" />
+              <i className="fa-solid fa-xmark text-xs" aria-hidden="true" />
+              <span>{isId ? 'Tutup' : 'Close'}</span>
             </Button>
-          ) : (
-            <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
-              <i className="fa-solid fa-lock text-xs mr-1.5" aria-hidden="true" />
-              {isId ? 'Sistem privat' : 'Private system'}
-            </span>
-          )}
+
+            <Button
+              variant="outline"
+              onClick={() => {
+                onClose();
+                navigate(`/projects/${project.slug}`);
+              }}
+            >
+              <i className="fa-solid fa-file-lines text-xs" aria-hidden="true" />
+              <span>{t.projects.viewFullPage || (isId ? 'Halaman Lengkap' : 'Full Page')}</span>
+            </Button>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {project.privateSystem ? (
+              <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+                <i className="fa-solid fa-lock text-xs" aria-hidden="true" />
+                <span>{isId ? 'Sistem privat' : 'Private system'}</span>
+              </span>
+            ) : project.liveUrl && project.liveUrl !== '#' ? (
+              <Button
+                variant="primary"
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{isId ? 'Kunjungi Situs' : 'Visit Live Site'}</span>
+                <i className="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true" />
+              </Button>
+            ) : (
+              <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+                <i className="fa-solid fa-lock text-xs" aria-hidden="true" />
+                <span>{isId ? 'Sistem privat' : 'Private system'}</span>
+              </span>
+            )}
+          </div>
         </div>
       </motion.div>
     </motion.div>

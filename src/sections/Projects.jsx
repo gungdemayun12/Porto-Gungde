@@ -75,7 +75,7 @@ function ProjectCard({ project, lang, onClick }) {
         )}
 
         {/* Category badge */}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5">
           <span
             className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold tracking-wide shadow-sm"
             style={{
@@ -104,6 +104,22 @@ function ProjectCard({ project, lang, onClick }) {
           )}
         </div>
 
+        {/* Gallery count badge */}
+        {project.gallery?.length > 1 && (
+          <div
+            className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold tracking-wide shadow-sm"
+            style={{
+              background: 'rgba(14,12,9,0.78)',
+              color: '#F0D277',
+              border: '1px solid rgba(216,170,66,0.35)',
+              backdropFilter: 'blur(8px)',
+            }}
+            title={`${project.gallery.length} ${lang === 'id' ? 'tangkapan layar' : 'screenshots'}`}
+          >
+            <i className="fa-regular fa-images text-[10px]" aria-hidden="true" />
+            <span>{project.gallery.length}</span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -127,9 +143,33 @@ function ProjectCard({ project, lang, onClick }) {
           </div>
         </div>
 
-        <p className="text-xs sm:text-sm leading-relaxed flex-1" style={{ color: 'var(--color-muted)' }}>
+        <p className="text-xs sm:text-sm leading-relaxed flex-1 line-clamp-3 mb-3" style={{ color: 'var(--color-muted)' }}>
           {summary}
         </p>
+
+        {/* Tech tags sneak peek */}
+        {project.stack?.length > 0 && (
+          <div className="flex flex-wrap items-center gap-1.5 pt-3 border-t" style={{ borderColor: 'var(--color-border)' }}>
+            {project.stack.slice(0, 3).map((item, idx) => (
+              <span
+                key={idx}
+                className="text-[10px] font-mono px-2 py-0.5 rounded-md border"
+                style={{
+                  background: 'var(--color-bg)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-muted)',
+                }}
+              >
+                {item}
+              </span>
+            ))}
+            {project.stack.length > 3 && (
+              <span className="text-[10px] font-mono px-1 py-0.5 text-gold-text font-medium">
+                +{project.stack.length - 3}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </article>
   );

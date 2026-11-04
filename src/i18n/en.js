@@ -86,7 +86,11 @@ const en = {
     nextProject: 'Next Project',
     year: 'Year',
     role: 'Role',
-    techStack: 'Tech Stack',
+    techStack: 'Tech Stack & Technologies',
+    viewFullPage: 'View Full Page',
+    privateSystem: 'Private System',
+    livePreview: 'Live Preview',
+    keyFeatures: 'Key Features & Deliverables',
   },
 
   // Services

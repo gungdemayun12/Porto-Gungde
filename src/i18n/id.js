@@ -86,7 +86,11 @@ const id = {
     nextProject: 'Proyek Selanjutnya',
     year: 'Tahun',
     role: 'Peran',
-    techStack: 'Teknologi',
+    techStack: 'Teknologi & Alat',
+    viewFullPage: 'Halaman Lengkap',
+    privateSystem: 'Sistem Privat',
+    livePreview: 'Pratinjau Langsung',
+    keyFeatures: 'Fitur Utama & Lingkup Kerja',
   },
 
   // Services
