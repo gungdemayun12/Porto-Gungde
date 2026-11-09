@@ -60,7 +60,7 @@ export function LangProvider({ children }) {
           aria-live="polite"
           className="pointer-events-none fixed top-[5.25rem] left-1/2 z-[110] -translate-x-1/2"
         >
-          <div className="flex items-center gap-2 rounded-full border border-gold/25 bg-surface/95 px-4 py-2 text-xs font-medium text-text shadow-lg shadow-black/10 backdrop-blur-xl dark:bg-[#101218]/95 dark:text-white">
+          <div className="flex items-center gap-2 rounded-full border border-gold/25 bg-surface/95 px-4 py-2 text-xs font-medium text-text shadow-lg shadow-black/10 backdrop-blur-xl dark:bg-[#0A120D]/95 dark:text-white">
             <span className="h-3 w-3 animate-spin rounded-full border-2 border-gold/25 border-t-gold" aria-hidden="true" />
             <span>{lang === 'en' ? 'Menerjemahkan…' : 'Translating…'}</span>
           </div>

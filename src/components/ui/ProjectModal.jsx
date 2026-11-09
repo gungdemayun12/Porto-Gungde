@@ -77,10 +77,13 @@ export default function ProjectModal({ project, onClose }) {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 16, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 340, damping: 34, mass: 0.85 }}
-        className="relative z-10 w-full max-w-4xl max-h-[90vh] rounded-[22px]
-          border border-border shadow-[0_24px_70px_rgba(0,0,0,0.35)]
+        className="relative z-10 w-full max-w-4xl max-h-[92vh] rounded-[22px]
           flex flex-col overflow-hidden will-change-transform"
-        style={{ background: 'var(--color-surface)' }}
+        style={{
+          background: 'var(--color-surface)',
+          border: '1px solid color-mix(in srgb, var(--color-gold) 30%, var(--color-border))',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px color-mix(in srgb, var(--color-gold) 12%, transparent) inset',
+        }}
       >
         {/* Header */}
         <div
@@ -92,9 +95,9 @@ export default function ProjectModal({ project, onClose }) {
               <span
                 className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
                 style={{
-                  background: 'rgba(179,130,38,0.12)',
+                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
                   color: 'var(--color-gold-text)',
-                  border: '1px solid rgba(179,130,38,0.3)',
+                  border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
                 }}
               >
                 <i className="fa-solid fa-lock text-[10px] mr-1.5" aria-hidden="true" />
@@ -104,9 +107,9 @@ export default function ProjectModal({ project, onClose }) {
               <span
                 className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
                 style={{
-                  background: 'rgba(179,130,38,0.12)',
+                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
                   color: 'var(--color-gold-text)',
-                  border: '1px solid rgba(179,130,38,0.3)',
+                  border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
                 }}
               >
                 <i className="fa-solid fa-globe text-[10px] mr-1.5" aria-hidden="true" />
@@ -189,7 +192,7 @@ export default function ProjectModal({ project, onClose }) {
                     aria-label={isId ? 'Gambar sebelumnya' : 'Previous image'}
                     className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
                       bg-black/60 border border-white/20 text-white flex items-center justify-center
-                      hover:bg-gold hover:text-[#0E0C09] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
+                      hover:bg-gold hover:text-[var(--color-on-accent)] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
                     <i className="fa-solid fa-chevron-left text-sm" aria-hidden="true" />
                   </button>
@@ -199,7 +202,7 @@ export default function ProjectModal({ project, onClose }) {
                     aria-label={isId ? 'Gambar berikutnya' : 'Next image'}
                     className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
                       bg-black/60 border border-white/20 text-white flex items-center justify-center
-                      hover:bg-gold hover:text-[#0E0C09] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
+                      hover:bg-gold hover:text-[var(--color-on-accent)] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
                     <i className="fa-solid fa-chevron-right text-sm" aria-hidden="true" />
                   </button>

@@ -46,7 +46,7 @@ export default function Footer() {
                 src="/images/logo/gungdev-logo-gd.png"
                 alt=""
                 aria-hidden="true"
-                className="h-10 w-10 object-contain drop-shadow-sm"
+                className="brand-logo h-10 w-10 object-contain drop-shadow-sm"
               />
               <p
                 className="text-xl font-bold tracking-wide"

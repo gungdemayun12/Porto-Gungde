@@ -31,7 +31,7 @@ export default function LangToggle({ compact = false }) {
           className={`${compact ? 'min-w-8 px-1.5' : 'min-w-9 px-2.5'} rounded-full py-1.5 text-[11px] font-mono font-bold tracking-wider
             transition-all duration-200 disabled:cursor-wait disabled:opacity-60 ${
               lang === code
-                ? 'bg-gold text-[#17140F] shadow-sm'
+                ? 'bg-gold text-[var(--color-on-accent)] shadow-sm'
                 : 'text-muted hover:bg-gold/10 hover:text-gold-text'
             }`}
         >

@@ -16,12 +16,12 @@ const en = {
 
   // Hero
   hero: {
-    badge: 'Available for Projects — Web & Digital Marketing',
+    badge: 'Available for Projects',
     greeting: 'Hi, I\'m',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
     role: 'Web Developer & Digital Marketing',
-    description: 'Building modern, fast, and responsive websites combined with targeted digital marketing to help your business grow.',
+    description: 'Building modern, fast, and responsive websites with a clear strategy to help your business grow.',
     cta: 'View Projects',
     ctaSecondary: 'Get In Touch',
     scrollDown: 'Scroll to explore',

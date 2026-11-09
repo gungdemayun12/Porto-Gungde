@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import './SwarmCursor.css';
 
-export default function SwarmCursor({ children, count = 260, size = 2.2, spread = 90, swirl = 0.6, speed = 1, clickEffect = 'burst', color = '#d4af37', accentColor = '#fff1a8', enabled = true, className = '', style }) {
+export default function SwarmCursor({ children, count = 260, size = 2.2, spread = 90, swirl = 0.6, speed = 1, clickEffect = 'burst', color = '#4FD19A', accentColor = '#C9F7DD', enabled = true, className = '', style }) {
   const root = useRef(null); const canvas = useRef(null);
   useEffect(() => {
     const el=root.current, cv=canvas.current; if(!el||!cv||!enabled) return;

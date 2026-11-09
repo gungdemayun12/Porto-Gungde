@@ -100,8 +100,8 @@ export default function Navbar() {
         <nav
           className={`container-main max-w-6xl mx-auto rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between
             ${isScrolled
-              ? 'bg-surface/92 dark:bg-[#12100C]/92 backdrop-blur-xl border border-gold/30 shadow-[0_8px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
-              : 'bg-surface/85 dark:bg-[#12100C]/85 backdrop-blur-md border border-border shadow-xs'
+              ? 'bg-surface/92 dark:bg-[#0A120D]/92 backdrop-blur-xl border border-gold/30 shadow-[0_8px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
+              : 'bg-surface/85 dark:bg-[#0A120D]/85 backdrop-blur-md border border-border shadow-xs'
             }`}
           role="navigation"
           aria-label="Main navigation"
@@ -119,30 +119,46 @@ export default function Navbar() {
               src="/images/logo/gungdev-logo-gd.png"
               alt=""
               aria-hidden="true"
-              className="h-8 w-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
+              className="brand-logo h-8 w-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
             />
             {/* Nama Brand */}
-            <div className="flex flex-col">
+            <div className="hidden min-[380px]:flex flex-col">
               <span className="font-heading font-semibold text-text text-sm tracking-wide group-hover:text-gold-text transition-colors sm:text-base">
                 GUNGDEV<span className="text-gold font-serif">.</span>
               </span>
-              <span className="text-[10px] font-mono text-muted tracking-widest uppercase -mt-0.5 hidden sm:block font-medium">
+              <span className="text-[10px] font-mono text-muted tracking-widest uppercase -mt-0.5 hidden xl:block font-medium">
                 {t.hero.role}
               </span>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden lg:flex items-center gap-1 px-3 py-1.5 rounded-full bg-bg/80 dark:bg-black/40 border border-border shadow-2xs">
+          <div className="hidden min-[1120px]:flex items-center gap-0.5 px-2.5 py-1.5 rounded-full border"
+            style={{
+              background: 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
+              borderColor: 'var(--color-border)',
+              backdropFilter: 'blur(8px)',
+            }}
+          >
             {NAV_SECTIONS.map((id) => (
               <button
                 key={id}
                 onClick={() => scrollTo(id)}
                 className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-medium tracking-wide transition-all duration-300 cursor-pointer
                   ${activeSection === id
-                    ? 'bg-gold text-[#0E0C09] font-bold shadow-xs'
-                    : 'text-muted hover:text-text hover:bg-gold/15'
+                    ? 'font-bold shadow-xs'
+                    : 'hover:bg-gold/10'
                   }`}
+                style={{
+                  background: activeSection === id ? 'var(--color-gold)' : 'transparent',
+                  color: activeSection === id ? 'var(--color-on-accent)' : 'var(--color-muted)',
+                }}
+                onMouseEnter={(e) => {
+                  if (activeSection !== id) e.currentTarget.style.color = 'var(--color-text)';
+                }}
+                onMouseLeave={(e) => {
+                  if (activeSection !== id) e.currentTarget.style.color = 'var(--color-muted)';
+                }}
               >
                 {navLabels[id]}
               </button>
@@ -150,7 +166,7 @@ export default function Navbar() {
           </div>
 
           {/* Action Hub Desktop */}
-          <div className="hidden lg:flex items-center gap-2.5">
+          <div className="hidden min-[1120px]:flex items-center gap-2.5">
             <LangToggle compact />
             <ThemeToggle />
 
@@ -166,7 +182,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Right Controls: Lang, Theme, & Animated Hamburger */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex min-[1120px]:hidden items-center gap-2">
             <LangToggle compact />
             <ThemeToggle />
 

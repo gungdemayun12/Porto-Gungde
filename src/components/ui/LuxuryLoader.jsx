@@ -29,7 +29,7 @@ export default function LuxuryLoader({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[99999] flex items-center justify-center bg-[#090A0D]
+      className={`fixed inset-0 z-[99999] flex items-center justify-center bg-[#070B09]
         transition-opacity duration-[400ms] ease-out pointer-events-none
         ${isExiting ? 'opacity-0' : 'opacity-100'}`}
       role="status"
@@ -45,7 +45,7 @@ export default function LuxuryLoader({ onComplete }) {
           doneLabel="Ready"
           errorLabel="Unable to load"
           pattern="orbit"
-          color="#d4af37"
+          color="#4FD19A"
           doneColor="#22c55e"
           showTimer={false}
           fontSize={13}

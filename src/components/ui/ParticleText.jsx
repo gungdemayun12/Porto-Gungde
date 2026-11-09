@@ -3,8 +3,8 @@ import './ParticleText.css';
 
 export default function ParticleText({
   text = 'GUNGDEV',
-  color = '#d4af37',
-  highlightColor = '#fff1a8',
+  color = '#4FD19A',
+  highlightColor = '#C9F7DD',
   particleSize = 2,
   density = 5,
   gatherDuration = 1200,

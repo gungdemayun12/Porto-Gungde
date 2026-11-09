@@ -20,30 +20,31 @@
   /* Borders */
   --color-border:   #E5E7EB;
 
-  /* Text — deep rich dark text and high-contrast muted text (WCAG AAA) */
-  --color-text:     #17140F;
-  --color-muted:    #52525B;
+  /* Text — deep green-black text and high-contrast muted text (WCAG AA+) */
+  --color-text:     #0F1A14;
+  --color-muted:    #4C5F55;
 
-  /* Gold accent */
-  --color-gold:      #B38226;
-  --color-gold-text: #7D560C;
-  --color-gold-light:#E8C878;
-  --color-gold-dark: #6C4909;
+  /* Emerald accent (token names kept for backwards compatibility) */
+  --color-gold:      #0F6B4A;
+  --color-gold-text: #0A5A3B;
+  --color-gold-light:#2A8258;
+  --color-gold-dark: #063A28;
+  --color-on-accent: #F7FFF9;
 
   /* WhatsApp theme tokens */
-  --color-whatsapp:       #15803d;
+  --color-whatsapp:       #0F6B33;
   --color-whatsapp-bg:    rgba(21, 128, 61, 0.09);
   --color-whatsapp-border:rgba(21, 128, 61, 0.28);
 
-  /* Dual Button system: Solid Gold vs Outline Gold */
-  --btn-primary-bg:          #B38226;
-  --btn-primary-text:        #0E0C09;
-  --btn-primary-hover:       #9E6F18;
-  --btn-outline-border:      #B38226;
-  --btn-outline-text:        #7D560C;
-  --btn-outline-hover-bg:    rgba(179, 130, 38, 0.1);
-  --btn-outline-hover-border:#9E6F18;
-  --btn-outline-hover-text:  #6C4909;
+  /* Dual Button system: Solid Emerald vs Outline Emerald */
+  --btn-primary-bg:          #0E6B47;
+  --btn-primary-text:        #F7FFF9;
+  --btn-primary-hover:       #0A5438;
+  --btn-outline-border:      #0F6B4A;
+  --btn-outline-text:        #0A5A3B;
+  --btn-outline-hover-bg:    rgba(15, 107, 74, 0.08);
+  --btn-outline-hover-border:#0A5438;
+  --btn-outline-hover-text:  #063A28;
 
   --radius-card: 16px;
   --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
@@ -52,32 +53,33 @@
 .dark {
   color-scheme: dark;
 
-  --color-bg:       #0A0907;
-  --color-surface:  #14120D;
-  --color-border:   #2C251C;
+  --color-bg:       #070B09;
+  --color-surface:  #0D1511;
+  --color-border:   #22352B;
 
-  --color-text:     #F3EFE6;
-  --color-muted:    #B2A490;
+  --color-text:     #EFF7F1;
+  --color-muted:    #A9C4B5;
 
-  --color-gold:      #D8AA42;
-  --color-gold-text: #F0D277;
-  --color-gold-light:#FFE8A3;
-  --color-gold-dark: #A07020;
+  --color-gold:      #4FD19A;
+  --color-gold-text: #8FE8BC;
+  --color-gold-light:#C9F7DD;
+  --color-gold-dark: #1E8A5E;
+  --color-on-accent: #04140C;
 
   /* WhatsApp theme tokens */
   --color-whatsapp:       #4ade80;
   --color-whatsapp-bg:    rgba(74, 222, 128, 0.1);
   --color-whatsapp-border:rgba(74, 222, 128, 0.25);
 
-  /* Dual Button system: Solid Gold vs Outline Gold */
-  --btn-primary-bg:          #D8AA42;
-  --btn-primary-text:        #0A0907;
-  --btn-primary-hover:       #E4BC5E;
-  --btn-outline-border:      #D8AA42;
-  --btn-outline-text:        #F0D277;
-  --btn-outline-hover-bg:    rgba(216, 170, 66, 0.12);
-  --btn-outline-hover-border:#E4BC5E;
-  --btn-outline-hover-text:  #FFE8A3;
+  /* Dual Button system: Solid Emerald vs Outline Emerald */
+  --btn-primary-bg:          #0F7A50;
+  --btn-primary-text:        #FFFFFF;
+  --btn-primary-hover:       #15804F;
+  --btn-outline-border:      #4FD19A;
+  --btn-outline-text:        #8FE8BC;
+  --btn-outline-hover-bg:    rgba(79, 209, 154, 0.12);
+  --btn-outline-hover-border:#8FE8BC;
+  --btn-outline-hover-text:  #C9F7DD;
 }
 
 /* =========================================================
@@ -156,7 +158,7 @@ code, pre, .font-mono { font-family: var(--font-mono); letter-spacing: 0.01em; }
 ::-webkit-scrollbar-track { background: var(--color-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
-::selection { background-color: var(--color-gold); color: #0E0C09; }
+::selection { background-color: var(--color-gold); color: var(--color-on-accent); }
 
 /* =========================================================
    FOCUS RING
@@ -226,7 +228,7 @@ button:disabled {
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(179, 130, 38, 0.22);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--btn-primary-bg) 28%, transparent);
   transition:
     background-color 220ms ease,
     border-color 220ms ease,
@@ -240,7 +242,7 @@ button:disabled {
   border-color: var(--btn-primary-hover);
   color: var(--btn-primary-text);
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px rgba(179, 130, 38, 0.35);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--btn-primary-bg) 40%, transparent);
 }
 
 .btn-primary:active {
@@ -279,7 +281,7 @@ button:disabled {
   color: var(--btn-outline-hover-text);
   background-color: var(--btn-outline-hover-bg);
   transform: translateY(-1.5px);
-  box-shadow: 0 6px 20px rgba(179, 130, 38, 0.16);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--btn-outline-border) 18%, transparent);
 }
 
 .btn-outline:active {
@@ -336,8 +338,8 @@ button:disabled {
 
 .dark .hero-glow {
   background: radial-gradient(ellipse at center,
-    rgba(212, 168, 64, 0.12) 0%,
-    rgba(160, 112, 32, 0.04) 50%,
+    rgba(79, 209, 154, 0.12) 0%,
+    rgba(30, 138, 94, 0.05) 50%,
     transparent 75%);
 }
 
@@ -361,8 +363,365 @@ button:disabled {
 }
 
 /* =========================================================
-   CONTAINER + SECTION SPACING
+   BRAND LOGO TINT — keeps the monogram in the emerald palette
    ========================================================= */
+.brand-logo {
+  filter: hue-rotate(100deg) saturate(1.08);
+}
+
+/* =========================================================
+   PROJECT CARDS — premium editorial glass cards
+   Dual-mode safe: semua warna pakai CSS vars
+   ========================================================= */
+.project-card {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-surface) !important;
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    0 8px 24px -8px rgba(0,0,0,0.14);
+  transition:
+    transform 300ms var(--ease-luxury),
+    border-color 300ms ease,
+    box-shadow 300ms ease;
+}
+
+/* Subtle emerald top-edge highlight */
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-gold) 60%, transparent), transparent);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+/* Inner shine overlay */
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-gold) 8%, transparent) 0%,
+    transparent 30%,
+    transparent 70%,
+    color-mix(in srgb, var(--color-gold) 4%, transparent) 100%
+  );
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.project-card:hover,
+.project-card:focus-visible {
+  border-color: color-mix(in srgb, var(--color-gold) 60%, var(--color-border)) !important;
+  box-shadow:
+    0 4px 6px rgba(0,0,0,0.05),
+    0 20px 48px -16px color-mix(in srgb, var(--color-gold) 40%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--color-gold) 20%, transparent) inset;
+  transform: translateY(-6px) !important;
+}
+
+.project-card:hover::before,
+.project-card:focus-visible::before { opacity: 1; }
+
+.project-card:hover::after,
+.project-card:focus-visible::after { opacity: 1; }
+
+.project-card:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Image container bg */
+.project-card > div:first-child {
+  background: color-mix(in srgb, var(--color-border) 80%, var(--color-surface)) !important;
+}
+
+/* Zoom-shimmer wrapper ensure z-stacking */
+.project-card > div:first-child > img,
+.project-card > div:first-child > video {
+  position: relative;
+  z-index: 1;
+}
+
+/* Content section z-stacking */
+.project-card > div:last-child {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 639px) {
+  .project-card { border-radius: 1.125rem; }
+  .project-card:hover,
+  .project-card:focus-visible { transform: translateY(-3px) !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card::before,
+  .project-card::after { transition: none; }
+  .project-card:hover,
+  .project-card:focus-visible { transform: none !important; }
+}
+
+/* =========================================================
+   SECTION BACKGROUNDS — subtle alternating + glow accents
+   ========================================================= */
+
+/* Projects section — very subtle top glow */
+#projects {
+  background:
+    radial-gradient(ellipse 80% 30% at 50% 0%, color-mix(in srgb, var(--color-gold) 4%, transparent), transparent 60%),
+    var(--color-bg) !important;
+}
+
+/* About section — offset glow */
+#about {
+  background:
+    radial-gradient(ellipse 60% 40% at 90% 50%, color-mix(in srgb, var(--color-gold) 4%, transparent), transparent 60%),
+    var(--color-bg) !important;
+}
+
+/* Experience section — subtle grid lines */
+#experience {
+  background:
+    radial-gradient(ellipse 70% 40% at 10% 60%, color-mix(in srgb, var(--color-gold) 4%, transparent), transparent 60%),
+    var(--color-bg) !important;
+}
+
+/* Contact section — stronger glow */
+#contact {
+  background:
+    radial-gradient(ellipse 65% 35% at 50% 100%, color-mix(in srgb, var(--color-gold) 5%, transparent), transparent 65%),
+    var(--color-bg) !important;
+}
+
+.dark #projects {
+  background:
+    radial-gradient(ellipse 80% 30% at 50% 0%, rgba(79,209,154,0.055), transparent 65%),
+    var(--color-bg) !important;
+}
+.dark #about {
+  background:
+    radial-gradient(ellipse 60% 40% at 90% 50%, rgba(79,209,154,0.045), transparent 60%),
+    var(--color-bg) !important;
+}
+.dark #experience {
+  background:
+    radial-gradient(ellipse 70% 40% at 10% 60%, rgba(79,209,154,0.045), transparent 60%),
+    var(--color-bg) !important;
+}
+.dark #contact {
+  background:
+    radial-gradient(ellipse 65% 40% at 50% 100%, rgba(79,209,154,0.06), transparent 65%),
+    var(--color-bg) !important;
+}
+
+/* =========================================================
+   SECTION DIVIDERS — emerald accent line between sections
+   ========================================================= */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 30%, var(--color-gold) 50%, var(--color-border) 70%, transparent 100%);
+  opacity: 0.7;
+}
+
+/* =========================================================
+   ENHANCED CARDS — glass card base utility
+   ========================================================= */
+.card-glass {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: border-color 260ms ease, box-shadow 260ms ease, transform 260ms var(--ease-luxury);
+}
+
+.card-glass:hover {
+  border-color: color-mix(in srgb, var(--color-gold) 45%, var(--color-border));
+  box-shadow: 0 12px 32px -8px color-mix(in srgb, var(--color-gold) 25%, transparent);
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   STAT CARDS — counters / highlights
+   ========================================================= */
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 260ms ease, transform 260ms var(--ease-luxury), box-shadow 260ms ease;
+}
+
+.stat-card:hover {
+  border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -12px color-mix(in srgb, var(--color-gold) 30%, transparent);
+}
+
+/* =========================================================
+   TECH/ROLE BADGE
+   ========================================================= */
+.badge-emerald {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 99px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: color-mix(in srgb, var(--color-gold) 10%, transparent);
+  color: var(--color-gold-text);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 24%, transparent);
+}
+
+/* =========================================================
+   TIMELINE ENHANCEMENTS
+   ========================================================= */
+.timeline-line {
+  position: absolute;
+  left: 0.75rem;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--color-gold) 0%, var(--color-border) 30%, var(--color-border) 100%);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0.25rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  background: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 260ms ease, box-shadow 260ms ease;
+}
+
+.timeline-dot::after {
+  content: '';
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--color-gold);
+}
+
+.timeline-item:hover .timeline-dot {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 20%, transparent);
+}
+
+/* =========================================================
+   CONTACT CARDS — hover glow
+   ========================================================= */
+.contact-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  transition: border-color 300ms ease, transform 300ms var(--ease-luxury), box-shadow 300ms ease;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-gold) 6%, transparent) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px -12px color-mix(in srgb, var(--color-gold) 30%, transparent);
+}
+
+.contact-card:hover::before { opacity: 1; }
+
+/* =========================================================
+   SCROLL REVEAL ANIMATIONS
+   Fast, GPU-accelerated, respects prefers-reduced-motion
+   ========================================================= */
+.sr-fade-up {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1), transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.sr-fade-in {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+  will-change: opacity;
+}
+.sr-slide-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.sr-slide-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.sr-scale-up {
+  opacity: 0;
+  transform: scale(0.93);
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.sr-visible.sr-fade-up,
+.sr-visible.sr-fade-in,
+.sr-visible.sr-slide-left,
+.sr-visible.sr-slide-right,
+.sr-visible.sr-scale-up {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+.sr-stagger > * {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.sr-visible.sr-stagger > *:nth-child(1) { transition-delay: 0ms; }
+.sr-visible.sr-stagger > *:nth-child(2) { transition-delay: 55ms; }
+.sr-visible.sr-stagger > *:nth-child(3) { transition-delay: 110ms; }
+.sr-visible.sr-stagger > *:nth-child(4) { transition-delay: 165ms; }
+.sr-visible.sr-stagger > *:nth-child(5) { transition-delay: 220ms; }
+.sr-visible.sr-stagger > *:nth-child(6) { transition-delay: 275ms; }
+.sr-visible.sr-stagger > *:nth-child(7) { transition-delay: 330ms; }
+.sr-visible.sr-stagger > *:nth-child(8) { transition-delay: 385ms; }
+.sr-visible.sr-stagger > *:nth-child(9) { transition-delay: 440ms; }
+.sr-visible.sr-stagger > * { opacity: 1; transform: translateY(0); }
+.sr-delay-1 { transition-delay: 80ms !important; }
+.sr-delay-2 { transition-delay: 160ms !important; }
+.sr-delay-3 { transition-delay: 240ms !important; }
+.sr-delay-4 { transition-delay: 320ms !important; }
+.sr-delay-5 { transition-delay: 400ms !important; }
+@media (prefers-reduced-motion: reduce) {
+  .sr-fade-up, .sr-fade-in, .sr-slide-left, .sr-slide-right, .sr-scale-up,
+  .sr-stagger > * {
+    opacity: 1 !important; transform: none !important; transition: none !important;
+  }
+}
+
 .container-main {
   width: 100%;
   max-width: 80rem;
@@ -704,7 +1063,7 @@ button:disabled {
 .game-result__play {
   border-color: var(--color-gold);
   background: var(--color-gold);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 .game-result__close {
@@ -757,7 +1116,7 @@ button:disabled {
    ========================================================= */
 .lanyard-container { touch-action: pan-y; overflow: visible; }
 @media (max-width: 767px) {
-  .lanyard-container { min-height: 440px; }
+  .lanyard-container { min-height: 360px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -784,15 +1143,15 @@ button:disabled {
 }
 
 /* =========================================================
-   GOLD BORDER GLOW UTILITY
+   MAROON BORDER GLOW UTILITY
    ========================================================= */
 .gold-border-glow {
-  border: 1px solid rgba(184, 137, 42, 0.22);
-  box-shadow: 0 0 20px rgba(184, 137, 42, 0.05);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 24%, transparent);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color-gold) 6%, transparent);
 }
 .dark .gold-border-glow {
-  border: 1px solid rgba(212, 168, 64, 0.18);
-  box-shadow: 0 0 28px rgba(212, 168, 64, 0.07);
+  border: 1px solid color-mix(in srgb, var(--color-gold) 20%, transparent);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--color-gold) 8%, transparent);
 }
 
 /* =========================================================

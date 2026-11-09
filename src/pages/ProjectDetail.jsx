@@ -113,9 +113,9 @@ export default function ProjectDetail() {
               <span
                 className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
                 style={{
-                  background: 'rgba(179,130,38,0.12)',
+                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
                   color: 'var(--color-gold-text)',
-                  borderColor: 'rgba(179,130,38,0.3)',
+                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
                 }}
               >
                 <Lock size={12} />
@@ -125,9 +125,9 @@ export default function ProjectDetail() {
               <span
                 className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
                 style={{
-                  background: 'rgba(179,130,38,0.12)',
+                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
                   color: 'var(--color-gold-text)',
-                  borderColor: 'rgba(179,130,38,0.3)',
+                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
                 }}
               >
                 <Globe size={12} />
@@ -418,7 +418,7 @@ export default function ProjectDetail() {
                   e.stopPropagation();
                   setLightboxIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
                 }}
-                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[#0A0907] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
                 aria-label="Previous"
               >
                 <ChevronLeft size={24} />
@@ -430,7 +430,7 @@ export default function ProjectDetail() {
                   e.stopPropagation();
                   setLightboxIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
                 }}
-                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[#0A0907] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
                 aria-label="Next"
               >
                 <ChevronRight size={24} />

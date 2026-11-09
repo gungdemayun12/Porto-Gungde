@@ -14,6 +14,8 @@ import ProjectDetail from './pages/ProjectDetail';
 import NotFound from './pages/NotFound';
 import LuxuryLoader from './components/ui/LuxuryLoader';
 import GlowCursor from './components/ui/GlowCursor';
+import PageTransition from './components/ui/PageTransition';
+import ThemeTransition from './components/ui/ThemeTransition';
 
 export default function App() {
   const [theme, setTheme] = useState(() =>
@@ -37,7 +39,7 @@ export default function App() {
 
         {createPortal(
           <GlowCursor
-            color="#D4AF37"
+            color="#4FD19A"
             intensity={1.3}
             trailWidth={4}
             linger={1.4}
@@ -50,6 +52,10 @@ export default function App() {
         )}
 
         <BrowserRouter>
+          {/* Page route transition overlay */}
+          <PageTransition />
+          {/* Theme switch flash overlay */}
+          <ThemeTransition />
           {/* Noise overlay untuk tekstur halus */}
           <div className="noise-overlay">
             {/* Navbar sticky */}

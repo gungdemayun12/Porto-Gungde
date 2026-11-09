@@ -16,12 +16,12 @@ const id = {
 
   // Hero
   hero: {
-    badge: 'Tersedia untuk Proyek — Web & Digital Marketing',
+    badge: 'Tersedia untuk Proyek',
     greeting: 'Halo, saya',
     name: 'Gungde',
     fullName: 'I Gusti Ngurah Agung Gede Mayun',
     role: 'Web Developer & Pemasaran Digital',
-    description: 'Membangun website modern, cepat, dan responsif serta strategi pemasaran digital terarah untuk membantu pertumbuhan bisnis Anda.',
+    description: 'Membangun website modern, cepat, dan responsif dengan strategi yang terarah untuk membantu pertumbuhan bisnis Anda.',
     cta: 'Lihat Proyek',
     ctaSecondary: 'Hubungi Saya',
     scrollDown: 'Scroll untuk jelajah',

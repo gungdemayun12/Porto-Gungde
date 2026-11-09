@@ -352,14 +352,32 @@ const GlowCursor = ({
 
     const container = containerRef.current;
     const canvas = canvasRef.current;
-    const gl = canvas?.getContext('webgl2', {
+    if (!container || !canvas) return undefined;
+
+    // Jika konteks WebGL hilang (GPU lemah / software rendering), browser bisa
+    // meninggalkan canvas opaque yang menutupi seluruh halaman. Sembunyikan
+    // canvas dekoratif ini agar konten tetap terlihat.
+    const hideCanvas = () => {
+      canvas.style.opacity = '0';
+    };
+    const onContextLost = event => {
+      event.preventDefault();
+      hideCanvas();
+    };
+    canvas.addEventListener('webglcontextlost', onContextLost, false);
+
+    const gl = canvas.getContext('webgl2', {
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
       depth: false,
       stencil: false
     });
-    if (!container || !canvas || !gl || !gl.getExtension('EXT_color_buffer_float')) return undefined;
+    if (!gl || gl.isContextLost() || !gl.getExtension('EXT_color_buffer_float')) {
+      hideCanvas();
+      canvas.removeEventListener('webglcontextlost', onContextLost);
+      return undefined;
+    }
 
     const vertexShader = compile(gl, gl.VERTEX_SHADER, VERTEX);
     if (!vertexShader) return undefined;
@@ -820,6 +838,10 @@ const GlowCursor = ({
     const frame = now => {
       raf = 0;
       if (!alive || !visible || document.hidden) return;
+      if (gl.isContextLost()) {
+        hideCanvas();
+        return;
+      }
       const s = settingsRef.current;
       const dt = last ? Math.min(1 / 30, (now - last) / 1000) : 1 / 60;
       last = now;
@@ -933,6 +955,8 @@ const GlowCursor = ({
       window.removeEventListener('pointerdown', onPointerDown);
       document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
+      canvas.removeEventListener('webglcontextlost', onContextLost);
+      canvas.style.opacity = '';
       release();
       Object.values(passes).forEach(pass => gl.deleteProgram(pass.program));
       gl.deleteShader(vertexShader);

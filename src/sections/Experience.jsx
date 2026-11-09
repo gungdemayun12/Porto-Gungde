@@ -6,7 +6,7 @@ import { MapPin } from 'lucide-react';
 import SectionTitle from '../components/ui/SectionTitle';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
-import { useInView } from '../hooks/useInView';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import { experienceData } from '../data/experience';
 
 const EDUCATION = [
@@ -51,10 +51,13 @@ const EDUCATION = [
 function TimelineDot() {
   return (
     <div
-      className="absolute left-0 top-1 w-6 h-6 rounded-full border-2 flex items-center justify-center shadow-2xs"
+      className="timeline-dot absolute left-0 top-1 w-6 h-6 rounded-full border-2 flex items-center justify-center"
       style={{
         borderColor: 'var(--color-border)',
         background: 'var(--color-bg)',
+        boxShadow: '0 0 0 3px color-mix(in srgb, var(--color-gold) 0%, transparent)',
+        transition: 'border-color 260ms ease, box-shadow 260ms ease',
+        zIndex: 2,
       }}
     >
       <div className="w-2 h-2 rounded-full" style={{ background: 'var(--color-gold)' }} />
@@ -65,9 +68,25 @@ function TimelineDot() {
 function TimelineCard({ children }) {
   return (
     <div
-      className="rounded-xl border p-4 sm:p-5 transition-all duration-300 shadow-2xs hover:border-gold"
+      className="rounded-xl border p-4 sm:p-5 transition-all duration-300 relative overflow-hidden group"
       style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border)' }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-gold) 45%, var(--color-border))';
+        e.currentTarget.style.boxShadow = '0 8px 24px -8px color-mix(in srgb, var(--color-gold) 22%, transparent)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = 'var(--color-border)';
+        e.currentTarget.style.boxShadow = '';
+        e.currentTarget.style.transform = '';
+      }}
     >
+      {/* Top accent line */}
+      <span
+        className="absolute top-0 left-0 right-0 h-[1.5px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{ background: 'linear-gradient(90deg, var(--color-gold), transparent)' }}
+        aria-hidden="true"
+      />
       {children}
     </div>
   );
@@ -75,7 +94,10 @@ function TimelineCard({ children }) {
 
 export default function Experience() {
   const { lang } = useLang();
-  const { ref, isInView } = useInView({ triggerOnce: true });
+  const titleRef = useScrollReveal();
+  const workRef = useScrollReveal({ rootMargin: '0px 0px -40px 0px' });
+  const eduRef = useScrollReveal({ rootMargin: '0px 0px -40px 0px' });
+  const ctaRef = useScrollReveal({ rootMargin: '0px 0px -20px 0px' });
   const isId = lang === 'id';
 
   return (
@@ -83,25 +105,21 @@ export default function Experience() {
       id="experience"
       className="section-padding relative overflow-hidden"
       aria-label="Experience"
-      ref={ref}
-      style={{ background: 'var(--color-bg)' }}
     >
       <div className="container-main">
-        <SectionTitle
-          label={isId ? 'RIWAYAT' : 'HISTORY'}
-          title={isId ? 'Pengalaman & Pendidikan.' : 'Experience & Education.'}
-          subtitle={isId
-            ? 'Perjalanan karir profesional dan latar belakang pendidikan saya.'
-            : 'My professional journey and educational foundation.'}
-        />
+        <div ref={titleRef} className="sr-fade-up">
+          <SectionTitle
+            label={isId ? 'RIWAYAT' : 'HISTORY'}
+            title={isId ? 'Pengalaman & Pendidikan.' : 'Experience & Education.'}
+            subtitle={isId
+              ? 'Perjalanan karir profesional dan latar belakang pendidikan saya.'
+              : 'My professional journey and educational foundation.'}
+          />
+        </div>
 
-        <div
-          className={`grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 transition-all duration-700 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* ── WORK EXPERIENCE ── */}
-          <div>
+          <div ref={workRef} className="sr-slide-left">
             {/* Column header */}
             <div className="flex items-center gap-3 mb-6">
               <div
@@ -119,10 +137,10 @@ export default function Experience() {
             </div>
 
             <div className="relative">
-              {/* Vertical line */}
+              {/* Vertical line — gradient from gold to border */}
               <div
-                className="absolute left-3 top-0 bottom-0 w-px"
-                style={{ background: 'var(--color-border)' }}
+                className="absolute left-3 top-3 bottom-0 w-px"
+                style={{ background: 'linear-gradient(to bottom, var(--color-gold) 0%, var(--color-border) 40%, var(--color-border) 100%)' }}
               />
 
               <div className="space-y-0">
@@ -152,9 +170,27 @@ export default function Experience() {
                       >
                         {item.company}
                       </p>
-                      <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                      <p className="text-xs sm:text-sm leading-relaxed mb-3" style={{ color: 'var(--color-muted)' }}>
                         {item.description[lang] || item.description.en}
                       </p>
+                      {/* Skill tags */}
+                      {item.tags?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {item.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold"
+                              style={{
+                                background: 'color-mix(in srgb, var(--color-gold) 8%, var(--color-bg))',
+                                color: 'var(--color-gold-text)',
+                                border: '1px solid color-mix(in srgb, var(--color-gold) 20%, transparent)',
+                              }}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </TimelineCard>
                   </div>
                 ))}
@@ -163,7 +199,7 @@ export default function Experience() {
           </div>
 
           {/* ── EDUCATION ── */}
-          <div>
+          <div ref={eduRef} className="sr-slide-right">
             {/* Column header */}
             <div className="flex items-center gap-3 mb-6">
               <div
@@ -181,9 +217,10 @@ export default function Experience() {
             </div>
 
             <div className="relative">
+              {/* Vertical line — gradient from gold to border */}
               <div
-                className="absolute left-3 top-0 bottom-0 w-px"
-                style={{ background: 'var(--color-border)' }}
+                className="absolute left-3 top-3 bottom-0 w-px"
+                style={{ background: 'linear-gradient(to bottom, var(--color-gold) 0%, var(--color-border) 40%, var(--color-border) 100%)' }}
               />
 
               <div className="space-y-0">
@@ -232,10 +269,9 @@ export default function Experience() {
 
         {/* CTA bottom — matched dual button pair */}
         <div
-          className={`mt-14 pt-10 flex flex-col sm:flex-row items-center justify-between gap-6 transition-all duration-700 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-          style={{ borderTop: '1px solid var(--color-border)', transitionDelay: '400ms' }}
+          ref={ctaRef}
+          className="sr-fade-up mt-14 pt-10 flex flex-col sm:flex-row items-center justify-between gap-6"
+          style={{ borderTop: '1px solid var(--color-border)' }}
         >
           <div>
             <p

@@ -121,7 +121,7 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label="Mobile navigation"
             className="fixed top-0 right-0 bottom-0 z-[101] w-full sm:w-[360px] max-w-[88vw]
-              bg-bg/98 dark:bg-[#0E0C09]/98 backdrop-blur-2xl
+              bg-bg/98 dark:bg-[#070B09]/98 backdrop-blur-2xl
               border-l border-border
               shadow-[-20px_0_50px_rgba(0,0,0,0.25)]
               flex flex-col will-change-transform"
@@ -140,7 +140,7 @@ export default function MobileMenu({
                 <img
                   src="/images/logo/gungdev-logo-gd.png"
                   alt="Gungde"
-                  className="h-10 w-10 shrink-0 object-contain drop-shadow-sm"
+                  className="brand-logo h-10 w-10 shrink-0 object-contain drop-shadow-sm"
                 />
                 <div>
                   <span className="font-heading font-semibold text-[15px] text-text tracking-wide">

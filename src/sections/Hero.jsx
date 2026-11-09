@@ -1,118 +1,137 @@
 /**
- * Hero — editorial hero section
- * Full dual-mode visibility (light + dark), clean dual button pair.
+ * Hero — luxury editorial hero section
+ * Lapisan atmosfer emas, tipografi editorial, stage 3D untuk lanyard,
+ * dan stat strip. Lanyard React (Three.js) tetap dipertahankan apa adanya.
  */
 import { lazy, Suspense } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, Sparkles } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
+import './Hero.css';
 
 const HeroLanyard = lazy(() => import('../components/lanyard/HeroLanyard'));
 
 function LanyardFallback() {
   return (
-    <div className="flex items-center justify-center h-full w-full min-h-[380px] animate-pulse">
-      <div className="w-56 h-80 rounded-2xl border border-border" style={{ background: 'var(--color-surface)' }} />
+    <div className="hero-lanyard-skeleton" aria-hidden="true">
+      <span className="hero-lanyard-skeleton__hook" />
+      <span className="hero-lanyard-skeleton__strap" />
+      <span className="hero-lanyard-skeleton__card" />
     </div>
   );
 }
+
+const STATS = [
+  { value: '3+', label: { en: 'Years Experience', id: 'Tahun Pengalaman' } },
+  { value: '10+', label: { en: 'Projects Delivered', id: 'Proyek Selesai' } },
+  { value: '100%', label: { en: 'Responsive Builds', id: 'Build Responsif' } },
+];
 
 export default function Hero() {
   const { t, lang } = useLang();
   const isId = lang === 'id';
 
   return (
-    <section
-      id="hero"
-      className="relative flex items-center overflow-hidden pt-24 pb-10 sm:pt-32 sm:pb-16 lg:min-h-[92vh] lg:pb-20"
-      aria-label="Hero"
-    >
+    <section id="hero" className="hero-section" aria-label="Hero">
+      {/* ── Atmosfer latar ── */}
+      <div className="hero-bg" aria-hidden="true">
+        <span className="hero-aurora hero-aurora--gold" />
+        <span className="hero-aurora hero-aurora--amber" />
+        <span className="hero-grid" />
+        <span className="hero-topline" />
+      </div>
+
       <div className="container-main relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-8 lg:gap-8 items-center">
-
-          {/* ── LEFT: Copy ── */}
-          <div className="lg:col-span-6 space-y-5 sm:space-y-7 text-center lg:text-left order-2 lg:order-1">
-
-            {/* Status badge */}
+        <div className="hero-layout">
+          {/* ── KIRI: Copy ── */}
+          <div className="hero-copy">
+            {/* Badge status */}
             <div
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border shadow-2xs"
-              style={{
-                borderColor: 'rgba(179,130,38,0.35)',
-                background: 'var(--color-bg)',
-                backdropFilter: 'blur(8px)',
-              }}
+              className="hero-badge-row hero-reveal"
+              style={{ animationDelay: '80ms' }}
             >
-              <span className="h-2 w-2 rounded-full dot-pulse" style={{ background: 'var(--color-gold)' }} />
-              <span
-                className="font-mono text-[11px] uppercase tracking-[0.22em] font-semibold"
-                style={{ color: 'var(--color-gold-text)' }}
-              >
-                {t.hero.badge}
+              <span className="hero-badge">
+                <span className="hero-badge__dot" aria-hidden="true" />
+                <span className="hero-badge__main">{t.hero.badge}</span>
+                <span className="hero-badge__shine" aria-hidden="true" />
               </span>
             </div>
 
-            {/* Main headline */}
+            {/* Sapaan */}
+            <p
+              className="hero-kicker hero-reveal"
+              style={{ animationDelay: '160ms' }}
+            >
+              <span className="hero-kicker__rule" aria-hidden="true" />
+              {t.hero.greeting}{' '}
+              <span className="hero-kicker__name">{t.hero.name}</span>
+            </p>
+
+            {/* Headline */}
             <h1
-              className="leading-[1.08]"
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontWeight: 700,
-                fontSize: 'clamp(2.5rem, 5.5vw, 4.2rem)',
-                letterSpacing: '-0.04em',
-                color: 'var(--color-text)',
-              }}
+              className="hero-title hero-reveal"
+              style={{ animationDelay: '240ms' }}
             >
               {isId ? (
                 <>
-                  Website &{' '}
-                  <em
-                    className="gradient-gold-text"
-                    style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400 }}
-                  >
-                    pemasaran digital
-                  </em>
+                  <span className="hero-title__line">Website &amp;</span>
+                  <span className="hero-title__line hero-title__line--accent">
+                    <em>pemasaran digital</em>
+                  </span>
                 </>
               ) : (
                 <>
-                  Websites &{' '}
-                  <em
-                    className="gradient-gold-text"
-                    style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontWeight: 400 }}
-                  >
-                    digital marketing
-                  </em>
+                  <span className="hero-title__line">Websites &amp;</span>
+                  <span className="hero-title__line hero-title__line--accent">
+                    <em>digital marketing</em>
+                  </span>
                 </>
               )}
             </h1>
 
-            {/* Sub-copy */}
+            {/* Deskripsi */}
             <p
-              className="max-w-lg mx-auto lg:mx-0 leading-relaxed text-base sm:text-[1.0625rem]"
-              style={{ fontFamily: 'var(--font-body)', color: 'var(--color-muted)' }}
+              className="hero-desc hero-reveal"
+              style={{ animationDelay: '320ms' }}
             >
               {t.hero.description}
             </p>
 
-            {/* Dual CTA buttons — solid theme gold + theme gold outline */}
-            <div className="flex flex-col sm:flex-row gap-3.5 justify-center lg:justify-start">
+            {/* CTA */}
+            <div
+              className="hero-actions hero-reveal"
+              style={{ animationDelay: '400ms' }}
+            >
               <Button
                 variant="primary"
                 href="#projects"
+                className="hero-cta hero-cta--primary"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                  document
+                    .getElementById('projects')
+                    ?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 <i className="fa-solid fa-layer-group text-sm" aria-hidden="true" />
                 <span>{t.hero.cta}</span>
+                <ArrowUpRight
+                  size={15}
+                  strokeWidth={2.2}
+                  className="hero-cta__arrow"
+                  aria-hidden="true"
+                />
               </Button>
 
               <Button
                 variant="outline"
                 href="#contact"
+                className="hero-cta hero-cta--outline"
                 onClick={(e) => {
                   e.preventDefault();
-                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  document
+                    .getElementById('contact')
+                    ?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 <i className="fa-solid fa-paper-plane text-sm" aria-hidden="true" />
@@ -120,28 +139,72 @@ export default function Hero() {
               </Button>
             </div>
 
+            {/* Stat strip */}
+            <div
+              className="hero-stats hero-reveal"
+              style={{ animationDelay: '480ms' }}
+            >
+              {STATS.map((stat) => (
+                <div className="hero-stat" key={stat.value}>
+                  <span className="hero-stat__value">{stat.value}</span>
+                  <span className="hero-stat__label">
+                    {isId ? stat.label.id : stat.label.en}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* ── RIGHT: 3D Lanyard ── */}
-          <div className="lg:col-span-6 flex justify-center items-center order-1 lg:order-2 w-full">
-            <div className="relative isolate w-full min-h-[380px]">
-              <Suspense fallback={<LanyardFallback />}>
-                <HeroLanyard />
-              </Suspense>
+          {/* ── KANAN: Stage 3D Lanyard ── */}
+          <div className="hero-visual">
+            <div className="hero-stage">
+              {/* Dekorasi panggung */}
+              <div className="hero-stage__decor" aria-hidden="true">
+                <span className="hero-stage__glow" />
+                <span className="hero-stage__orbit hero-stage__orbit--outer" />
+                <span className="hero-stage__orbit hero-stage__orbit--inner" />
+                <span className="hero-stage__arch">
+                  <span className="hero-stage__arch-glow" />
+                  <span className="hero-stage__apex" />
+                </span>
+                <span className="hero-stage__corner hero-stage__corner--tl" />
+                <span className="hero-stage__corner hero-stage__corner--tr" />
+                <span className="hero-stage__corner hero-stage__corner--bl" />
+                <span className="hero-stage__corner hero-stage__corner--br" />
+              </div>
+
+              <span className="hero-stage__meta hero-stage__meta--tl">
+                <Sparkles size={11} strokeWidth={2} aria-hidden="true" />
+                Interactive 3D
+              </span>
+
+              {/* Lanyard asli — jangan diubah */}
+              <div className="hero-stage__lanyard">
+                <Suspense fallback={<LanyardFallback />}>
+                  <HeroLanyard />
+                </Suspense>
+
+                <span className="hero-stage__meta hero-stage__meta--br">
+                  <span className="hero-stage__meta-dot" aria-hidden="true" />
+                  Bali · Indonesia
+                </span>
+              </div>
+
+              {/* Nameplate ala galeri */}
+              <div className="hero-stage__caption">
+                <span className="hero-stage__caption-name">Portfolio · 2026</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="mt-14 hidden md:flex items-center gap-3">
-          <span className="h-px w-10" style={{ background: 'var(--color-gold)' }} />
-          <span
-            className="text-[11px] font-mono tracking-[0.2em] uppercase font-medium"
-            style={{ color: 'var(--color-muted)' }}
-          >
-            {t.hero.scrollDown}
+        {/* Scroll cue */}
+        <div className="hero-scroll" aria-hidden="true">
+          <span className="hero-scroll__track">
+            <span className="hero-scroll__thumb" />
           </span>
-          <ChevronDown size={14} className="scroll-indicator" style={{ color: 'var(--color-gold)' }} />
+          <span className="hero-scroll__label">{t.hero.scrollDown}</span>
+          <ChevronDown size={13} strokeWidth={2.2} className="hero-scroll__chevron" />
         </div>
       </div>
     </section>

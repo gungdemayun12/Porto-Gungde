@@ -1190,10 +1190,10 @@ function BlockEscape({ lang, onClose }) {
                     width: `calc(${(piece.direction === 'h' ? piece.length : 1) * cellPercent}% - 6px)`,
                     height: `calc(${(piece.direction === 'v' ? piece.length : 1) * cellPercent}% - 6px)`,
                     background: isTarget
-                      ? 'linear-gradient(135deg, #f3cb68, #a8731c)'
+                      ? 'linear-gradient(135deg, #0f9d68, #064e3b)'
                       : `linear-gradient(135deg, ${colors[index % colors.length]}, ${colors[(index + 2) % colors.length]})`,
-                    borderColor: isSelected ? '#fff1b8' : isTarget ? '#ffd976' : 'rgba(255,255,255,0.3)',
-                    boxShadow: isSelected ? '0 0 0 3px rgba(216,170,66,0.42), 0 8px 18px rgba(0,0,0,0.2)' : undefined,
+                    borderColor: isSelected ? '#a7f3d0' : isTarget ? '#34d399' : 'rgba(255,255,255,0.3)',
+                    boxShadow: isSelected ? '0 0 0 3px rgba(79,209,154,0.42), 0 8px 18px rgba(0,0,0,0.2)' : undefined,
                     zIndex: isSelected ? 2 : 1,
                     touchAction: 'none',
                     userSelect: 'none',
@@ -1415,7 +1415,7 @@ export default function Arcade() {
                 className="absolute top-4 right-4 text-[10px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full border font-semibold"
                 style={{
                   background: 'var(--color-surface)',
-                  borderColor: 'rgba(179,130,38,0.3)',
+                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
                   color: 'var(--color-gold-text)',
                 }}
               >
@@ -1426,8 +1426,8 @@ export default function Arcade() {
               <div
                 className="w-12 h-12 rounded-xl border flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-105 shadow-2xs"
                 style={{
-                  background: 'rgba(179,130,38,0.1)',
-                  borderColor: 'rgba(179,130,38,0.3)',
+                  background: 'color-mix(in srgb, var(--color-gold) 10%, transparent)',
+                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
                   color: 'var(--color-gold)',
                 }}
               >

@@ -7,12 +7,15 @@ import { ArrowUpRight } from 'lucide-react';
 import SectionTitle from '../components/ui/SectionTitle';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
-import { useInView } from '../hooks/useInView';
+import { useScrollReveal } from '../hooks/useScrollReveal';
 import { CONTACT, whatsappLink } from '../data/contact';
 
 export default function Contact() {
   const { lang } = useLang();
-  const { ref, isInView } = useInView({ triggerOnce: true });
+  const titleRef = useScrollReveal();
+  const heroCardRef = useScrollReveal({ rootMargin: '0px 0px -30px 0px' });
+  const cardsRef = useScrollReveal({ rootMargin: '0px 0px -20px 0px' });
+  const socialRef = useScrollReveal({ rootMargin: '0px 0px -10px 0px' });
   const [copied, setCopied] = useState(false);
   const isId = lang === 'id';
 
@@ -28,46 +31,36 @@ export default function Contact() {
       : 'Hello Gungde, I would like to discuss a website project.'
   );
 
-  const cardBase = {
-    background: 'var(--color-surface)',
-    border: '1px solid var(--color-border)',
-    borderRadius: '20px',
-    transition: 'border-color 0.3s, transform 0.3s, box-shadow 0.3s',
-  };
-
   return (
     <section
       id="contact"
       className="section-padding relative overflow-hidden"
       aria-label="Contact"
-      ref={ref}
-      style={{ background: 'var(--color-bg)' }}
     >
       <div className="container-main relative z-10">
-        <SectionTitle
-          label={isId ? 'KONTAK' : 'CONTACT'}
-          title={isId ? 'Mari bahas kebutuhan Anda.' : "Let's discuss your project."}
-          subtitle={isId
-            ? 'Hubungi saya lewat WhatsApp atau email untuk konsultasi dan penawaran website.'
-            : 'Reach out via WhatsApp or email to discuss your website and marketing goals.'}
-        />
+        <div ref={titleRef} className="sr-fade-up">
+          <SectionTitle
+            label={isId ? 'KONTAK' : 'CONTACT'}
+            title={isId ? 'Mari bahas kebutuhan Anda.' : "Let's discuss your project."}
+            subtitle={isId
+              ? 'Hubungi saya lewat WhatsApp atau email untuk konsultasi dan penawaran website.'
+              : 'Reach out via WhatsApp or email to discuss your website and marketing goals.'}
+          />
+        </div>
 
-        <div
-          className={`max-w-5xl mx-auto transition-all duration-700 ${
-            isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
+        <div className="max-w-5xl mx-auto">
           {/* Hero CTA card with matched dual button pair */}
           <div
-            className="rounded-[24px] p-6 sm:p-8 mb-6 relative overflow-hidden shadow-2xs"
+            ref={heroCardRef}
+            className="sr-fade-up rounded-[24px] p-6 sm:p-8 mb-6 relative overflow-hidden shadow-2xs"
             style={{
               background: 'var(--color-surface)',
-              border: '1.5px solid rgba(179,130,38,0.3)',
+              border: '1.5px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
             }}
           >
             <div
               className="absolute -right-16 -top-16 w-48 h-48 rounded-full pointer-events-none"
-              style={{ background: 'radial-gradient(circle, rgba(179,130,38,0.07), transparent 70%)' }}
+              style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-gold) 7%, transparent), transparent 70%)' }}
             />
             <div className="relative flex flex-col lg:flex-row lg:items-center justify-between gap-6">
               <div className="max-w-xl">
@@ -116,17 +109,23 @@ export default function Contact() {
           </div>
 
           {/* 3-column contact cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div ref={cardsRef} className="sr-stagger grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
 
             {/* WhatsApp Card */}
             <a
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
-              style={{ ...cardBase, minHeight: '230px' }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-whatsapp)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+              className="contact-card group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
+              style={{ minHeight: '230px' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-whatsapp)';
+                e.currentTarget.style.boxShadow = '0 16px 40px -12px color-mix(in srgb, var(--color-whatsapp) 30%, transparent)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border)';
+                e.currentTarget.style.boxShadow = '';
+              }}
             >
               <div
                 className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
@@ -177,22 +176,28 @@ export default function Contact() {
 
             {/* Email Card */}
             <div
-              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
-              style={{ ...cardBase, minHeight: '230px', cursor: 'default' }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-gold)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+              className="contact-card group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
+              style={{ minHeight: '230px', cursor: 'default' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-gold) 55%, var(--color-border))';
+                e.currentTarget.style.boxShadow = '0 16px 40px -12px color-mix(in srgb, var(--color-gold) 28%, transparent)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border)';
+                e.currentTarget.style.boxShadow = '';
+              }}
             >
               <div
                 className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
-                style={{ background: 'rgba(179,130,38,0.1)', filter: 'blur(30px)' }}
+                style={{ background: 'color-mix(in srgb, var(--color-gold) 10%, transparent)', filter: 'blur(30px)' }}
               />
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs"
                     style={{
-                      background: 'rgba(179,130,38,0.12)',
-                      border: '1px solid rgba(179,130,38,0.3)',
+                      background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
+                      border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
                       color: 'var(--color-gold)',
                     }}
                   >
@@ -248,22 +253,28 @@ export default function Contact() {
 
             {/* Location Card */}
             <div
-              className="group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1 shadow-2xs hover:shadow-md"
-              style={{ ...cardBase, minHeight: '230px' }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'var(--color-gold)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'var(--color-border)')}
+              className="contact-card group relative p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 hover:-translate-y-1.5"
+              style={{ minHeight: '230px' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'color-mix(in srgb, var(--color-gold) 55%, var(--color-border))';
+                e.currentTarget.style.boxShadow = '0 16px 40px -12px color-mix(in srgb, var(--color-gold) 28%, transparent)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--color-border)';
+                e.currentTarget.style.boxShadow = '';
+              }}
             >
               <div
                 className="absolute -right-10 -top-10 w-32 h-32 rounded-full pointer-events-none"
-                style={{ background: 'rgba(179,130,38,0.1)', filter: 'blur(30px)' }}
+                style={{ background: 'color-mix(in srgb, var(--color-gold) 10%, transparent)', filter: 'blur(30px)' }}
               />
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div
                     className="w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs"
                     style={{
-                      background: 'rgba(179,130,38,0.12)',
-                      border: '1px solid rgba(179,130,38,0.3)',
+                      background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
+                      border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
                       color: 'var(--color-gold)',
                     }}
                   >
@@ -296,7 +307,8 @@ export default function Contact() {
 
           {/* Social strip */}
           <div
-            className="p-5 sm:p-6 rounded-[20px] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs"
+            ref={socialRef}
+            className="sr-fade-up p-5 sm:p-6 rounded-[20px] flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs"
             style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)' }}
           >
             <div className="text-center sm:text-left">

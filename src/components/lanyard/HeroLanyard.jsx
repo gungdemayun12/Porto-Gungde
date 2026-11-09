@@ -57,7 +57,31 @@ export default function HeroLanyard() {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(isMobile || isTablet);
 
-  const containerHeight = isMobile ? '390px' : isTablet ? '460px' : '570px';
+  // Di mobile/tablet, tunda mount 3D sampai thread utama selesai paint awal.
+  // Tampilan tetap lengkap (StaticBadge) lebih dulu, lalu 3D masuk saat idle.
+  const [readyFor3D, setReadyFor3D] = useState(() => !isMobile && !isTablet);
+
+  useEffect(() => {
+    if (!isMobile && !isTablet) return undefined;
+
+    let idleId;
+    let timerId;
+    const start = () => setReadyFor3D(true);
+    if (typeof window.requestIdleCallback === 'function') {
+      idleId = window.requestIdleCallback(start, { timeout: 1600 });
+    } else {
+      timerId = window.setTimeout(start, 1100);
+    }
+
+    return () => {
+      if (idleId && typeof window.cancelIdleCallback === 'function') {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timerId) window.clearTimeout(timerId);
+    };
+  }, [isMobile, isTablet]);
+
+  const containerHeight = isMobile ? '375px' : isTablet ? '460px' : '570px';
 
   useEffect(() => {
     const el = containerRef.current;
@@ -74,7 +98,7 @@ export default function HeroLanyard() {
     return () => observer.unobserve(el);
   }, []);
 
-  if (useMobileFallback) {
+  if (useMobileFallback || (!readyFor3D && (isMobile || isTablet))) {
     return (
       <div
         ref={containerRef}
@@ -101,7 +125,7 @@ export default function HeroLanyard() {
 
       {isVisible ? (
         <WebGLErrorBoundary fallback={<StaticBadge />}>
-          <Suspense fallback={<LanyardSkeleton />}>
+          <Suspense fallback={<StaticBadge />}>
             <Lanyard3D
               position={[0, 0, isMobile ? 15 : 17.5]}
               gravity={[0, isMobile ? -32 : -40, 0]}
@@ -110,6 +134,7 @@ export default function HeroLanyard() {
               frontImage={gungdePhoto}
               backImage={gungdePhoto}
               imageFit="cover"
+              lanyardWidth={isMobile ? 0.78 : 0.82}
             />
           </Suspense>
         </WebGLErrorBoundary>
