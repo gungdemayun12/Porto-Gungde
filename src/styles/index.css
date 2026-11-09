@@ -363,10 +363,18 @@ button:disabled {
 }
 
 /* =========================================================
-   BRAND LOGO TINT — keeps the monogram in the emerald palette
+   BRAND LOGO — crisp di dark dan light mode
+   Logo sudah berwarna emerald, tidak perlu filter.
+   Light mode: shadow tipis agar terlihat di background putih.
+   Dark mode: glow emerald halus.
    ========================================================= */
 .brand-logo {
-  filter: hue-rotate(100deg) saturate(1.08);
+  /* tidak ada filter — logo sudah emerald by design */
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+}
+
+.dark .brand-logo {
+  filter: drop-shadow(0 0 8px rgba(79, 209, 154, 0.25));
 }
 
 /* =========================================================

@@ -43,10 +43,9 @@ export default function Footer() {
           <div className="md:col-span-5 space-y-3">
             <div className="flex items-center gap-3">
               <img
-                src="/images/logo/gungdev-logo-gd.png"
-                alt=""
-                aria-hidden="true"
-                className="brand-logo h-10 w-10 object-contain drop-shadow-sm"
+                src="/images/logo/gungdev-logo-gd-emerald.png"
+                alt="Gungdev logo"
+                className="brand-logo h-10 w-10 object-contain"
               />
               <p
                 className="text-xl font-bold tracking-wide"

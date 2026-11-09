@@ -138,9 +138,9 @@ export default function MobileMenu({
               border-b border-border">
               <div className="flex items-center gap-3">
                 <img
-                  src="/images/logo/gungdev-logo-gd.png"
+                  src="/images/logo/gungdev-logo-gd-emerald.png"
                   alt="Gungde"
-                  className="brand-logo h-10 w-10 shrink-0 object-contain drop-shadow-sm"
+                  className="brand-logo h-10 w-10 shrink-0 object-contain"
                 />
                 <div>
                   <span className="font-heading font-semibold text-[15px] text-text tracking-wide">

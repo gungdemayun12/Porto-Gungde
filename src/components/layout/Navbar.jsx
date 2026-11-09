@@ -115,12 +115,13 @@ export default function Navbar() {
             }}
             className="flex items-center gap-2 sm:gap-3 group"
           >
-            <img
-              src="/images/logo/gungdev-logo-gd.png"
-              alt=""
-              aria-hidden="true"
-              className="brand-logo h-8 w-8 object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:h-10 sm:w-10"
-            />
+            <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
+              <img
+                src="/images/logo/gungdev-logo-gd-emerald.png"
+                alt="Gungdev logo"
+                className="brand-logo h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
             {/* Nama Brand */}
             <div className="hidden min-[380px]:flex flex-col">
               <span className="font-heading font-semibold text-text text-sm tracking-wide group-hover:text-gold-text transition-colors sm:text-base">
