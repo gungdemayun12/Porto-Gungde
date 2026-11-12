@@ -22,6 +22,44 @@ const project = (data) => {
 
 export const projectsData = [
   project({
+    slug: 'bali-play-golf',
+    name: 'Bali Play Golf',
+    location: 'Denpasar, Bali',
+    role: { en: 'Web Developer & Digital Experience Designer', id: 'Web Developer & Digital Experience Designer' },
+    year: 2026,
+    thumbnail: '/images/project/baliplaygolf%20(1).png',
+    gallery: [
+      '/images/project/baliplaygolf%20(1).png',
+      '/images/project/baliplaygolf%20(2).png',
+      '/images/project/baliplaygolf%20(3).png',
+      '/images/project/baliplaygolf%20(4).png',
+      '/images/project/baliplaygolf%20(5).png',
+      '/images/project/baliplaygolf%20(6).png',
+      '/images/project/baliplaygolf%20(7).png',
+      '/images/project/baliplaygolf%20(8).png',
+    ],
+    summaryEn: 'A premium golf tour and tee-time booking website for Bali Play Golf, a licensed local travel operator offering curated packages at New Kuta Golf, Bali Handara Golf, and Bukit Pandawa Golf with instant WhatsApp reservations.',
+    summaryId: 'Website pemesanan paket golf premium Bali Play Golf, operator travel lokal berlisensi yang menawarkan paket pilihan ke New Kuta Golf, Bali Handara Golf, dan Bukit Pandawa Golf dengan reservasi WhatsApp instan.',
+    detailEn: 'Bali Play Golf is the official booking platform of PT. Bali Travel Plan, a licensed local tour operator based in Denpasar that turns a single round of golf into a complete island experience. The site presents three signature courses: New Kuta Golf, a links-style championship layout perched on limestone cliffs above Dreamland and Balangan beaches; Bali Handara Golf, a legendary 1974 mountain course set nearly 1,400 metres above sea level inside an extinct volcanic crater in Bedugul; and Bukit Pandawa Golf, an 18-hole par-3 course on the cliffs of Kutuh with panoramic Indian Ocean views.\n\nEvery package is documented in detail, including 18-hole green fees, caddie and shared golf cart, player insurance, mineral water, weekend surcharges, private hotel transfers, tee-box categories, course specifications, facilities, awards, and cancellation policies. A real-time search and filter explorer helps visitors compare courses by destination and playing style, while an interactive Bali map, a three-step "Choose → Book → Play" journey, a floating WhatsApp widget, and pre-filled inquiry templates reduce the booking process to a single conversation. The visual identity pairs a fresh fairway-green palette with editorial serif typography, soft organic image frames, and generous white space, echoing the calm of Bali\'s highlands and coastline. Fully responsive and bilingual (English & Indonesian), the site is structured for local SEO so travelling golfers can discover and book their ideal Bali tee time from any device.',
+    detailId: 'Bali Play Golf adalah platform pemesanan resmi PT. Bali Travel Plan, operator tur lokal berlisensi di Denpasar yang mengubah satu ronde golf menjadi pengalaman pulau yang utuh. Website ini menampilkan tiga lapangan unggulan: New Kuta Golf, lapangan championship bergaya links di atas tebing batu kapur menghadap Pantai Dreamland dan Balangan; Bali Handara Golf, lapangan pegunungan legendaris tahun 1974 pada ketinggian hampir 1.400 meter di dalam kawah gunung purba Bedugul; serta Bukit Pandawa Golf, lapangan 18 hole par-3 di tebing Kutuh dengan panorama Samudra Hindia.\n\nSetiap paket dijelaskan secara transparan, mulai dari green fee 18 hole, caddy dan golf cart bersama, asuransi pemain, air mineral, tambahan biaya akhir pekan, layanan antar-jemput privat, kategori tee box, spesifikasi lapangan, fasilitas, penghargaan, hingga kebijakan pembatalan. Pencarian dan filter paket real-time membantu pengunjung membandingkan lapangan berdasarkan destinasi dan gaya bermain, dilengkapi peta interaktif Bali, alur pemesanan tiga langkah "Pilih → Pesan → Bermain", widget WhatsApp mengambang, serta template pesan otomatis sehingga proses booking cukup diselesaikan dalam satu percakapan. Identitas visualnya memadukan palet hijau fairway yang segar dengan tipografi serif editorial, bingkai foto organik, dan ruang putih yang lapang, mencerminkan ketenangan dataran tinggi dan garis pantai Bali. Dibangun sepenuhnya responsif dan dwibahasa (Inggris & Indonesia) dengan struktur konten ramah SEO lokal, sehingga pegolf mancanegara mudah menemukan dan memesan tee time impian mereka dari perangkat apa pun.',
+    resultsEn: [
+      'Curated package explorer with live search and filters for Handara, New Kuta, Bukit Pandawa, cliff courses, solo players, and groups',
+      'Transparent course detail pages covering green fees, inclusions, tee boxes, course specifications, awards, and cancellation policies',
+      'Three-step booking flow with automated WhatsApp inquiry templates and a persistent floating chat widget',
+      'Interactive Bali golf map and structured local SEO content for international golf travellers',
+      'Fresh fairway-green visual identity with editorial serif typography, organic framing, and full mobile responsiveness',
+    ],
+    resultsId: [
+      'Eksplorasi paket golf dengan pencarian real-time dan filter Handara, New Kuta, Bukit Pandawa, cliff course, pemain tunggal, hingga grup',
+      'Halaman detail lapangan transparan mencakup green fee, fasilitas, tee box, spesifikasi, penghargaan, dan kebijakan pembatalan',
+      'Alur pemesanan tiga langkah dengan template pesan WhatsApp otomatis dan tombol chat mengambang yang selalu tersedia',
+      'Peta interaktif lapangan golf Bali dan konten terstruktur ramah SEO lokal untuk wisatawan pegolf',
+      'Identitas visual hijau fairway segar dengan tipografi serif editorial, bingkai organik, dan responsif penuh di semua perangkat',
+    ],
+    liveUrl: 'https://baliplaygolf.com/',
+  }),
+
+  project({
     slug: 'ubud-digital-creative',
     name: 'Ubud Digital Creative',
     location: 'Ubud, Bali',

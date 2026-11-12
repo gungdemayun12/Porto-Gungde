@@ -169,23 +169,6 @@ function ProjectCard({ project, lang, onClick, index }) {
           </div>
         </div>
 
-        {/* Role tag */}
-        {project.role && (
-          <div className="mb-2.5">
-            <span
-              className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold tracking-wide px-2 py-0.5 rounded"
-              style={{
-                background: 'color-mix(in srgb, var(--color-gold) 10%, transparent)',
-                color: 'var(--color-gold-text)',
-                border: '1px solid color-mix(in srgb, var(--color-gold) 22%, transparent)',
-              }}
-            >
-              <i className="fa-solid fa-user-pen text-[8px]" aria-hidden="true" />
-              <span>{typeof project.role === 'object' ? (project.role[lang] || project.role.en) : project.role}</span>
-            </span>
-          </div>
-        )}
-
         {/* Summary */}
         <p
           className="text-xs sm:text-[0.8125rem] leading-relaxed flex-1 line-clamp-3"
