@@ -1,0 +1,339 @@
+/* =========================================================
+   PROJECT POSTER — editorial card artwork
+   A dark stage, a tilted browser window with the real
+   screenshot, a bold wordmark and two honest figures.
+   Scales with the card via container queries.
+   ========================================================= */
+
+.project-poster {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  container-type: inline-size;
+  color: #F2F8F4;
+  background:
+    radial-gradient(
+      130% 100% at 88% 10%,
+      color-mix(in srgb, var(--poster-accent) 22%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      90% 80% at 8% 100%,
+      color-mix(in srgb, var(--poster-accent) 12%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(145deg, #0A100D 0%, #070B09 58%, #050807 100%);
+}
+
+/* Accent bloom behind the browser window */
+.project-poster__glow {
+  position: absolute;
+  top: -30%;
+  right: -12%;
+  width: 68%;
+  height: 150%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--poster-accent) 40%, transparent),
+    transparent
+  );
+  opacity: 0.55;
+  pointer-events: none;
+  transition: opacity 600ms var(--ease-luxury, ease);
+}
+
+/* Faint technical grid */
+.project-poster__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(85% 90% at 72% 36%, #000 10%, transparent 78%);
+  mask-image: radial-gradient(85% 90% at 72% 36%, #000 10%, transparent 78%);
+  pointer-events: none;
+}
+
+/* ---------- Copy column ---------- */
+.project-poster__copy {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: 2;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 2.35rem 0.35rem 0.8rem 0.95rem;
+}
+
+.project-poster__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.42rem, 1.7cqw, 0.56rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--poster-accent) 72%, #FFFFFF);
+}
+
+.project-poster__title {
+  margin-top: 0.42rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(0.82rem, 4.5cqw, 1.16rem);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  text-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+}
+
+.project-poster__title em {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.08em;
+  color: color-mix(in srgb, var(--poster-accent) 55%, #FFFFFF);
+}
+
+/* ---------- Cover feature list ---------- */
+.project-poster__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  min-height: 0;
+}
+
+.project-poster__list li {
+  display: flex;
+  align-items: center;
+  gap: 0.32rem;
+  min-width: 0;
+  font-family: var(--font-body);
+  font-size: clamp(0.42rem, 1.75cqw, 0.56rem);
+  line-height: 1.2;
+  color: rgba(232, 245, 238, 0.82);
+}
+
+.project-poster__list li i {
+  flex: 0 0 auto;
+  font-size: 0.78em;
+  color: var(--poster-accent);
+}
+
+.project-poster__list li span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.project-poster__stats {
+  display: flex;
+  gap: 1.05rem;
+  margin-top: auto;
+  padding-top: 0.6rem;
+}
+
+.project-poster__stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.project-poster__stats span {
+  font-family: var(--font-mono);
+  font-size: clamp(0.4rem, 1.55cqw, 0.5rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(232, 245, 238, 0.55);
+}
+
+.project-poster__stats strong {
+  font-family: var(--font-mono);
+  font-size: clamp(0.76rem, 3.2cqw, 1rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #FFFFFF;
+}
+
+.project-poster__stats div:first-child strong {
+  color: color-mix(in srgb, var(--poster-accent) 55%, #FFFFFF);
+}
+
+.project-poster__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.55rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.38rem, 1.5cqw, 0.48rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 238, 0.62);
+}
+
+.project-poster__tag i {
+  color: var(--poster-accent);
+}
+
+/* ---------- Tilted browser window ---------- */
+.project-poster__shot {
+  position: absolute;
+  z-index: 1;
+  top: 15%;
+  right: -8%;
+  width: 60%;
+  height: 92%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--poster-accent) 42%, rgba(255, 255, 255, 0.14));
+  border-radius: 0.5rem;
+  background: #0A110E;
+  box-shadow:
+    0 26px 46px -20px rgba(0, 0, 0, 0.85),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 0 34px -14px color-mix(in srgb, var(--poster-accent) 60%, transparent);
+  transform: rotate(-1.6deg);
+  transition: transform 700ms var(--ease-luxury, ease);
+}
+
+.project-card:hover .project-poster__shot {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.project-card:hover .project-poster__glow {
+  opacity: 0.85;
+}
+
+.project-poster__chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  height: 1.4rem;
+  padding-inline: 0.4rem;
+  background: #0B1310;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.project-poster__dots {
+  display: inline-flex;
+  gap: 3px;
+  flex: 0 0 auto;
+}
+
+.project-poster__dots i {
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.project-poster__dots i:first-child { background: #FF6B5A; opacity: 0.8; }
+.project-poster__dots i:nth-child(2) { background: #FFC14D; opacity: 0.8; }
+.project-poster__dots i:nth-child(3) { background: #4FD19A; opacity: 0.8; }
+
+.project-poster__url {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  flex: 1;
+  padding: 0.1rem 0.3rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.3rem, 1.15cqw, 0.42rem);
+  letter-spacing: 0.02em;
+  color: rgba(232, 245, 238, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.project-poster__screen {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  background: #0B1310;
+}
+
+.project-poster__screen img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.project-poster__fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  color: color-mix(in srgb, var(--poster-accent) 60%, #FFFFFF);
+}
+
+.project-poster__sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    112deg,
+    transparent 32%,
+    rgba(255, 255, 255, 0.14) 48%,
+    transparent 64%
+  );
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* Accent rule at the bottom, echoing the outline buttons */
+.project-poster__edge {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 38%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--poster-accent), transparent);
+}
+
+@container (max-width: 320px) {
+  .project-poster__copy {
+    width: 54%;
+    padding-left: 0.75rem;
+  }
+
+  .project-poster__stats {
+    gap: 0.75rem;
+  }
+
+  /* Keep the cover readable when the card is narrow. */
+  .project-poster__list li:nth-child(n + 3) {
+    display: none;
+  }
+
+  .project-poster__shot {
+    width: 58%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-poster__shot,
+  .project-poster__glow {
+    transition: none;
+  }
+
+  .project-card:hover .project-poster__shot {
+    transform: rotate(-1.6deg);
+  }
+}

@@ -19,9 +19,12 @@ export default function ThemeTransition() {
       if (nowClass === prevClass) return;
       prevClass = nowClass;
 
+      // Browsers with View Transitions play the clip-path glitch instead.
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (typeof document.startViewTransition === 'function') return;
+
       const overlay = overlayRef.current;
       if (!overlay) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       // Cancel any running animation
       if (rafRef.current) cancelAnimationFrame(rafRef.current);

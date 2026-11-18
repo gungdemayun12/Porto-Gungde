@@ -22,11 +22,11 @@ export default function NotFound() {
           {t.notFound.title}
         </h1>
 
-        <h2 className="text-fluid-h2 font-bold text-text mb-4 -mt-4 lg:-mt-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-text mb-4 -mt-4 lg:-mt-8">
           {t.notFound.subtitle}
         </h2>
 
-        <p className="text-muted text-fluid-body max-w-md mx-auto mb-8">
+        <p className="text-muted text-sm sm:text-base max-w-md mx-auto mb-8">
           {t.notFound.description}
         </p>
 

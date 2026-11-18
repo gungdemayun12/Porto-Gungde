@@ -207,7 +207,7 @@ export default function Contact() {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label="Copy email"
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-semibold cursor-pointer transition-colors shadow-2xs"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-[2px] text-[11px] font-mono font-semibold cursor-pointer transition-colors shadow-2xs"
                     style={{
                       background: 'var(--color-bg)',
                       border: '1px solid var(--color-border)',

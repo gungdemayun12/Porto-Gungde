@@ -91,6 +91,18 @@ const id = {
     privateSystem: 'Sistem Privat',
     livePreview: 'Pratinjau Langsung',
     keyFeatures: 'Fitur Utama & Lingkup Kerja',
+    mobileApp: 'Aplikasi Mobile',
+    androidApp: 'Aplikasi Android',
+    downloadApp: 'Unduh Aplikasi',
+    downloadAppShort: 'APK',
+    downloadSize: 'Ukuran berkas',
+    platform: 'Platform',
+    format: 'Format',
+    installGuide: 'Cara memasang',
+    installNote: 'Berkas APK dibagikan untuk pengujian langsung. Pastikan perangkat Android memiliki GPS aktif.',
+    appPreview: 'Pratinjau aplikasi',
+    category: 'Kategori',
+    access: 'Akses',
   },
 
   // Services

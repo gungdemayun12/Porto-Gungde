@@ -11,9 +11,9 @@ import {
   ExternalLink,
   Lock,
   User,
-  Calendar,
   Layers,
   Globe,
+  Smartphone,
   CheckCircle2,
   Maximize2,
   X,
@@ -22,8 +22,12 @@ import {
 } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import { useLang } from '../hooks/useLang';
-import { projectsData } from '../data/projects';
+import { projectsData, categoryLabel } from '../data/projects';
 import Button from '../components/ui/Button';
+import MobileAppPreview from '../components/ui/MobileAppPreview';
+import AppDownloadPanel, { DownloadButton } from '../components/ui/AppDownload';
+import BrowserFrame from '../components/ui/BrowserFrame';
+import Reveal from '../components/ui/Reveal';
 
 export default function ProjectDetail() {
   const { slug } = useParams();
@@ -45,11 +49,6 @@ export default function ProjectDetail() {
     (p) => p.slug === slug || (slug === 'ubud-digital-photography' && p.slug === 'ubud-digital-creative')
   );
   const project = projectsData[projectIndex];
-
-  // Scroll ke atas saat pindah halaman
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, [slug]);
 
   // Keyboard navigation untuk lightbox
   useEffect(() => {
@@ -75,7 +74,7 @@ export default function ProjectDetail() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center px-4">
-          <h1 className="text-fluid-h1 font-bold text-gold-text mb-4">404</h1>
+          <h1 className="text-5xl sm:text-6xl font-bold text-gold-text mb-4">404</h1>
           <p className="text-muted mb-8">{t.notFound.description}</p>
           <Button onClick={() => navigate('/')}>{t.notFound.backHome}</Button>
         </div>
@@ -109,47 +108,45 @@ export default function ProjectDetail() {
         {/* Header proyek */}
         <div className="mb-10 max-w-4xl">
           <div className="flex flex-wrap items-center gap-2.5 mb-4">
-            {project.privateSystem ? (
-              <span
-                className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
-                style={{
-                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
-                  color: 'var(--color-gold-text)',
-                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
-                }}
-              >
-                <Lock size={12} />
-                <span>{isId ? 'Sistem Privat' : 'Private System'}</span>
-              </span>
-            ) : (
-              <span
-                className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
-                style={{
-                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
-                  color: 'var(--color-gold-text)',
-                  borderColor: 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
-                }}
-              >
-                <Globe size={12} />
-                <span>Web</span>
-              </span>
-            )}
-
             <span
               className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
               style={{
-                background: 'var(--color-surface)',
-                color: 'var(--color-muted)',
-                borderColor: 'var(--color-border)',
+                background: project.mobileApp
+                  ? 'var(--app-accent-bg)'
+                  : 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
+                color: project.mobileApp ? 'var(--app-accent-text)' : 'var(--color-gold-text)',
+                borderColor: project.mobileApp
+                  ? 'var(--app-accent-border)'
+                  : 'color-mix(in srgb, var(--color-gold) 30%, transparent)',
               }}
             >
-              <Calendar size={12} />
-              <span>{project.year || 2025}</span>
+              {project.mobileApp ? (
+                <Smartphone size={12} />
+              ) : project.privateSystem ? (
+                <Lock size={12} />
+              ) : (
+                <Globe size={12} />
+              )}
+              <span>{categoryLabel(project.category, lang)}</span>
             </span>
+
+            {project.mobileApp && project.downloadSize && (
+              <span
+                className="font-mono text-xs font-semibold px-3 py-1 rounded-full border flex items-center gap-1.5"
+                style={{
+                  background: 'var(--color-surface)',
+                  color: 'var(--color-muted)',
+                  borderColor: 'var(--color-border)',
+                }}
+              >
+                <i className="fa-brands fa-android text-[11px]" aria-hidden="true" />
+                <span>APK · {project.downloadSize}</span>
+              </span>
+            )}
           </div>
 
           <h1
-            className="text-fluid-h1 font-bold leading-tight mb-4"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-4"
             style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
           >
             {title}
@@ -160,12 +157,14 @@ export default function ProjectDetail() {
           </p>
         </div>
 
-        {/* Hero preview (Video or Image) */}
+        {/* Hero preview (app mockup, video, or image) */}
         <div
-          className="relative aspect-video rounded-2xl overflow-hidden border border-border mb-12 shadow-sm group"
+          className={`relative ${project.mobileApp ? 'aspect-[16/10] sm:aspect-[16/9]' : 'aspect-video'} rounded-2xl overflow-hidden border border-border mb-8 sm:mb-10 shadow-sm group`}
           style={{ background: 'var(--color-surface)' }}
         >
-          {project.video ? (
+          {project.mobileApp ? (
+            <MobileAppPreview variant="hero" icon={project.icon} />
+          ) : project.video ? (
             <video
               src={project.video}
               controls
@@ -177,14 +176,14 @@ export default function ProjectDetail() {
             />
           ) : project.thumbnail ? (
             <div className="relative w-full h-full cursor-pointer" onClick={() => setLightboxIndex(0)}>
-              <img
+              <BrowserFrame
                 src={project.thumbnail}
+                project={project}
                 alt={`${title} preview`}
-                className="w-full h-full object-cover"
                 loading="eager"
-                decoding="async"
+                fallbackChar={title.charAt(0)}
               />
-              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white">
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white pointer-events-none">
                 <span className="px-3.5 py-1.5 rounded-full bg-black/60 backdrop-blur-md text-xs font-mono font-medium flex items-center gap-2">
                   <Maximize2 size={14} />
                   {isId ? 'Perbesar Gambar' : 'Click to Expand'}
@@ -198,8 +197,11 @@ export default function ProjectDetail() {
           )}
         </div>
 
+        {/* APK download + install guide */}
+        {project.mobileApp && <AppDownloadPanel project={project} />}
+
         {/* Meta Info Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-12">
           <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
               <User size={18} />
@@ -214,41 +216,35 @@ export default function ProjectDetail() {
 
           <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
-              <Layers size={18} />
+              {project.mobileApp ? <Smartphone size={18} /> : <Layers size={18} />}
             </div>
-            <div>
+            <div className="min-w-0">
               <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Kategori' : 'Category'}</span>
-              <span className="text-sm font-semibold text-text truncate max-w-[140px] block">
-                {project.privateSystem ? (isId ? 'Sistem Privat' : 'Private System') : 'Web'}
+              <span className="text-sm font-semibold text-text block">
+                {categoryLabel(project.category, lang)}
               </span>
             </div>
           </div>
 
           <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
-              <Calendar size={18} />
-            </div>
-            <div>
-              <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{t.projects.year}</span>
-              <span className="text-sm font-semibold text-text">{project.year || 2025}</span>
-            </div>
-          </div>
-
-          <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
-              {project.privateSystem ? <Lock size={18} /> : <Globe size={18} />}
+              {project.mobileApp ? <Smartphone size={18} /> : project.privateSystem ? <Lock size={18} /> : <Globe size={18} />}
             </div>
             <div>
               <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Status Akses' : 'Access'}</span>
               <span className="text-sm font-semibold text-text">
-                {project.privateSystem ? (isId ? 'Sistem Privat' : 'Private System') : (isId ? 'Website Publik' : 'Public Web')}
+                {project.mobileApp
+                  ? (isId ? 'APK Android' : 'Android APK')
+                  : project.privateSystem
+                  ? (isId ? 'Sistem Privat' : 'Private System')
+                  : (isId ? 'Website Publik' : 'Public Web')}
               </span>
             </div>
           </div>
         </div>
 
         {/* Overview Box */}
-        <div className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-8 shadow-2xs">
+        <Reveal className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-8 shadow-2xs">
           <div className="flex items-center gap-2 mb-4 text-xs font-mono uppercase tracking-[0.18em] font-semibold text-gold-text">
             <i className="fa-solid fa-circle-info text-xs" aria-hidden="true" />
             <span>{t.projects.overview}</span>
@@ -256,11 +252,11 @@ export default function ProjectDetail() {
           <div className="text-muted text-base leading-relaxed space-y-4 whitespace-pre-line">
             {detail}
           </div>
-        </div>
+        </Reveal>
 
         {/* Results & Key Features Box */}
         {results?.length > 0 && (
-          <div className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-12 shadow-2xs">
+          <Reveal className="p-6 lg:p-8 rounded-2xl bg-surface border border-border mb-12 shadow-2xs">
             <div className="flex items-center gap-2 mb-6 text-xs font-mono uppercase tracking-[0.18em] font-semibold text-gold-text">
               <CheckCircle2 size={16} />
               <span>{t.projects.keyFeatures || t.projects.results}</span>
@@ -273,7 +269,7 @@ export default function ProjectDetail() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         )}
 
         {/* Galeri Tangkapan Layar */}
@@ -295,15 +291,15 @@ export default function ProjectDetail() {
                 <div
                   key={image + index}
                   onClick={() => setLightboxIndex(index)}
-                  className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-border bg-surface cursor-pointer shadow-2xs hover:shadow-md transition-all duration-300"
+                  className="group relative aspect-[4/3] cursor-pointer transition-transform duration-300 hover:-translate-y-1"
                 >
-                  <img
+                  <BrowserFrame
                     src={image}
+                    project={project}
                     alt={`${title} screenshot ${index + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
+                    fallbackChar={title.charAt(0)}
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 pointer-events-none rounded-[0.65rem]">
                     <span className="px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md text-white text-xs font-mono font-medium flex items-center gap-1.5">
                       <Maximize2 size={12} />
                       {String(index + 1).padStart(2, '0')} / {String(gallery.length).padStart(2, '0')}
@@ -316,9 +312,11 @@ export default function ProjectDetail() {
         )}
 
         {/* Link eksternal action bar */}
-        <div className="flex flex-wrap items-center gap-4 mb-16 pt-6 border-t border-border">
-          {project.privateSystem ? (
-            <span className="btn-outline flex items-center gap-2 opacity-80 cursor-default">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mb-16 pt-6 border-t border-border">
+          {project.mobileApp && project.downloadUrl ? (
+            <DownloadButton project={project} className="w-full sm:w-auto" />
+          ) : project.privateSystem ? (
+            <span className="btn-square btn-square--neutral w-full sm:w-auto opacity-80 cursor-default">
               <Lock size={16} />
               <span>{isId ? 'Sistem Internal Privat' : 'Private Internal System'}</span>
             </span>
@@ -327,10 +325,11 @@ export default function ProjectDetail() {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary"
+              className="btn-square w-full sm:w-auto"
             >
-              <ExternalLink size={16} />
+              <ExternalLink size={16} className="btn-square__icon" />
               <span>{t.projects.visitSite}</span>
+              <i className="fa-solid fa-arrow-up-right-from-square btn-square__arrow" aria-hidden="true" />
             </a>
           ) : null}
 
@@ -339,20 +338,21 @@ export default function ProjectDetail() {
               href={project.repoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-outline"
+              className="btn-square btn-square--outline w-full sm:w-auto"
             >
               <FaGithub size={16} />
               <span>{t.projects.viewCode}</span>
             </a>
           )}
 
-          <Button
-            variant="outline"
+          <button
+            type="button"
             onClick={() => navigate('/#projects')}
+            className="btn-square btn-square--neutral w-full sm:w-auto"
           >
             <ArrowLeft size={16} />
             <span>{t.projects.backToProjects}</span>
-          </Button>
+          </button>
         </div>
 
         {/* Navigasi prev/next */}
@@ -362,7 +362,7 @@ export default function ProjectDetail() {
               to={`/projects/${prevProject.slug}`}
               className="flex items-center gap-3 text-muted hover:text-gold-text transition-colors group"
             >
-              <div className="w-9 h-9 rounded-full border border-border flex items-center justify-center group-hover:border-gold group-hover:text-gold transition-colors">
+              <div className="w-9 h-9 rounded-[2px] border border-border flex items-center justify-center group-hover:border-gold group-hover:text-gold transition-colors">
                 <ArrowLeft size={16} className="group-hover:-translate-x-0.5 transition-transform" />
               </div>
               <div>
@@ -385,7 +385,7 @@ export default function ProjectDetail() {
                   {nextProject.title[lang] || nextProject.title.en}
                 </span>
               </div>
-              <div className="w-9 h-9 rounded-full border border-border flex items-center justify-center group-hover:border-gold group-hover:text-gold transition-colors">
+              <div className="w-9 h-9 rounded-[2px] border border-border flex items-center justify-center group-hover:border-gold group-hover:text-gold transition-colors">
                 <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </div>
             </Link>
@@ -403,7 +403,7 @@ export default function ProjectDetail() {
           <button
             type="button"
             onClick={() => setLightboxIndex(null)}
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-[2px] bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer z-10"
             aria-label="Close Lightbox"
           >
             <X size={20} />
@@ -418,7 +418,7 @@ export default function ProjectDetail() {
                   e.stopPropagation();
                   setLightboxIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
                 }}
-                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-[2px] bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
                 aria-label="Previous"
               >
                 <ChevronLeft size={24} />
@@ -430,7 +430,7 @@ export default function ProjectDetail() {
                   e.stopPropagation();
                   setLightboxIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
                 }}
-                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
+                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-[2px] bg-white/10 hover:bg-gold hover:text-[var(--color-on-accent)] text-white flex items-center justify-center transition-colors cursor-pointer z-10"
                 aria-label="Next"
               >
                 <ChevronRight size={24} />

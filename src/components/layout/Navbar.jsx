@@ -98,7 +98,7 @@ export default function Navbar() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 pt-3 sm:pt-4 px-4 sm:px-6">
         <nav
-          className={`container-main max-w-6xl mx-auto rounded-full transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between
+          className={`container-main max-w-6xl mx-auto rounded-[2px] transition-[background-color,border-color,box-shadow,backdrop-filter] duration-500 ease-out px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between
             ${isScrolled
               ? 'bg-surface/92 dark:bg-[#0A120D]/92 backdrop-blur-xl border border-gold/30 shadow-[0_8px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)]'
               : 'bg-surface/85 dark:bg-[#0A120D]/85 backdrop-blur-md border border-border shadow-xs'
@@ -134,7 +134,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden min-[1120px]:flex items-center gap-0.5 px-2.5 py-1.5 rounded-full border"
+          <div className="hidden min-[1120px]:flex items-center gap-0.5 px-2.5 py-1.5 rounded-[2px] border"
             style={{
               background: 'color-mix(in srgb, var(--color-bg) 85%, transparent)',
               borderColor: 'var(--color-border)',
@@ -145,7 +145,7 @@ export default function Navbar() {
               <button
                 key={id}
                 onClick={() => scrollTo(id)}
-                className={`relative px-4 py-1.5 rounded-full text-xs font-mono font-medium tracking-wide transition-all duration-300 cursor-pointer
+                className={`relative px-4 py-1.5 rounded-[2px] text-xs font-mono font-medium tracking-wide transition-all duration-300 cursor-pointer
                   ${activeSection === id
                     ? 'font-bold shadow-xs'
                     : 'hover:bg-gold/10'
@@ -175,7 +175,7 @@ export default function Navbar() {
             <Button
               variant="primary"
               onClick={() => scrollTo('contact')}
-              className="text-xs py-2 px-4.5 rounded-full cursor-pointer flex items-center gap-2 shadow-xs"
+              className="text-xs py-2 px-4.5 cursor-pointer flex items-center gap-2 shadow-xs"
             >
               <i className="fa-solid fa-paper-plane text-xs" aria-hidden="true" />
               <span>{t.nav.hireMe}</span>
@@ -193,7 +193,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
-              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-border bg-surface/90
+              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-[2px] border border-border bg-surface/90
                 flex items-center justify-center text-text
                 hover:border-gold hover:bg-gold/10
                 transition-[border-color,background-color,transform] duration-400

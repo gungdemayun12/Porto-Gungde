@@ -3,15 +3,38 @@
  * Setiap proyek dilengkapi galeri tangkapan layar, spesifikasi teknis, dan ringkasan fitur.
  */
 
+const resolveCategory = (item) => {
+  if (item.mobileApp) return 'Mobile App';
+  if (item.privateSystem) return 'Private System';
+  return 'Web';
+};
+
+// Cover card memakai versi JPEG ringan dari thumbnail (gambar asli tetap dipakai
+// untuk galeri/detail). File hasil kompresi ada di /images/project/thumbs/.
+const toCoverThumb = (src) =>
+  src && src.includes('/images/project/')
+    ? src.replace('/images/project/', '/images/project/thumbs/').replace(/\.png$/i, '.jpg')
+    : null;
+
+// Hero & galeri memakai versi JPEG teroptimasi (maks 1600px) di /images/project/web/
+// agar halaman detail tidak mengunduh PNG multi-MB. File asli tetap tersimpan.
+const toWebImage = (src) =>
+  src && src.includes('/images/project/')
+    ? src.replace('/images/project/', '/images/project/web/').replace(/\.(png|jpe?g)$/i, '.jpg')
+    : src;
+
 const project = (data) => {
   const item = { ...data };
   delete item.stack;
+  const category = resolveCategory(item);
   return {
     year: item.year || 2025,
-    thumbnail: item.thumbnail || null,
     ...item,
-    category: item.privateSystem ? 'Private System' : 'Web',
-    displayCategory: item.privateSystem ? 'Private System' : 'Web',
+    thumbnail: toWebImage(item.thumbnail || null),
+    gallery: Array.isArray(item.gallery) ? item.gallery.map(toWebImage) : item.gallery,
+    coverThumb: toCoverThumb(item.thumbnail || null),
+    category,
+    displayCategory: category,
     title: { en: item.name, id: item.name },
     summary: { en: item.summaryEn, id: item.summaryId },
     detail: { en: item.detailEn, id: item.detailId },
@@ -21,6 +44,46 @@ const project = (data) => {
 };
 
 export const projectsData = [
+  project({
+    slug: 'run-track',
+    name: 'Run Track',
+    location: 'Bali, Indonesia',
+    role: { en: 'Android App Developer', id: 'Android App Developer' },
+    year: 2026,
+    mobileApp: true,
+    icon: '/images/project/runtrack-icon.png',
+    accent: '#FD520F',
+    downloadUrl: '/downloads/runtrack.apk',
+    downloadFileName: 'RunTrack.apk',
+    downloadSize: '16.9 MB',
+    appMeta: {
+      platform: 'Android',
+      format: 'APK',
+      size: '16.9 MB',
+      tracking: 'GPS',
+    },
+    summaryEn: 'A Strava-inspired Android running companion that records every run with live GPS tracking, real-time pace, per-kilometer splits, calorie and elevation insights, and a personal training history.',
+    summaryId: 'Aplikasi Android pendamping lari bergaya Strava yang merekam setiap sesi lari dengan GPS real-time, pace dan split per kilometer, estimasi kalori, elevasi, serta riwayat latihan pribadi.',
+    detailEn: 'Run Track is an Android running companion built for runners who want the essentials without the noise. One tap starts a session: the app locks onto GPS, begins drawing the route on a live map, and streams distance, moving time, current pace, average pace, calories burned, and elevation gain in a clean, glanceable dashboard designed to be read mid-stride. Pause and resume keep the timer honest at traffic lights, while auto-pause quietly handles the short stops you would otherwise forget.\n\nEvery run closes with a summary that feels like a training log: a route replay, per-kilometer splits, fastest and slowest kilometers, total climb, calorie estimate, and a comparison against your recent average. Completed activities are stored in a personal history where weekly and monthly totals, streaks, and personal records build up over time, so progress is visible instead of guessed. A lightweight account and onboarding flow keep each runner\'s history private, while settings let the experience be tuned to the device.\n\nThe interface follows a sporty dark theme with high-contrast numerals and an orange accent borrowed from the Run Track identity, keeping the screen readable under Bali\'s midday sun and at dusk. Permission flows for precise location and background tracking are handled explicitly, GPS accuracy is surfaced to the runner, and battery-conscious sampling keeps long runs practical. Run Track is packaged as an installable Android APK, so the complete tracking flow can be tried on a real device directly from this portfolio.',
+    detailId: 'Run Track adalah aplikasi pendamping lari Android yang dibangun untuk pelari yang menginginkan hal-hal esensial tanpa distraksi. Satu ketukan memulai sesi: aplikasi mengunci GPS, mulai menggambar rute di peta langsung, lalu menampilkan jarak, waktu bergerak, pace saat ini, pace rata-rata, estimasi kalori, dan elevasi dalam dashboard yang bersih dan mudah dibaca sambil berlari. Tombol jeda dan lanjutkan menjaga waktu tetap akurat saat berhenti di lampu merah, sementara auto-pause menangani jeda pendek yang sering terlewat.\n\nSetiap sesi lari ditutup dengan ringkasan bergaya buku latihan: replay rute, split per kilometer, kilometer tercepat dan terlambat, total tanjakan, estimasi kalori, serta perbandingan dengan rata-rata lari terakhir. Aktivitas yang selesai tersimpan dalam riwayat pribadi, tempat total mingguan dan bulanan, streak, serta rekor pribadi terus bertambah sehingga progres terlihat nyata, bukan sekadar perkiraan. Alur akun dan onboarding yang ringan menjaga riwayat setiap pelari tetap privat, sementara halaman pengaturan memungkinkan pengalaman disesuaikan dengan perangkat.\n\nAntarmukanya memakai tema gelap sporty dengan angka berkontras tinggi dan aksen oranye dari identitas Run Track, agar layar tetap terbaca di bawah terik Bali maupun saat senja. Alur izin lokasi presisi dan pelacakan latar belakang ditangani secara eksplisit, akurasi GPS ditampilkan kepada pelari, dan pengambilan sampel yang hemat baterai membuat lari jarak jauh tetap praktis. Run Track dikemas sebagai APK Android yang bisa dipasang langsung, sehingga seluruh alur pelacakan dapat dicoba di perangkat nyata dari portofolio ini.',
+    resultsEn: [
+      'One-tap GPS run tracking with a live map and animated route drawing',
+      'Real-time distance, moving time, current and average pace, calories, and elevation',
+      'Pause, resume, and auto-pause that protect the accuracy of every session',
+      'Per-kilometer splits plus a post-run summary with route replay and comparisons',
+      'Personal run history with weekly progress, streaks, and personal records',
+      'Sporty dark interface with high-contrast numerals and an installable Android APK',
+    ],
+    resultsId: [
+      'Pelacakan lari GPS sekali ketuk dengan peta langsung dan rute yang tergambar animatif',
+      'Jarak, waktu bergerak, pace saat ini dan rata-rata, kalori, serta elevasi real-time',
+      'Jeda, lanjutkan, dan auto-pause yang menjaga akurasi setiap sesi lari',
+      'Split per kilometer serta ringkasan setelah lari dengan replay rute dan perbandingan',
+      'Riwayat lari pribadi dengan progres mingguan, streak, dan rekor pribadi',
+      'Antarmuka gelap sporty dengan angka kontras tinggi dan APK Android siap dipasang',
+    ],
+  }),
+
   project({
     slug: 'bali-play-golf',
     name: 'Bali Play Golf',
@@ -351,14 +414,14 @@ export const projectsData = [
     ],
     summaryEn: 'A premier artisan jewelry workshop platform in Canggu, Bali, featuring an interactive 8-branch studio locator map, a 4-step silversmithing craft guide, tiered course packages, and an instant dual-channel reservation system.',
     summaryId: 'Website resmi studio kerajinan perhiasan perak di Canggu, Bali, dilengkapi peta interaktif 8 cabang studio, panduan visual 4 tahap menenun perak, katalog paket berjenjang, dan alur reservasi terintegrasi.',
-    detailEn: 'Meru Jewelry Classes is a leading silversmithing studio and cultural craft workshop located on Jl. Pantai Batu Bolong in Canggu, Bali. The studio offers hands-on jewelry-making sessions where international travelers, couples, and creative enthusiasts craft bespoke 925 sterling silver rings, pendants, and brass pieces under the guidance of Balinese master silversmiths.\n\nThe website was architected to deliver a high-converting digital presence tailored for international visitors:\n• Tiered Workshop Packages: Clearly outlines course durations, silver allowances, and transparent IDR pricing—including Intro to Silversmithing (IDR 625K / 3 hrs / 5g silver), Brass Workshop with 24K Gold Plating (IDR 495K / 2.5 hrs), Romantic Couples Experience (IDR 1.250K / 10g silver for 2), and the intensive Full Day Masterclass (IDR 1.800K / 6 hrs / 15g silver).\n• 4-Step Craft Visualizer: Illustrates the authentic hands-on silversmithing journey (Design & Sketch → Shape & Saw → Solder & Assemble → Polish & Buff), giving first-time participants total confidence.\n• Interactive 8-Branch Bali Studio Map: Interactive directory showcasing Meru\'s 8 studio locations across Canggu, Seminyak, Ubud, Sanur, and Uluwatu, complete with addresses, operating hours, and one-tap Google Maps directions.\n• Dual-Channel Booking System: Facilitates frictionless reservations via an interactive online date/slot picker form, paired with automated WhatsApp URL routing pre-populated with package selection and group size.',
-    detailId: 'Meru Jewelry Classes adalah studio kerajinan perhiasan perak terkemuka yang berlokasi di Jl. Pantai Batu Bolong, Canggu, Bali. Studio ini menghadirkan pengalaman belajar menempa perhiasan tangan (silversmithing) otentik, di mana para wisatawan mancanegara dan pasangan dapat merancang serta membawa pulang cincin, liontin, atau gelang perak 925 buatan sendiri didampingi pengrajin perak master Bali.\n\nPlatform web ini dirancang khusus untuk memenuhi standar wisatawan internasional dengan arsitektur informasi yang terstruktur rapi:\n• Katalog Paket Kursus Berjenjang: Menyajikan informasi transparan mengenai durasi, jatah perak murni, dan tarif kelas—mulai dari Intro to Silversmithing (IDR 625K / 3 jam / 5 gram perak), Brass Workshop with Gold Plating (IDR 495K / 2.5 jam / 10 gram kuningan + sepuh emas 24k), Paket Couples Romantis (IDR 1.250K / 10 gram perak untuk berdua), hingga Full Day Masterclass (IDR 1.800K / 6 jam / 15 gram perak).\n• Visualisasi 4 Tahap Pembuatan (Craft Process): Menampilkan alur belajar interaktif (Design & Sketch → Shape & Form → Solder & Join → Polish & Shine) yang memberikan gambaran jelas bagi pemula.\n• Peta Interaktif 8 Cabang Studio di Bali: Direktori studio yang memetakan 8 lokasi workshop Meru di Canggu, Seminyak, Ubud, Sanur, hingga Uluwatu lengkap dengan jam buka dan tautan rute Google Maps langsung.\n• Sistem Reservasi Jalur Ganda (Dual-Channel): Menggabungkan formulir pemesanan online untuk memilih jadwal dan tanggal kelas, dengan tombol WhatsApp instan berformat pesan otomatis sesuai paket yang dipilih.',
+    detailEn: 'Meru Jewelry Classes is a leading silversmithing studio and cultural craft workshop located on Jl. Pantai Batu Bolong in Canggu, Bali. The studio offers hands-on jewelry-making sessions where international travelers, couples, and creative enthusiasts craft bespoke silver and brass rings, pendants, and other pieces under the guidance of Balinese master silversmiths.\n\nThe website was architected to deliver a high-converting digital presence tailored for international visitors:\n• Tiered Workshop Packages: Clearly outlines course durations, silver/brass allowances, and transparent IDR pricing—including Intro to Silversmithing (IDR 625K / 1–2 hrs / 1–6g silver, one piece to take home), Brass with Gold Plating (IDR 495K / 1–10g brass plus gold plating), the Couples Silversmithing Class for two (IDR 1.250K / 1–2 hrs, one piece each), the Full Day Silversmithing class (IDR 1.800K / 3–5 hrs / 1–15g silver, up to two designs), a Family Package for four (IDR 2.500K) and a Big Group Package for up to ten people (IDR 625K/person), with optional 24K gold plating (IDR 250K) and gemstone setting (IDR 200K–300K) add-ons.\n• 4-Step Craft Visualizer: Illustrates the authentic hands-on silversmithing journey (Design & Sketch → Shape & Saw → Solder & Assemble → Polish & Buff), giving first-time participants total confidence.\n• Interactive 8-Branch Bali Studio Map: Interactive directory showcasing Meru\'s 8 studio locations across Canggu, Seminyak, Ubud, Sanur, and Uluwatu, complete with addresses, operating hours, and one-tap Google Maps directions.\n• Dual-Channel Booking System: Facilitates frictionless reservations via an interactive online date/slot picker form, paired with automated WhatsApp URL routing pre-populated with package selection and group size.',
+    detailId: 'Meru Jewelry Classes adalah studio kerajinan perhiasan perak terkemuka yang berlokasi di Jl. Pantai Batu Bolong, Canggu, Bali. Studio ini menghadirkan pengalaman belajar menempa perhiasan tangan (silversmithing) otentik, di mana para wisatawan mancanegara dan pasangan dapat merancang serta membawa pulang cincin, liontin, atau perhiasan perak dan kuningan buatan sendiri didampingi pengrajin perak master Bali.\n\nPlatform web ini dirancang khusus untuk memenuhi standar wisatawan internasional dengan arsitektur informasi yang terstruktur rapi:\n• Katalog Paket Kursus Berjenjang: Menyajikan informasi transparan mengenai durasi, jatah perak/kuningan, dan tarif kelas—mulai dari Intro to Silversmithing (IDR 625K / 1–2 jam / 1–6 gram perak, satu karya untuk dibawa pulang), Brass with Gold Plating (IDR 495K / 1–10 gram kuningan + sepuh emas), Kelas Couples untuk berdua (IDR 1.250K / 1–2 jam, satu karya per orang), kelas Full Day Silversmithing (IDR 1.800K / 3–5 jam / 1–15 gram perak, hingga dua desain), Family Package untuk empat orang (IDR 2.500K), serta Big Group Package hingga sepuluh orang (IDR 625K/orang), dengan add-on opsional sepuh emas 24K (IDR 250K) dan pemasangan batu permata (IDR 200K–300K).\n• Visualisasi 4 Tahap Pembuatan (Craft Process): Menampilkan alur belajar interaktif (Design & Sketch → Shape & Form → Solder & Join → Polish & Shine) yang memberikan gambaran jelas bagi pemula.\n• Peta Interaktif 8 Cabang Studio di Bali: Direktori studio yang memetakan 8 lokasi workshop Meru di Canggu, Seminyak, Ubud, Sanur, hingga Uluwatu lengkap dengan jam buka dan tautan rute Google Maps langsung.\n• Sistem Reservasi Jalur Ganda (Dual-Channel): Menggabungkan formulir pemesanan online untuk memilih jadwal dan tanggal kelas, dengan tombol WhatsApp instan berformat pesan otomatis sesuai paket yang dipilih.',
     resultsEn: [
       'Interactive 8-branch studio map locator across Canggu, Seminyak, Ubud, Sanur, & Uluwatu',
-      'Transparent course tiers (Intro IDR 625K, Brass IDR 495K, Couples IDR 1.250K, Masterclass IDR 1.800K)',
+      'Transparent course tiers (Intro IDR 625K, Brass IDR 495K, Couples IDR 1.250K, Full Day IDR 1.800K, Family IDR 2.500K, Group IDR 625K/pax)',
       'Educational 4-step craft visualizer detailing Design, Shape, Solder, and Polish workflows',
       'Dual-channel booking engine supporting online reservation form and direct WhatsApp URL generator',
-      'Verified 5.0 TripAdvisor & Google Reviews social proof integration for international travelers',
+      'Verified "Excellent" rating from 34 TripAdvisor guest reviews for international travelers',
       'Optimized mobile-first responsiveness and localized schema markup for Bali tourist SEO',
     ],
     resultsId: [
@@ -390,25 +453,25 @@ export const projectsData = [
       '/images/project/balicharming%20(8).png',
       '/images/project/balicharming%20(9).png',
     ],
-    summaryEn: 'A full-scale travel portal and tour booking engine in Bali, featuring an end-to-end 6-stage checkout workflow, 3D Secure credit card payment processing, zone-based pickup selection, and dynamic itinerary timelines.',
-    summaryId: 'Portal perjalanan dan mesin reservasi tour Bali berskala penuh, dilengkapi alur transaksi 6 tahap terintegrasi, pembayaran kartu kredit 3D Secure, pemilihan zona penjemputan hotel, dan linimasa itinerary dinamis.',
-    detailEn: 'Bali Charming Tours is a premier inbound travel agency and tour operator based in Bali, delivering curated holiday experiences across the island. The client required a complete digital transformation—moving away from manual chat inquiries toward a robust, self-service online reservation platform capable of handling international tourist transactions securely.\n\nThe platform was architected with a comprehensive 6-stage booking and payment funnel:\n1. Product Discovery & Filtering: Categorizes excursions into Full Day Cultural Tours, Nusa Penida Island Crossings, Thrill Adventure Activities (ATV & Rafting), and Private Car Charters with instant duration, price, and rating indicators.\n2. Deep Itinerary Visualization: An interactive day schedule detailing exact timestamps (e.g. 08:00 Hotel Departure → 09:30 Barong Dance → 13:00 Volcano Lunch → 17:00 Rice Terrace Sunset), vehicle specifications, transparent inclusions, and visitor reviews.\n3. Product Customization & Cart: Allows guests to specify travel dates, adult/child passenger counts, and specific pickup zones (Kuta, Seminyak, Nusa Dua, Ubud, Sanur) with dynamic subtotal calculations.\n4. Traveler Guest Profile ("Booked By"): Collects essential logistics data including lead guest credentials, hotel address, room number, flight references, and dietary preferences.\n5. Secure Checkout & Payment Processing: Incorporates 3D Secure Credit Card processing (Visa, Mastercard) with end-to-end SSL encryption, currency conversion, and instant payment validation.\n6. Confirmation & Digital Voucher: Automatically generates a verified reservation voucher with a unique Booking Reference ID, printable PDF itinerary download, and instant WhatsApp booking confirmation dispatch.',
-    detailId: 'Bali Charming Tours adalah biro perjalanan wisata terkemuka di Bali yang menyediakan paket liburan terkurasi untuk wisatawan domestik dan mancanegara. Klien membutuhkan transformasi digital menyeluruh—beralih dari pemesanan manual via chat menjadi platform reservasi mandiri lengkap yang mampu memproses transaksi kartu kredit internasional dengan aman dan otomatis.\n\nPlatform ini dibangun dengan arsitektur alur pemesanan 6 tahap terpadu:\n1. Pencarian & Filter Produk: Mengelompokkan paket ke dalam kategori Full Day Tour, Nusa Penida Island Tour, Wisata Petualangan (ATV & Rafting), serta Sewa Mobil Privat dengan filter harga dan durasi instan.\n2. Halaman Rencana Perjalanan (Itinerary): Visualisasi jadwal perjalanan interaktif jam demi jam (08:00 Penjemputan → 09:30 Tari Barong → 13:00 Makan Siang View Gunung Batur → 17:00 Sunset Tegalalang), fasilitas gratis, dan ulasan tamu.\n3. Konfigurasi Produk & Keranjang Belanja: Tamu dapat memilih tanggal trip, jumlah peserta dewasa/anak, serta zona penjemputan hotel (Kuta, Seminyak, Nusa Dua, Ubud) dengan kalkulasi subtotal harga otomatis.\n4. Formulir Data Wisatawan (Booked By): Mengumpulkan data pemesan secara terstruktur, nama hotel penjemputan, nomor kamar, nomor kontak darurat, serta catatan khusus.\n5. Gerbang Pembayaran Aman (3D Secure Payment): Integrasi pembayaran kartu kredit internasional (Visa, Mastercard) berteknologi 3D Secure, enkripsi SSL, dan validasi transaksi instan.\n6. Konfirmasi & Voucher Digital: Penerbitan kode unik Booking ID otomatis, tombol unduh voucher PDF siap cetak, serta sinkronisasi konfirmasi instan ke sistem WhatsApp tim operasional.',
+    summaryEn: 'A full-scale private Bali tour portal for Bali Charming Tours, running an end-to-end 6-step online booking funnel (Product List → Details → Cart → Booking Details → Payment → Finish), 21-currency support, and rich itineraries for Full Day, Activities, and Nusa Penida tours.',
+    summaryId: 'Portal tour privat Bali untuk Bali Charming Tours dengan alur pemesanan online 6 tahap (Product List → Detail → Keranjang → Booking Details → Payment → Finish), dukungan 21 mata uang, dan itinerary rinci untuk tour Full Day, Activities, dan Nusa Penida.',
+    detailEn: 'Bali Charming Tours is a private Bali tour operator offering curated Full Day tours, activities, Nusa Penida crossings, and private car charters. Rather than a simple brochure, the site is engineered as a complete self-service booking platform.\n\nReservations run through an integrated booking engine with a clear six-step funnel—Product List → Product Details → Shopping Cart → Booking Details → Payment → Finish—so guests can browse packages, pick a date, review inclusions, enter traveller details, and pay online in one flow. Payment options include Visa, Mastercard, and PayPal, and prices are shown in 21 currencies (IDR plus 20 international currencies), making checkout comfortable for foreign travellers.\n\nEvery tour page is information-dense: a top highlight, a "Highlight & Experience" summary, a day-by-day Itinerary, Notes, clear Inclusion and Exclusion lists, a "Pick Up Area & Time" section, a "What To Bring" checklist, and Important Information, alongside badges for Private Tour, Hotel Pickup, Minimum 2 Persons, and Price per Pax. The catalogue spans Nusa Penida tours (such as the Nusa Penida Mix Trip East & West, West Coast Highlights, and the West & Manta snorkeling combination), Bali Activities (ATV rafting & swing combos, Ubud cycling, river tubing, Mount Batur 4WD jeep sunrise, Blue Lagoon snorkeling), Bali Full Day cultural tours (Kintamani Volcano, Ubud rice terrace & swing, Bedugul & Tanah Lot, Gate of Heaven East Bali), and a private car charter with driver. Trust pillars—trusted experts, private comfort, custom itineraries, and local insight—run throughout, with a WhatsApp line (+62 851-9099-8775) available for quick questions.',
+    detailId: 'Bali Charming Tours adalah operator tour privat Bali yang menawarkan tour Full Day, aktivitas, penyeberangan Nusa Penida, dan sewa mobil privat. Alih-alih sekadar brosur, situs ini dirancang sebagai platform pemesanan mandiri yang lengkap.\n\nReservasi berjalan melalui mesin pemesanan terintegrasi dengan alur enam tahap yang jelas—Product List → Product Details → Shopping Cart → Booking Details → Payment → Finish—sehingga tamu dapat menelusuri paket, memilih tanggal, meninjau fasilitas, mengisi data wisatawan, dan membayar online dalam satu alur. Opsi pembayaran mencakup Visa, Mastercard, dan PayPal, dan harga ditampilkan dalam 21 mata uang (IDR plus 20 mata uang internasional), membuat checkout nyaman bagi wisatawan mancanegara.\n\nHalaman setiap tour sangat informatif: highlight utama, ringkasan "Highlight & Experience", Itinerary harian, Notes, daftar Inclusion dan Exclusion yang jelas, bagian "Pick Up Area & Time", ceklis "What To Bring", serta Important Information—dilengkapi badge Private Tour, Hotel Pickup, Minimal 2 Orang, dan Harga per Pax. Katalognya meliputi tour Nusa Penida (seperti Nusa Penida Mix Trip East & West, West Coast Highlights, dan kombinasi West & Manta snorkeling), Bali Activities (ATV rafting & swing combo, Ubud cycling, river tubing, Mount Batur 4WD jeep sunrise, Blue Lagoon snorkeling), tour budaya Full Day (Kintamani Volcano, Ubud rice terrace & swing, Bedugul & Tanah Lot, Gate of Heaven East Bali), hingga private car charter dengan supir. Pilar kepercayaan—tim ahli, kenyamanan privat, itinerary kustom, dan wawasan lokal—ditonjolkan di seluruh situs, dengan jalur WhatsApp (+62 851-9099-8775) untuk pertanyaan cepat.',
     resultsEn: [
-      'Complete 6-stage travel booking engine (Catalog → Detail → Cart → Guest Info → Payment → Confirmation)',
-      'Integrated 3D Secure credit card payment gateway supporting global Visa & Mastercard transactions',
-      'Zone-based hotel pickup selector covering Kuta, Seminyak, Nusa Dua, Ubud, Sanur, & Jimbaran',
-      'Interactive hour-by-hour itinerary timeline with transparent inclusion/exclusion checklists',
-      'Dynamic shopping cart with real-time adult/child pax pricing and add-on calculations',
-      'Automated PDF confirmation voucher generation with unique booking reference IDs',
+      'Complete 6-step online booking funnel (Product List → Details → Cart → Booking Details → Payment → Finish)',
+      'Online payment via Visa, Mastercard, and PayPal with prices in 21 currencies (IDR + 20 international)',
+      'Rich tour pages with Itinerary, Inclusion/Exclusion, Pick Up Area & Time, and a What To Bring checklist',
+      'Full Day, Activities, Nusa Penida, and Private Car Charter catalogue with clear per-pax pricing',
+      'Badges and trust pillars: Private Tour, Hotel Pickup, Minimum 2 Persons, and local insight',
+      'Direct WhatsApp support line plus detailed guest testimonials for social proof',
     ],
     resultsId: [
-      'Alur pemesanan tour 6 tahap lengkap (Katalog → Detail → Keranjang → Data Tamu → Pembayaran → Selesai)',
-      'Gerbang pembayaran kartu kredit internasional 3D Secure (Visa & Mastercard) dengan keamanan SSL',
-      'Pemilih zona penjemputan hotel otomatis mencakup Kuta, Seminyak, Nusa Dua, Ubud, Sanur, & Jimbaran',
-      'Linimasa itinerary interaktif jam demi jam dengan rincian fasilitas termasuk dan tidak termasuk',
-      'Keranjang belanja dinamis dengan perhitungan kuota pax dewasa/anak dan opsi add-on real-time',
-      'Penerbitan voucher PDF konfirmasi booking otomatis dengan kode referensi pemesanan unik',
+      'Alur pemesanan online 6 tahap lengkap (Product List → Detail → Keranjang → Booking Details → Payment → Finish)',
+      'Pembayaran online via Visa, Mastercard, dan PayPal dengan harga dalam 21 mata uang (IDR + 20 internasional)',
+      'Halaman tour informatif dengan Itinerary, Inclusion/Exclusion, Pick Up Area & Time, dan ceklis What To Bring',
+      'Katalog Full Day, Activities, Nusa Penida, dan Private Car Charter dengan harga per pax yang jelas',
+      'Badge dan pilar kepercayaan: Private Tour, Hotel Pickup, Minimal 2 Orang, dan wawasan lokal',
+      'Jalur dukungan WhatsApp langsung serta testimoni tamu untuk bukti sosial',
     ],
     liveUrl: 'https://balicharmingtours.com/',
   }),
@@ -428,25 +491,25 @@ export const projectsData = [
       '/images/project/balibrucetour%20(5).png',
       '/images/project/balibrucetour%20(6).png',
     ],
-    summaryEn: 'A private tour reservation platform for Bali and overland Indonesian expeditions (Komodo & Bromo–Ijen), highlighting fixed per-car charter rates (IDR 800K/Car), a promotional discount code validator, and a 5-pillar trust architecture.',
-    summaryId: 'Platform reservasi tour privat keliling Bali dan ekspedisi overland (Komodo & Bromo–Ijen), menampilkan tarif sewa per mobil pasti (IDR 800K/Mobil), sistem validasi kupon promo, dan arsitektur kepercayaan 5 pilar.',
-    detailEn: 'Bali Bruce Tours specializes in personalized private travel across Bali as well as extended overland expeditions to world-famous Indonesian destinations including Komodo National Park (Labuan Bajo), Nusa Penida Island, and the East Java volcano circuits of Mount Bromo and Ijen Crater.\n\nThe website was engineered to address common tourist pain points—hidden fees, inflexible schedules, and unverified drivers—by anchoring the user experience around transparency and speed:\n• Fixed Per-Car Charter Model: Clear pricing highlighted directly on the hero banner (Private Car Charter starting from IDR 800,000 / Car for up to 5 passengers, 10 hours of dedicated service with private driver, petrol, and parking included).\n• 5-Pillar Trust Architecture: Strategically reinforces brand credibility through 5 distinct value propositions: 100% Customized Flexible Itineraries, All-Inclusive Transparent Rates, Professional English-Speaking Local Drivers, Well-Maintained AC Vehicles, and 24/7 Rapid WhatsApp Assistance.\n• Promotional Coupon & Discount Code Engine: Integrated into the checkout drawer, allowing returning travelers and campaign audiences to apply promotional discount codes with instant total deductions.\n• Overland & Island Hopping Showcase: Structured multi-day itineraries for Komodo liveaboard boat cruises, speed boat transfers to Nusa Penida, and sunrise volcano treks with day-by-day highlight reels.',
-    detailId: 'Bali Bruce Tours berfokus pada penyediaan layanan tour privat fleksibel di Bali serta ekspedisi antar pulau ke destinasi ikonik Indonesia seperti Taman Nasional Komodo (Labuan Bajo), Nusa Penida, hingga kawasan gunung api Bromo dan Kawah Ijen di Jawa Timur.\n\nWebsite ini dikembangkan untuk menjawab keraguan umum wisatawan mancanegara—seperti biaya tersembunyi, jadwal yang kaku, dan supir yang kurang komunikatif—dengan menghadirkan pengalaman pengguna yang transparan dan meyakinkan:\n• Model Tarif Sewa Per Mobil (Per-Car Pricing): Menampilkan transparansi harga langsung di beranda utama (Sewa Mobil Privat mulai dari IDR 800.000 / Mobil untuk kapasitas hingga 5 orang selama 10 jam, sudah termasuk supir pribadi berbahasa Inggris, BBM, dan biaya parkir).\n• Arsitektur Kepercayaan 5 Pilar: Menonjolkan 5 pilar keunggulan layanan: 100% Jadwal Fleksibel Sesuai Keinginan, Tarif All-Inclusive Tanpa Biaya Tersembunyi, Driver Lokal Ramah & Berpengalaman, Kendaraan Nyaman Ber-AC, dan Layanan Bantuan WhatsApp 24/7.\n• Mesin Validasi Kupon Diskon Promo: Fitur input kode kupon interaktif pada halaman keranjang belanja dan checkout yang memotong total biaya secara otomatis untuk program promo musiman.\n• Katalog Ekspedisi Overland & Antar Pulau: Rencana perjalanan multi-hari terstruktur untuk petualangan kapal pinisi Komodo, fast boat Nusa Penida, dan pendakian sunrise Bromo-Ijen.',
+    summaryEn: 'A private Bali and overland tour platform for Bali Bruce Tours, offering day tours, Nusa Penida, Mount Batur jeep and trekking, and Komodo/Wae Rebo/Kelimutu expeditions through an integrated 6-step online booking engine with Visa, Mastercard, and PayPal payment.',
+    summaryId: 'Platform tour privat Bali dan overland untuk Bali Bruce Tours yang menawarkan day tour, Nusa Penida, Mount Batur jeep & trekking, hingga ekspedisi Komodo/Wae Rebo/Kelimutu melalui mesin pemesanan online 6 tahap dengan pembayaran Visa, Mastercard, dan PayPal.',
+    detailEn: 'Bali Bruce Tours specialises in private Bali experiences and extended overland trips across Indonesia—Nusa Penida, Labuan Bajo & Komodo, Wae Rebo, Kelimutu, plus Mount Batur and a Bali–Gili fast boat service. The site is built around transparency and self-service booking.\n\nLike a full tour operator, it runs an integrated 6-step reservation engine (Product List → Product Details → Shopping Cart → Booking Details → Payment → Finish) with online payment via Visa, Mastercard, and PayPal. Each detail page lays out the Top Highlight, Itinerary, Notes, Inclusion, Exclusion, Pick Up Time & Area, What To Bring, and Important Information, with badges for Private Car, Hotel Pickup, Minimum 2 Persons, and Price. The catalogue covers Bali Full Day tours (Ubud Cultural & Nature, UNESCO World Heritage & Sunset, Gate of Heaven & East Bali, North & Central Bali, South Bali Cultural Sunset), Bali Activities (Ayung and Telaga Waja rafting, Ubud ATV, Mount Batur sunrise jeep and summit trekking, Lovina dolphin watching, horse riding, Benoa watersport), Nusa Penida day tours, express fast boat tickets to Gili Trawangan, and multi-day Labuan Bajo/Komodo cruise packages.\n\nA "Here Are 5 Reasons" section summarises why guests choose Bali Bruce Tours—professional local drivers and guides, a private clean fleet, flexible itineraries, transparent pricing with no hidden fees, and hassle-free all-in packages—while guest testimonials and a gallery build social proof. The site also requires guests to carry valid personal travel insurance before joining any tour. A WhatsApp line (+62 812-3715-5240) handles custom itinerary requests, and the site offers a multi-language switcher (English, German, French, Dutch, Japanese, Chinese, Arabic, and more).',
+    detailId: 'Bali Bruce Tours mengkhususkan diri pada pengalaman privat di Bali serta perjalanan overland ke destinasi ikonik Indonesia—Nusa Penida, Labuan Bajo & Komodo, Wae Rebo, Kelimutu, plus Mount Batur dan layanan fast boat Bali–Gili. Situs ini dibangun dengan fokus transparansi dan pemesanan mandiri.\n\nSeperti tour operator lengkap, situs ini menjalankan mesin reservasi terintegrasi 6 tahap (Product List → Product Details → Shopping Cart → Booking Details → Payment → Finish) dengan pembayaran online via Visa, Mastercard, dan PayPal. Setiap halaman detail memuat Top Highlight, Itinerary, Notes, Inclusion, Exclusion, Pick Up Time & Area, What To Bring, dan Important Information, dengan badge Private Car, Hotel Pickup, Minimal 2 Orang, dan Harga. Katalognya mencakup tour Bali Full Day (Ubud Cultural & Nature, UNESCO World Heritage & Sunset, Gate of Heaven & East Bali, North & Central Bali, South Bali Cultural Sunset), Bali Activities (rafting Ayung & Telaga Waja, ATV Ubud, Mount Batur sunrise jeep & summit trekking, Lovina dolphin watching, horse riding, Benoa watersport), day tour Nusa Penida, tiket express fast boat ke Gili Trawangan, hingga paket cruise Labuan Bajo/Komodo multi-hari.\n\nBagian "Here Are 5 Reasons" merangkum alasan tamu memilih Bali Bruce Tours—supir dan pemandu lokal profesional, armada privat yang bersih, itinerary fleksibel, harga transparan tanpa biaya tersembunyi, dan paket all-in yang praktis—dilengkapi testimoni tamu dan galeri sebagai bukti sosial. Situs ini juga mewajibkan tamu membawa asuransi perjalanan pribadi yang valid sebelum mengikuti tour. Jalur WhatsApp (+62 812-3715-5240) menangani permintaan itinerary kustom, dan situsnya menyediakan pemilih multi-bahasa (Inggris, Jerman, Prancis, Belanda, Jepang, Mandarin, Arab, dan lainnya).',
     resultsEn: [
-      'Transparent per-vehicle private charter pricing (starting IDR 800K/Car for up to 5 guests)',
-      '5-pillar trust framework highlighting custom itineraries, honest pricing, & expert drivers',
-      'Interactive promo code discount validation system integrated into the checkout flow',
-      'Expedition package catalog covering Bali day trips, Nusa Penida, Komodo, and Bromo–Ijen',
-      'Interactive accordion itinerary UI detailing stops, photo spots, and driving durations',
-      'Persistent WhatsApp floating concierge for immediate custom itinerary inquiries',
+      'Integrated 6-step booking engine (Product List → Details → Cart → Booking Details → Payment → Finish)',
+      'Online payment via Visa, Mastercard, and PayPal',
+      'Rich detail pages: Itinerary, Inclusion/Exclusion, Pick Up Time & Area, What To Bring, Important Information',
+      'Catalog spanning Full Day, Activities, Nusa Penida, Mount Batur jeep/trekking, and Komodo/Wae Rebo/Kelimutu expeditions',
+      'Bali–Gili Trawangan fast boat tickets and multi-day overland cruise packages',
+      '5-pillar trust section, guest testimonials, and a multi-language site switcher',
     ],
     resultsId: [
-      'Transparansi tarif car charter per mobil (mulai IDR 800K/Mobil untuk kapasitas hingga 5 orang)',
-      'Arsitektur 5 pilar kepercayaan: itinerary fleksibel, harga jujur, armada prima, & supir ramah',
-      'Sistem validasi kode kupon promo interaktif terintegrasi pada halaman checkout',
-      'Katalog ekspedisi lengkap mencakup tour harian Bali, Nusa Penida, Labuan Bajo Komodo, & Bromo-Ijen',
-      'Antarmuka itinerary akordeon interaktif dengan rincian spot foto dan perkiraan waktu perjalanan',
-      'Tombol concierge WhatsApp mengambang untuk konsultasi rute khusus dan rombongan keluarga',
+      'Mesin pemesanan online 6 tahap terintegrasi (Product List → Detail → Keranjang → Booking Details → Payment → Finish)',
+      'Pembayaran online via Visa, Mastercard, dan PayPal',
+      'Halaman detail informatif: Itinerary, Inclusion/Exclusion, Pick Up Time & Area, What To Bring, Important Information',
+      'Katalog Full Day, Activities, Nusa Penida, Mount Batur jeep/trekking, hingga ekspedisi Komodo/Wae Rebo/Kelimutu',
+      'Tiket fast boat Bali–Gili Trawangan dan paket cruise overland multi-hari',
+      'Bagian kepercayaan 5 pilar, testimoni tamu, dan pemilih multi-bahasa',
     ],
     liveUrl: 'https://balibrucetours.com/',
   }),
@@ -466,25 +529,25 @@ export const projectsData = [
       '/images/project/kakluna%20(5).png',
       '/images/project/kakluna%20(6).png',
     ],
-    summaryEn: 'A specialized island transport and Ngurah Rai Airport transfer portal in Bali, featuring a tiered passenger pricing matrix (1–5 Pax), interactive pickup zone selector chips, and a real-guest photo showcase.',
-    summaryId: 'Portal transportasi keliling pulau dan antar-jemput Bandara Ngurah Rai di Bali, dilengkapi matriks tarif berjenjang kapasitas penumpang (1–5 Pax), selektor zona penjemputan interaktif, dan galeri perjalanan wisatawan.',
-    detailEn: 'Kakluna Bali Trans is a dedicated airport shuttle and private car charter service providing seamless transportation for travelers arriving at I Gusti Ngurah Rai International Airport (DPS) and exploring destinations across Bali.\n\nThe website was constructed around speed, clarity, and mobile usability for international arrivals:\n• Tiered Passenger Pricing Matrix: Transparent pricing structure segmented by passenger count (1 to 5 Pax) and vehicle categories—ranging from agile MPVs (Toyota Avanza, Suzuki Ertiga) to executive vans (Toyota Innova Reborn, HiAce Commuter / Premio)—with clear bag and luggage volume guides.\n• Interactive Pickup Zone Selector: One-tap interactive chips for prominent Bali tourist regions (Kuta, Legian, Seminyak, Canggu, Jimbaran, Nusa Dua, Sanur, Ubud, Sidemen, Amed, Lovina) allowing travelers to view fixed flat-rate transfer fees with zero hidden surcharges for petrol or parking.\n• Airport Flight Logistics Integration: Captures vital arrival information—Flight Number, Expected Touchdown Time, Terminal meeting points, and driver paging nameboard requests.\n• "Moments Captured Along The Road": A vibrant visual photo wall showcasing real guests enjoying Bali\'s temples, beaches, and waterfalls with Kakluna\'s friendly local drivers, boosting customer trust and social proof.\n• Streamlined WhatsApp Routing Engine: Smart CTAs throughout the vehicle cards that compile vehicle selection, passenger count, pickup point, and destination into a clean, ready-to-send WhatsApp template.',
-    detailId: 'Kakluna Bali Trans adalah penyedia layanan transportasi privat dan antar-jemput bandara khusus bagi wisatawan yang mendarat di Bandara Internasional I Gusti Ngurah Rai (DPS) maupun yang membutuhkan mobil sewaan dengan supir untuk berwisata keliling Bali.\n\nWebsite ini dibangun dengan fokus pada kemudahan pemesanan cepat dari ponsel pintar oleh wisatawan yang baru mendarat:\n• Matriks Tarif Berjenjang Kapasitas Penumpang: Struktur tarif transparan yang terbagi berdasarkan jumlah penumpang (1 hingga 5 Pax) serta pilihan kelas armada—mulai dari MPV ekonomis (Toyota Avanza, Suzuki Ertiga) hingga kendaraan keluarga premium (Toyota Innova Reborn, Toyota HiAce Commuter & Premio)—lengkap dengan panduan kapasitas koper/bagasi.\n• Selektor Zona Penjemputan Interaktif: Pilihan chip sekali ketuk untuk kawasan wisata populer Bali (Kuta, Legian, Seminyak, Canggu, Jimbaran, Nusa Dua, Sanur, Ubud, Sidemen, Amed, Lovina) yang menampilkan tarif flat langsung tanpa biaya tersembunyi untuk BBM atau tiket parkir bandara.\n• Penanganan Logistik Kedatangan Penerbangan: Formulir mencakup Nomor Penerbangan (Flight Number), jam pendaratan, titik temu terminal penjemputan, serta papan nama tamu (paging board).\n• Galeri Cerita Perjalanan ("Moments Captured Along The Road"): Dokumentasi foto asli para wisatawan mancanegara saat menjelajahi pura, air terjun, dan pantai di Bali bersama para supir Kakluna yang ramah.\n• Mesin Pemesanan WhatsApp Cerdas: Tombol reservasi di setiap kartu armada yang secara otomatis merangkum pilihan mobil, jumlah penumpang, zona penjemputan, dan destinasi ke dalam format pesan WhatsApp yang rapi.',
+    summaryEn: 'An island transport and Ngurah Rai Airport transfer website for Kak Luna Bali Trans, organising airport pickups into three colour-coded coverage zones, a transparent per-car fleet rate list (Avanza to Alphard, HiAce, Elf), and a full catalogue of Full Day, Activities, and Nusa Penida tours—backed by 204 guest reviews.',
+    summaryId: 'Website transportasi pulau dan antar-jemput Bandara Ngurah Rai milik Kak Luna Bali Trans, dengan pembagian zona jemput bandara berkode warna, daftar tarif armada per mobil yang transparan (Avanza hingga Alphard, HiAce, Elf), serta katalog lengkap tour Full Day, Activities, dan Nusa Penida—didukung 204 ulasan tamu.',
+    detailEn: 'Kak Luna Bali Trans is a local Bali transport and tour operator built around three services: airport transfers, full-day sightseeing, and activity and island tours. It positions itself as "crafted by locals", with authentic insights, customised trips, dedicated care, and island expertise.\n\nAirport transfers are organised into three clearly explained, colour-coded coverage zones—Zone 1 (Green) for accommodation closest to Ngurah Rai airport with the quickest transfer times, Zone 2 (Blue) for mid-range destinations further out, and Zone 3 (Orange) for the island\'s furthest, most remote escapes—so travellers immediately understand which fixed rate applies to them.\n\nThe fleet is presented with transparent per-car starting prices and passenger capacity: Toyota Avanza (5 pax, IDR 650K), Toyota Reborn (6 pax, IDR 950K), Toyota Fortuner (6 pax, IDR 1.200K), Toyota Hiace (up to 14 pax, IDR 1.300K), the luxury Toyota Alphard (6 pax, IDR 3.000K), and the Isuzu Elf Short (12–13 pax). Each charter runs up to 10 hours with unlimited fuel and mileage, no deposit, and cash payment when meeting the driver.\n\nBeyond transfers, the site catalogues Full Day, Activities, and Nusa Penida tours with published starting prices—such as the Bali Bedugul & Tanah Lot Sunset Tour, Kintamani Volcano & Cultural Heritage Tour, South Bali Cultural & Coastal Wonders Tour, Ubud Countryside Cycling Tour, the ATV Quad Bike and combo tours, Benoa Watersport, River Tubing, and the Nusa Penida East/West and Manta snorkeling combinations. Trust is reinforced through a "5.0 Excellent" rating based on 204 guest reviews, punctual airport pick-ups, professional local drivers, a private clean fleet, flexible itineraries, and transparent pricing with no hidden fees. A dedicated WhatsApp line keeps the booking process to a single conversation.',
+    detailId: 'Kak Luna Bali Trans adalah operator transportasi dan tour lokal Bali yang dibangun di atas tiga layanan: antar-jemput bandara, tour full day, serta tour aktivitas dan antar pulau. Brand ini memposisikan diri sebagai "crafted by locals", dengan wawasan otentik, perjalanan yang bisa dikustomisasi, pelayanan penuh, dan keahlian tentang pulau.\n\nAntar-jemput bandara dibagi ke dalam tiga zona cakupan berkode warna yang dijelaskan gamblang—Zone 1 (Green) untuk akomodasi terdekat dengan Bandara Ngurah Rai dengan waktu tempuh tercepat, Zone 2 (Blue) untuk destinasi jarak menengah, dan Zone 3 (Orange) untuk wilayah paling jauh dan terpencil—sehingga wisatawan langsung paham tarif tetap mana yang berlaku untuk mereka.\n\nDaftar armadanya disajikan dengan harga mulai per mobil dan kapasitas penumpang yang transparan: Toyota Avanza (5 penumpang, IDR 650K), Toyota Reborn (6, IDR 950K), Toyota Fortuner (6, IDR 1.200K), Toyota Hiace (hingga 14, IDR 1.300K), Toyota Alphard mewah (6, IDR 3.000K), dan Isuzu Elf Short (12–13). Setiap sewa mencakup hingga 10 jam tanpa batas jarak dan bahan bakar, tanpa deposit, dan pembayaran tunai saat bertemu supir.\n\nSelain transfer, situs ini mengatalogkan tour Full Day, Activities, dan Nusa Penida dengan harga mulai yang tercantum—seperti Bali Bedugul & Tanah Lot Sunset Tour, Kintamani Volcano & Cultural Heritage Tour, South Bali Cultural & Coastal Wonders Tour, Ubud Countryside Cycling Tour, paket ATV Quad Bike dan kombinasinya, Benoa Watersport, River Tubing, hingga kombinasi Nusa Penida East/West dan Manta snorkeling. Kepercayaan diperkuat rating "5.0 Excellent" berdasarkan 204 ulasan tamu, penjemputan bandara tepat waktu, supir lokal profesional, armada privat yang bersih, itinerary fleksibel, dan harga transparan tanpa biaya tersembunyi. Satu jalur WhatsApp khusus membuat proses pemesanan cukup dalam satu percakapan.',
     resultsEn: [
-      'Tiered passenger capacity pricing matrix (1 to 5 Pax rates with explicit luggage limits)',
-      'Interactive one-tap pickup area selector chips covering all major Bali tourist zones',
-      'Transparent flat-rate pricing guarantee with zero hidden fuel, toll, or parking fees',
-      'Airport transfer arrival handler with flight tracking and terminal greeting board options',
-      '"Moments along the road" photo story showcase verifying real international client experiences',
-      'High-speed WhatsApp URL routing engine pre-populating vehicle and route parameters',
+      'Three colour-coded airport coverage zones (Zone 1 Green, Zone 2 Blue, Zone 3 Orange) with clear fixed rates',
+      'Transparent per-car fleet pricing: Avanza, Reborn, Fortuner, Hiace, Alphard, and Elf with passenger capacity',
+      'Full catalogue of Full Day, Activities, and Nusa Penida tours with published starting prices',
+      '10-hour charter with unlimited fuel and mileage, no deposit, and cash payment on arrival',
+      '5.0 "Excellent" rating backed by 204 verified guest reviews',
+      'One-tap WhatsApp booking and consultation for personalised itineraries',
     ],
     resultsId: [
-      'Matriks tarif kapasitas penumpang berjenjang (tarif 1 hingga 5 Pax dengan kapasitas koper jelas)',
-      'Selektor chip zona penjemputan interaktif sekali klik mencakup seluruh kawasan wisata Bali',
-      'Jaminan tarif pasti (flat-rate) tanpa pungutan tersembunyi untuk bensin, tol, atau parkir bandara',
-      'Pemesanan antar-jemput bandara lengkap dengan data nomor penerbangan dan papan nama penjemput',
-      'Galeri dokumentasi perjalanan foto asli membuktikan pengalaman memuaskan wisatawan internasional',
-      'Integrasi WhatsApp cepat dengan data rute dan jenis kendaraan yang otomatis terformat',
+      'Tiga zona cakupan bandara berkode warna (Zone 1 Green, Zone 2 Blue, Zone 3 Orange) dengan tarif tetap yang jelas',
+      'Tarif armada per mobil transparan: Avanza, Reborn, Fortuner, Hiace, Alphard, dan Elf lengkap kapasitas penumpang',
+      'Katalog lengkap tour Full Day, Activities, dan Nusa Penida dengan harga mulai yang tercantum',
+      'Sewa 10 jam tanpa batas jarak & bahan bakar, tanpa deposit, bayar tunai saat tiba',
+      'Rating 5.0 "Excellent" berdasarkan 204 ulasan tamu terverifikasi',
+      'Pemesanan dan konsultasi sekali klik via WhatsApp untuk itinerary yang dipersonalisasi',
     ],
     liveUrl: 'https://kaklunabalitrans.com/',
   }),
@@ -504,24 +567,39 @@ export const projectsData = [
       '/images/project/maikebalitour1%20(1).png',
       '/images/project/maikebalitour7.png',
     ],
-    summaryEn: 'An adventure and holiday package website for Maikebali Tour, helping travelers discover adrenaline activities, cultural circuits, and request bookings directly via WhatsApp.',
-    summaryId: 'Website wisata petualangan dan paket liburan Maikebali Tour, membantu wisatawan menemukan aktivitas seru, rute wisata budaya, dan memesan langsung via WhatsApp.',
-    detailEn: 'Maikebali Tour specializes in thrilling outdoor activities and holiday experiences in Bali, including ATV Quad Biking through jungle tracks, Ayung River White Water Rafting, Mount Batur Sunrise 4WD Jeep Tours, and Nusa Penida island hopping.\n\nThe website presents each adventure with high-resolution action photos, detailed safety inclusions (helmets, boots, insurance, buffet lunch), duration, and physical requirements. A streamlined booking funnel guides travelers directly to WhatsApp customer support to confirm dates, arrange hotel pick-up times, and secure their adventure slots.',
-    detailId: 'Maikebali Tour berfokus pada aktivitas petualangan outdoor dan pengalaman liburan seru di Bali, seperti ATV Quad Bike melintasi hutan & air terjun, Arung Jeram Sungai Ayung, Tour Jeep 4WD Sunrise Gunung Batur, hingga jelajah Nusa Penida.\n\nWebsite ini menyajikan setiap aktivitas dengan dokumentasi foto aksi memukau, rincian fasilitas keselamatan (helm, sepatu boots, asuransi, makan siang buffet), durasi, dan ketentuan peserta. Alur pemesanan yang ringkas mengarahkan wisatawan langsung ke layanan pelanggan WhatsApp untuk konfirmasi tanggal dan penjemputan hotel.',
+    summaryEn: 'A local Bali tour operator website for Mai Kebali Tour, presenting full-day, spiritual, cycling, night-market, wedding, and Nusa Penida experiences with transparent pricing and direct WhatsApp booking support.',
+    summaryId: 'Website operator tur lokal Mai Kebali Tour yang menampilkan paket full day, wisata spiritual, cycling, night market, pernikahan Bali, hingga Nusa Penida dengan harga transparan dan pemesanan langsung via WhatsApp.',
+    detailEn: 'Mai Kebali Tour is a local tour operator based in Bali, founded by Ngurah Oka—a native Balinese born and raised in Ubud who graduated from a Tourism High School and brings more than 15 years of experience in the tourism industry. Under the motto "Customer Satisfaction is our Goal", the company designs curated experiences together with partner restaurants, activity providers, and travel services.\n\nThe website organises its catalogue into clear categories—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Night Market Tour, Benoa Shore Excursion, and Balinese Wedding—so visitors can quickly find the experience that matches their trip. Signature itineraries are documented in detail, such as the Sala Sacred Waterfall Blessing & Customizable Tour, the Symbolic Balinese Wedding Ceremony at Puri Tegal Jaya, the Ubud Village Cycling tour through rice fields with a homemade Balinese lunch, the Kintamani morning and sunrise downhill cycling tours, the Lempuyang "Gate of Heaven" tour, the Jatiluwih UNESCO rice-terrace tour, and the Tanah Lot Temple & hidden waterfall tour.\n\nEach package lists what is included, its starting price, and practical highlights, while service guarantees—private car with driver, English-speaking drivers, hotel pickup, air-conditioned vehicles, flexible arrangements, 24/7 support, and secure payment options—are surfaced throughout the site. Booking is intentionally simple: travellers can request a quote or reach the team directly through WhatsApp for itinerary planning and confirmation, with TripAdvisor guest reviews providing extra social proof.',
+    detailId: 'Mai Kebali Tour adalah operator tur lokal yang berbasis di Bali, didirikan oleh Ngurah Oka—seorang Bali asli yang lahir dan besar di Ubud, lulusan SMK Pariwisata dengan pengalaman lebih dari 15 tahun di industri pariwisata. Dengan moto "Customer Satisfaction is our Goal", perusahaan ini merancang pengalaman terkurasi bersama restoran mitra, penyedia aktivitas, dan layanan travel lainnya.\n\nWebsite ini menata katalognya dalam kategori yang jelas—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Night Market Tour, Benoa Shore Excursion, dan Balinese Wedding—sehingga pengunjung dapat dengan cepat menemukan pengalaman yang sesuai. Paket andalan dijelaskan secara rinci, seperti Sala Sacred Waterfall Blessing & Customizable Tour, Upacara Pernikahan Bali simbolik di Puri Tegal Jaya, tur bersepeda Desa Ubud menembus sawah dengan makan siang Bali buatan rumah, tur sepeda menurun Kintamani (pagi & sunrise), tur Lempuyang "Gate of Heaven", tur sawah terasering Jatiluwih (situs UNESCO), serta tur Tanah Lot & air terjun tersembunyi.\n\nSetiap paket mencantumkan fasilitas yang termasuk, harga mulai, dan sorotan praktis, sementara jaminan layanan—mobil privat dengan supir, supir berbahasa Inggris, penjemputan hotel, kendaraan ber-AC, jadwal fleksibel, dukungan 24/7, serta opsi pembayaran yang aman—ditampilkan di seluruh situs. Proses pemesanan sengaja dibuat sederhana: wisatawan dapat meminta penawaran (Request a Quote) atau menghubungi tim langsung melalui WhatsApp untuk perencanaan itinerari dan konfirmasi, dengan ulasan tamu dari TripAdvisor sebagai bukti sosial tambahan.',
     resultsEn: [
-      'Engaging adventure activity catalog with comprehensive inclusions and safety checklists',
-      'Fast-loading responsive layout optimized for international adventure travelers',
-      'Direct WhatsApp booking gateway with automated activity inquiry formatting',
-      'Structured destination information assisting visitors in planning their Bali vacation',
+      'Category-based catalog covering Full Day, Activities, Nusa Penida, Spiritual, Cycling, Night Market, Shore Excursion, & Wedding tours',
+      'Detailed signature itineraries such as the Sala Sacred Waterfall Blessing and the Puri Tegal Jaya Balinese wedding ceremony',
+      'Transparent inclusions, starting prices, and clear pricing across every package',
+      'Direct WhatsApp booking support and a "Request a Quote" flow with 24/7 assistance',
+      'Local operator credibility backed by 15+ years of experience and TripAdvisor guest reviews',
     ],
     resultsId: [
-      'Katalog aktivitas outdoor menarik dengan rincian fasilitas lengkap dan jaminan keselamatan',
-      'Tata letak responsif yang cepat dimuat untuk kenyamanan wisatawan mancanegara',
-      'Integrasi tombol pemesanan WhatsApp dengan format nama aktivitas yang otomatis terisi',
-      'Informasi destinasi terstruktur yang membantu wisatawan merencanakan liburan di Bali',
+      'Katalog berbasis kategori: Full Day, Activities, Nusa Penida, Spiritual, Cycling, Night Market, Shore Excursion, & Wedding',
+      'Itinerari andalan yang rinci seperti Sala Sacred Waterfall Blessing dan upacara pernikahan Bali di Puri Tegal Jaya',
+      'Fasilitas, harga mulai, dan penetapan harga yang transparan di setiap paket',
+      'Pemesanan langsung via WhatsApp dan alur "Request a Quote" dengan bantuan 24/7',
+      'Kredibilitas operator lokal dengan pengalaman 15+ tahun dan ulasan tamu TripAdvisor',
     ],
     liveUrl: 'https://maikebalitour.com/',
   }),
 ];
 
-export const projectCategories = ['All', 'Web', 'Private System'];
+export const projectCategories = ['All', 'Web', 'Mobile App', 'Private System'];
+
+export const CATEGORY_LABELS = {
+  All: { en: 'All', id: 'Semua' },
+  Web: { en: 'Web', id: 'Web' },
+  'Mobile App': { en: 'Mobile App', id: 'Aplikasi Mobile' },
+  'Private System': { en: 'Private System', id: 'Sistem Privat' },
+};
+
+export const categoryLabel = (category, lang = 'en') =>
+  CATEGORY_LABELS[category]?.[lang] || CATEGORY_LABELS[category]?.en || category;
+
+/** Proyek dengan berkas aplikasi yang bisa diunduh pengunjung. */
+export const downloadableProjects = projectsData.filter((p) => p.downloadUrl);

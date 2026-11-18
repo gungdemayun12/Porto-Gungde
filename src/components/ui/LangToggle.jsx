@@ -12,7 +12,7 @@ export default function LangToggle({ compact = false }) {
       role="group"
       aria-label="Language"
       aria-busy={isTranslating}
-      className={`inline-flex items-center gap-1 rounded-full border border-border bg-surface/80 shadow-xs ${
+      className={`inline-flex items-center gap-1 rounded-[2px] border border-border bg-surface/80 shadow-xs ${
         compact ? 'p-0.5' : 'p-1'
       }`}
     >
@@ -28,7 +28,7 @@ export default function LangToggle({ compact = false }) {
           aria-label={name}
           aria-pressed={lang === code}
           disabled={isTranslating}
-          className={`${compact ? 'min-w-8 px-1.5' : 'min-w-9 px-2.5'} rounded-full py-1.5 text-[11px] font-mono font-bold tracking-wider
+          className={`${compact ? 'min-w-8 px-1.5' : 'min-w-9 px-2.5'} rounded-[2px] py-1.5 text-[11px] font-mono font-bold tracking-wider
             transition-all duration-200 disabled:cursor-wait disabled:opacity-60 ${
               lang === code
                 ? 'bg-gold text-[var(--color-on-accent)] shadow-sm'

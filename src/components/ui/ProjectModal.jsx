@@ -6,7 +6,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useLang } from '../../hooks/useLang';
-import Button from './Button';
+import { categoryLabel } from '../../data/projects';
+import MobileAppPreview from './MobileAppPreview';
+import BrowserFrame from './BrowserFrame';
+import { DownloadButton } from './AppDownload';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -67,7 +70,7 @@ export default function ProjectModal({ project, onClose }) {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3, ease: EASE }}
         onClick={onClose}
-        className="absolute inset-0 bg-black/65 backdrop-blur-md"
+        className="absolute inset-0 bg-black/70 backdrop-blur-sm"
         aria-hidden="true"
       />
 
@@ -91,38 +94,37 @@ export default function ProjectModal({ project, onClose }) {
           style={{ background: 'var(--color-bg)' }}
         >
           <div className="flex items-center gap-2.5 flex-wrap">
-            {project.privateSystem ? (
-              <span
-                className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
-                style={{
-                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
-                  color: 'var(--color-gold-text)',
-                  border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
-                }}
-              >
-                <i className="fa-solid fa-lock text-[10px] mr-1.5" aria-hidden="true" />
-                {isId ? 'Sistem Privat' : 'Private System'}
-              </span>
-            ) : (
-              <span
-                className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
-                style={{
-                  background: 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
-                  color: 'var(--color-gold-text)',
-                  border: '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
-                }}
-              >
-                <i className="fa-solid fa-globe text-[10px] mr-1.5" aria-hidden="true" />
-                Web
-              </span>
-            )}
+            <span
+              className="px-3 py-1 rounded-full text-xs font-mono font-semibold"
+              style={{
+                background: project.mobileApp
+                  ? 'rgba(253,82,15,0.12)'
+                  : 'color-mix(in srgb, var(--color-gold) 12%, transparent)',
+                color: project.mobileApp ? 'var(--app-accent-text)' : 'var(--color-gold-text)',
+                border: project.mobileApp
+                  ? '1px solid rgba(253,82,15,0.32)'
+                  : '1px solid color-mix(in srgb, var(--color-gold) 30%, transparent)',
+              }}
+            >
+              <i
+                className={
+                  project.mobileApp
+                    ? 'fa-solid fa-mobile-screen-button text-[10px] mr-1.5'
+                    : project.privateSystem
+                    ? 'fa-solid fa-lock text-[10px] mr-1.5'
+                    : 'fa-solid fa-globe text-[10px] mr-1.5'
+                }
+                aria-hidden="true"
+              />
+              {categoryLabel(project.category, lang)}
+            </span>
           </div>
 
           <button
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 rounded-full border border-border flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs"
+            className="w-9 h-9 rounded-[2px] border border-border flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs"
             style={{
               background: 'var(--color-surface)',
               color: 'var(--color-text)',
@@ -157,10 +159,12 @@ export default function ProjectModal({ project, onClose }) {
           {/* Media gallery */}
           <div className="space-y-3">
             <div
-              className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-2xl overflow-hidden border group shadow-sm"
+              className={`relative w-full ${project.mobileApp ? 'aspect-[16/10] sm:aspect-[16/9]' : 'aspect-[16/9] sm:aspect-[21/9]'} rounded-2xl overflow-hidden border group shadow-sm`}
               style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
             >
-              {project.video ? (
+              {project.mobileApp ? (
+                <MobileAppPreview variant="hero" icon={project.icon} />
+              ) : project.video ? (
                 <video
                   src={project.video}
                   className="w-full h-full object-cover"
@@ -171,18 +175,21 @@ export default function ProjectModal({ project, onClose }) {
                   poster={project.thumbnail || undefined}
                 />
               ) : gallery.length > 0 ? (
-                <img
+                <BrowserFrame
                   src={gallery[activeImageIndex]}
+                  project={project}
                   alt={`${title} Preview ${activeImageIndex + 1}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover transition-opacity duration-500"
+                  loading="eager"
+                  fallbackChar={title.charAt(0)}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-4xl font-bold text-gold/40">
                   {title.charAt(0)}
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+              {!project.mobileApp && (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+              )}
 
               {gallery.length > 1 && (
                 <>
@@ -190,7 +197,7 @@ export default function ProjectModal({ project, onClose }) {
                     type="button"
                     onClick={handlePrevImage}
                     aria-label={isId ? 'Gambar sebelumnya' : 'Previous image'}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-[2px]
                       bg-black/60 border border-white/20 text-white flex items-center justify-center
                       hover:bg-gold hover:text-[var(--color-on-accent)] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
@@ -200,7 +207,7 @@ export default function ProjectModal({ project, onClose }) {
                     type="button"
                     onClick={handleNextImage}
                     aria-label={isId ? 'Gambar berikutnya' : 'Next image'}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full
+                    className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-[2px]
                       bg-black/60 border border-white/20 text-white flex items-center justify-center
                       hover:bg-gold hover:text-[var(--color-on-accent)] hover:border-gold transition-colors duration-200 cursor-pointer shadow-md"
                   >
@@ -224,7 +231,7 @@ export default function ProjectModal({ project, onClose }) {
                     key={idx}
                     type="button"
                     onClick={() => setActiveImageIndex(idx)}
-                    className="relative w-20 sm:w-24 aspect-[16/10] rounded-lg overflow-hidden border transition-all shrink-0 cursor-pointer"
+                    className="relative w-20 sm:w-24 aspect-[16/10] rounded-[2px] overflow-hidden border transition-all shrink-0 cursor-pointer"
                     style={{
                       borderColor: activeImageIndex === idx ? 'var(--color-gold)' : 'var(--color-border)',
                       opacity: activeImageIndex === idx ? 1 : 0.6,
@@ -283,48 +290,59 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Action bar / Footer */}
         <div
-          className="px-6 py-4 border-t border-border flex flex-wrap items-center justify-between gap-3 shrink-0"
+          className="px-4 sm:px-6 py-4 border-t border-border flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 shrink-0"
           style={{ background: 'var(--color-bg)' }}
         >
-          <div className="flex items-center gap-2.5">
-            <Button
-              variant="outline"
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center">
+            <button
+              type="button"
               onClick={onClose}
+              className="btn-square btn-square--neutral btn-square--sm w-full sm:w-auto"
+              aria-label={isId ? 'Tutup detail proyek' : 'Close project details'}
             >
-              <i className="fa-solid fa-xmark text-xs" aria-hidden="true" />
+              <i className="fa-solid fa-xmark" aria-hidden="true" />
               <span>{isId ? 'Tutup' : 'Close'}</span>
-            </Button>
+            </button>
 
-            <Button
-              variant="outline"
+            <button
+              type="button"
               onClick={() => {
                 onClose();
                 navigate(`/projects/${project.slug}`);
               }}
+              className="btn-square btn-square--outline btn-square--sm w-full sm:w-auto"
             >
-              <i className="fa-solid fa-file-lines text-xs" aria-hidden="true" />
+              <i className="fa-solid fa-file-lines" aria-hidden="true" />
               <span>{t.projects.viewFullPage || (isId ? 'Halaman Lengkap' : 'Full Page')}</span>
-            </Button>
+            </button>
           </div>
 
           <div className="flex items-center gap-2">
-            {project.privateSystem ? (
-              <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+            {project.mobileApp && project.downloadUrl ? (
+              <DownloadButton project={project} className="w-full sm:w-auto" />
+            ) : project.privateSystem ? (
+              <span
+                className="w-full sm:w-auto text-xs font-mono font-medium px-3 py-2 rounded-sm border flex items-center justify-center gap-1.5"
+                style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}
+              >
                 <i className="fa-solid fa-lock text-xs" aria-hidden="true" />
                 <span>{isId ? 'Sistem privat' : 'Private system'}</span>
               </span>
             ) : project.liveUrl && project.liveUrl !== '#' ? (
-              <Button
-                variant="primary"
+              <a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="btn-square w-full sm:w-auto"
               >
                 <span>{isId ? 'Kunjungi Situs' : 'Visit Live Site'}</span>
-                <i className="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true" />
-              </Button>
+                <i className="fa-solid fa-arrow-up-right-from-square btn-square__arrow" aria-hidden="true" />
+              </a>
             ) : (
-              <span className="text-xs font-mono font-medium px-3 py-1.5 rounded-lg border flex items-center gap-1.5" style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}>
+              <span
+                className="w-full sm:w-auto text-xs font-mono font-medium px-3 py-2 rounded-sm border flex items-center justify-center gap-1.5"
+                style={{ color: 'var(--color-muted)', borderColor: 'var(--color-border)' }}
+              >
                 <i className="fa-solid fa-lock text-xs" aria-hidden="true" />
                 <span>{isId ? 'Sistem privat' : 'Private system'}</span>
               </span>

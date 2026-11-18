@@ -112,7 +112,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 shadow-2xs"
+                  className="w-10 h-10 rounded-[2px] flex items-center justify-center transition-all duration-200 shadow-2xs"
                   style={{
                     background: 'var(--color-surface)',
                     border: '1px solid var(--color-border)',
@@ -154,7 +154,7 @@ export default function Footer() {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label={t.footer.backToTop}
-            className="flex h-9 w-9 items-center justify-center rounded-full cursor-pointer transition-all duration-200 shadow-xs"
+            className="flex h-9 w-9 items-center justify-center rounded-[2px] cursor-pointer transition-all duration-200 shadow-xs"
             style={{
               border: '1px solid var(--color-border)',
               color: 'var(--color-text)',

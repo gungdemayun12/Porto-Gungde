@@ -121,7 +121,7 @@ export default function MobileMenu({
             aria-modal="true"
             aria-label="Mobile navigation"
             className="fixed top-0 right-0 bottom-0 z-[101] w-full sm:w-[360px] max-w-[88vw]
-              bg-bg/98 dark:bg-[#070B09]/98 backdrop-blur-2xl
+              bg-bg/98 dark:bg-[#070B09]/98 backdrop-blur-sm
               border-l border-border
               shadow-[-20px_0_50px_rgba(0,0,0,0.25)]
               flex flex-col will-change-transform"
@@ -156,7 +156,7 @@ export default function MobileMenu({
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="w-9 h-9 rounded-full border border-border bg-surface
+                className="w-9 h-9 rounded-[2px] border border-border bg-surface
                   flex items-center justify-center text-text
                   hover:text-gold-text hover:border-gold hover:bg-gold/10
                   transition-all duration-300 ease-out
@@ -190,7 +190,7 @@ export default function MobileMenu({
                     type="button"
                     variants={prefersReduced ? undefined : itemVariants}
                     onClick={() => handleNavClick(id)}
-                    className={`group flex items-center justify-between w-full py-3.5 px-3.5 rounded-xl
+                    className={`group flex items-center justify-between w-full py-3.5 px-3.5 rounded-[2px]
                       text-left cursor-pointer
                       transition-all duration-300 ease-out
                       ${
@@ -278,7 +278,7 @@ export default function MobileMenu({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-8 h-8 rounded-full border border-border bg-surface
+                      className="w-8 h-8 rounded-[2px] border border-border bg-surface
                         flex items-center justify-center text-text
                         hover:text-gold-text hover:border-gold hover:bg-gold/10 transition-all duration-300"
                     >

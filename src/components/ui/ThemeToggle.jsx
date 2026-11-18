@@ -19,7 +19,7 @@ export default function ThemeToggle({ showLabel = false }) {
           ? (isId ? 'Beralih ke mode terang' : 'Switch to light mode')
           : (isId ? 'Beralih ke mode gelap' : 'Switch to dark mode')}
         aria-pressed={isDark}
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface/80
+        className="flex h-9 w-9 items-center justify-center rounded-[2px] border border-border bg-surface/80
           text-gold-text shadow-xs transition-all duration-300 hover:border-gold hover:bg-gold/10
           hover:text-gold active:scale-95 sm:h-10 sm:w-10"
       >
@@ -32,7 +32,7 @@ export default function ThemeToggle({ showLabel = false }) {
     <div
       role="group"
       aria-label={isId ? 'Tema warna' : 'Color theme'}
-      className="inline-flex items-center gap-1 rounded-full border border-border bg-surface/80 p-1 shadow-xs"
+      className="inline-flex items-center gap-1 rounded-[2px] border border-border bg-surface/80 p-1 shadow-xs"
     >
       {[
         { theme: 'light', label: isId ? 'Terang' : 'Light', icon: 'fa-sun', name: isId ? 'Mode terang' : 'Light mode' },
@@ -46,7 +46,7 @@ export default function ThemeToggle({ showLabel = false }) {
             onClick={() => setTheme(theme)}
             aria-label={name}
             aria-pressed={selected}
-            className={`flex min-h-8 items-center justify-center gap-2 rounded-full px-2.5 text-xs font-semibold
+            className={`flex min-h-8 items-center justify-center gap-2 rounded-[2px] px-2.5 text-xs font-semibold
               transition-all duration-200 active:scale-95 ${
                 selected
                   ? 'bg-gold/15 text-gold-text ring-1 ring-gold/25'

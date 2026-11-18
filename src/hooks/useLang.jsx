@@ -1,13 +1,21 @@
 /**
  * Hook useLang — mengelola bahasa situs (EN/ID)
  * Menyimpan preferensi di localStorage, default EN.
+ *
+ * Setiap pergantian bahasa melewati state "translating" singkat: overlay
+ * ditampilkan lebih dulu, konten baru dipasang di belakangnya, lalu overlay
+ * memudar. Jadi teks tidak pernah terlihat berkedip berganti mendadak.
  */
 import { useState, useCallback, createContext, useContext, useEffect, useRef } from 'react';
 import en from '../i18n/en';
 import id from '../i18n/id';
+import TranslatingOverlay from '../components/ui/TranslatingOverlay';
 
 // Map bahasa ke objek teks
 const translations = { en, id };
+
+// Durasi overlay terlihat sebelum bahasa benar-benar diganti.
+const TRANSLATE_MS = 880;
 
 // Context untuk bahasa (agar bisa diakses di seluruh komponen)
 const LangContext = createContext(null);
@@ -17,12 +25,19 @@ const LangContext = createContext(null);
  */
 export function LangProvider({ children }) {
   const [isTranslating, setIsTranslating] = useState(false);
+  const [targetLang, setTargetLang] = useState(null);
   const translationTimer = useRef(null);
+  const translatingRef = useRef(false);
   const [lang, setLangState] = useState(() => {
     if (typeof window === 'undefined') return 'en';
     const saved = localStorage.getItem('lang');
     return saved === 'id' ? 'id' : 'en';
   });
+  const langRef = useRef(lang);
+
+  useEffect(() => {
+    langRef.current = lang;
+  }, [lang]);
 
   useEffect(() => {
     document.documentElement.setAttribute('lang', lang);
@@ -31,41 +46,52 @@ export function LangProvider({ children }) {
 
   useEffect(() => () => window.clearTimeout(translationTimer.current), []);
 
-  const setLang = useCallback((newLang) => {
-    if (!newLang || !translations[newLang]) return;
+  // Pasang bahasa baru + sinkronkan atribut dokumen dan localStorage.
+  const commitLang = useCallback((newLang) => {
     setLangState(newLang);
     localStorage.setItem('lang', newLang);
     document.documentElement.setAttribute('lang', newLang);
     document.documentElement.setAttribute('data-language', newLang);
   }, []);
 
-  const toggleLang = useCallback(() => {
-    if (isTranslating) return;
+  // Tampilkan overlay "translating" dulu, baru ganti bahasanya.
+  const startTranslation = useCallback((newLang) => {
+    if (!newLang || !translations[newLang]) return;
+    if (newLang === langRef.current || translatingRef.current) return;
+
+    translatingRef.current = true;
+    setTargetLang(newLang);
     setIsTranslating(true);
+
+    window.clearTimeout(translationTimer.current);
     translationTimer.current = window.setTimeout(() => {
-      setLang(lang === 'en' ? 'id' : 'en');
+      commitLang(newLang);
       setIsTranslating(false);
-    }, 420);
-  }, [isTranslating, lang, setLang]);
+      translatingRef.current = false;
+    }, TRANSLATE_MS);
+  }, [commitLang]);
+
+  // Dipakai LangToggle (pilih bahasa langsung)
+  const setLang = useCallback((newLang) => {
+    startTranslation(newLang);
+  }, [startTranslation]);
+
+  // Ganti ke bahasa sebaliknya
+  const toggleLang = useCallback(() => {
+    startTranslation(langRef.current === 'en' ? 'id' : 'en');
+  }, [startTranslation]);
 
   // Ambil objek teks sesuai bahasa aktif
   const t = translations[lang] || translations.en;
 
   return (
-    <LangContext.Provider value={{ lang, setLang, toggleLang, t, isTranslating }}>
+    <LangContext.Provider value={{ lang, setLang, toggleLang, t, isTranslating, targetLang }}>
       {children}
-      {isTranslating && (
-        <div
-          role="status"
-          aria-live="polite"
-          className="pointer-events-none fixed top-[5.25rem] left-1/2 z-[110] -translate-x-1/2"
-        >
-          <div className="flex items-center gap-2 rounded-full border border-gold/25 bg-surface/95 px-4 py-2 text-xs font-medium text-text shadow-lg shadow-black/10 backdrop-blur-xl dark:bg-[#0A120D]/95 dark:text-white">
-            <span className="h-3 w-3 animate-spin rounded-full border-2 border-gold/25 border-t-gold" aria-hidden="true" />
-            <span>{lang === 'en' ? 'Menerjemahkan…' : 'Translating…'}</span>
-          </div>
-        </div>
-      )}
+      <TranslatingOverlay
+        show={isTranslating}
+        from={lang}
+        to={targetLang || (lang === 'en' ? 'id' : 'en')}
+      />
     </LangContext.Provider>
   );
 }

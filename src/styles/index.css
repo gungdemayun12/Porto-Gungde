@@ -126,10 +126,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Color transition on theme switch */
-body,
-body * {
-  transition-property: background-color, border-color, color;
+/* Color transition — scoped to the brief theme-switch window only.
+   Keeping this off every element at all times avoids needless style work
+   while scrolling and animating on low-end devices. */
+html.theme-transition body,
+html.theme-transition body * {
+  transition-property: background-color, border-color, color, fill, stroke;
   transition-duration: 300ms;
   transition-timing-function: var(--ease-luxury);
 }
@@ -166,14 +168,41 @@ code, pre, .font-mono { font-family: var(--font-mono); letter-spacing: 0.01em; }
 :focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: 3px;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 button, a { -webkit-tap-highlight-color: transparent; }
 
+/* =========================================================
+   THEME SWITCH — View Transition layers
+   The old page stays flat underneath while the new page is
+   revealed through an animated clip-path (see lib/themeGlitch).
+   ========================================================= */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 0;
+}
+
+::view-transition-new(root) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
 button:not(:disabled),
 .btn-primary,
 .btn-outline,
+.btn-square,
 [role="button"] {
   transition:
     background-color 200ms var(--ease-luxury),
@@ -186,14 +215,13 @@ button:not(:disabled),
 button:not(:disabled):active,
 .btn-primary:active,
 .btn-outline:active,
+.btn-square:active,
 [role="button"]:active {
   transform: translateY(0) scale(0.97);
 }
 
 @media (hover: hover) {
-  button:not(:disabled):hover,
-  .btn-primary:hover,
-  .btn-outline:hover,
+  button:not(.btn-primary):not(.btn-outline):not(.btn-square):not(:disabled):hover,
   [role="button"]:hover {
     transform: translateY(-2px) scale(1.015);
   }
@@ -205,36 +233,38 @@ button:disabled {
 
 /* =========================================================
    BUTTONS — Dual Button System
-   Solid Gold Primary + Theme Gold Nuance Outline
-   Perfect pair matching: identical height, padding, font, radius.
+   Solid + outline pair with sharp, reference-inspired corners.
+   Identical height, padding, typography, and focus treatment.
    ========================================================= */
 
-/* PRIMARY — Gold fill background, dark text */
+/* PRIMARY — solid fill, mono uppercase label */
 .btn-primary {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  padding: 0.75rem 1.65rem;
-  min-height: 2.85rem;
+  padding: 0.82rem 1.5rem;
+  min-height: 3.05rem;
   background-color: var(--btn-primary-bg);
   color: var(--btn-primary-text);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.015em;
-  border-radius: 12px;
-  border: 1.5px solid var(--btn-primary-bg);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1px solid var(--btn-primary-bg);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
   box-shadow: 0 2px 10px color-mix(in srgb, var(--btn-primary-bg) 28%, transparent);
   transition:
-    background-color 220ms ease,
-    border-color 220ms ease,
-    color 220ms ease,
-    transform 180ms ease,
-    box-shadow 220ms ease;
+    background-color 220ms var(--ease-luxury),
+    border-color 220ms var(--ease-luxury),
+    color 220ms var(--ease-luxury),
+    transform 220ms var(--ease-luxury),
+    box-shadow 220ms var(--ease-luxury);
 }
 
 .btn-primary:hover {
@@ -249,31 +279,50 @@ button:disabled {
   transform: translateY(0) scale(0.98);
 }
 
-/* OUTLINE — Transparent bg, theme gold-colored border */
+/* OUTLINE — transparent with a growing accent bar */
 .btn-outline {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  padding: 0.75rem 1.65rem;
-  min-height: 2.85rem;
+  padding: 0.82rem 1.5rem;
+  min-height: 3.05rem;
   background-color: transparent;
   color: var(--btn-outline-text);
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.015em;
-  border-radius: 12px;
-  border: 1.5px solid var(--btn-outline-border);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 1px solid var(--btn-outline-border);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
+  overflow: hidden;
   transition:
-    background-color 220ms ease,
-    border-color 220ms ease,
-    color 220ms ease,
-    transform 180ms ease,
-    box-shadow 220ms ease;
+    background-color 220ms var(--ease-luxury),
+    border-color 220ms var(--ease-luxury),
+    color 220ms var(--ease-luxury),
+    transform 220ms var(--ease-luxury),
+    box-shadow 220ms var(--ease-luxury);
+}
+
+.btn-outline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 28%;
+  height: 2px;
+  background-color: var(--btn-outline-border);
+  transition: width 360ms var(--ease-luxury);
+  pointer-events: none;
+}
+
+.btn-outline:hover::after {
+  width: 100%;
 }
 
 .btn-outline:hover {
@@ -701,6 +750,7 @@ button:disabled {
 .sr-visible.sr-scale-up {
   opacity: 1;
   transform: translateY(0) translateX(0) scale(1);
+  will-change: auto;
 }
 .sr-stagger > * {
   opacity: 0;
@@ -717,7 +767,7 @@ button:disabled {
 .sr-visible.sr-stagger > *:nth-child(7) { transition-delay: 330ms; }
 .sr-visible.sr-stagger > *:nth-child(8) { transition-delay: 385ms; }
 .sr-visible.sr-stagger > *:nth-child(9) { transition-delay: 440ms; }
-.sr-visible.sr-stagger > * { opacity: 1; transform: translateY(0); }
+.sr-visible.sr-stagger > * { opacity: 1; transform: translateY(0); will-change: auto; }
 .sr-delay-1 { transition-delay: 80ms !important; }
 .sr-delay-2 { transition-delay: 160ms !important; }
 .sr-delay-3 { transition-delay: 240ms !important; }
@@ -1133,6 +1183,11 @@ button:disabled {
   .btn-outline,
   [role="button"] {
     transition-duration: 0.01ms;
+  }
+
+  .btn-outline::after,
+  .hero-cta--outline::after {
+    transition: none;
   }
 
   button:not(:disabled):hover,

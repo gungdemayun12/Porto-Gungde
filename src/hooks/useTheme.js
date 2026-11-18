@@ -4,6 +4,21 @@
  * jika pengguna belum pernah memilih manual.
  */
 import { useState, useEffect, useCallback } from 'react';
+import { startThemeGlitch, canGlitchTheme } from '../lib/themeGlitch';
+
+let themeTransitionTimer = null;
+
+function enableThemeTransition() {
+  const root = document.documentElement;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  root.classList.add('theme-transition');
+  window.clearTimeout(themeTransitionTimer);
+  themeTransitionTimer = window.setTimeout(() => {
+    root.classList.remove('theme-transition');
+    themeTransitionTimer = null;
+  }, 420);
+}
 
 export function useTheme() {
   // Inisialisasi state dari DOM (yang sudah diatur oleh script anti-FOUC di index.html)
@@ -11,15 +26,26 @@ export function useTheme() {
     return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
   });
 
-  // Sinkronkan class 'dark' di <html> dan simpan ke localStorage
+  // Sinkronkan class 'dark' di <html> dan simpan ke localStorage.
+  // Dengan View Transitions, perubahan class dibungkus glitch klip-path;
+  // tanpa dukungan, jatuh ke fade warna singkat seperti sebelumnya.
   const setTheme = useCallback((newTheme) => {
-    setThemeState(newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
+    const commit = () => {
+      setThemeState(newTheme);
+      if (newTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('theme', newTheme);
+    };
+
+    if (canGlitchTheme()) {
+      startThemeGlitch(commit);
     } else {
-      document.documentElement.classList.remove('dark');
+      enableThemeTransition();
+      commit();
     }
-    localStorage.setItem('theme', newTheme);
   }, []);
 
   // Toggle antara light dan dark

@@ -91,6 +91,18 @@ const en = {
     privateSystem: 'Private System',
     livePreview: 'Live Preview',
     keyFeatures: 'Key Features & Deliverables',
+    mobileApp: 'Mobile App',
+    androidApp: 'Android App',
+    downloadApp: 'Download App',
+    downloadAppShort: 'APK',
+    downloadSize: 'File size',
+    platform: 'Platform',
+    format: 'Format',
+    installGuide: 'How to install',
+    installNote: 'The APK is shared for hands-on testing. Make sure your Android device has GPS enabled.',
+    appPreview: 'App preview',
+    category: 'Category',
+    access: 'Access',
   },
 
   // Services

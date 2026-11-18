@@ -110,7 +110,7 @@ export default function Testimonials() {
             <button
               onClick={goPrev}
               aria-label="Previous testimonial"
-              className="p-2 rounded-full border border-border text-muted hover:text-gold hover:border-gold
+              className="p-2 rounded-[2px] border border-border text-muted hover:text-gold hover:border-gold
                 transition-all duration-300 cursor-pointer"
             >
               <ChevronLeft size={18} />
@@ -133,7 +133,7 @@ export default function Testimonials() {
             <button
               onClick={goNext}
               aria-label="Next testimonial"
-              className="p-2 rounded-full border border-border text-muted hover:text-gold hover:border-gold
+              className="p-2 rounded-[2px] border border-border text-muted hover:text-gold hover:border-gold
                 transition-all duration-300 cursor-pointer"
             >
               <ChevronRight size={18} />

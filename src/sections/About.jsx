@@ -28,10 +28,9 @@ const SKILLS = [
 
 export default function About() {
   const { lang } = useLang();
-  const { ref, isInView } = useInView({ triggerOnce: true });
+  const { ref } = useInView({ triggerOnce: true });
   const isId = lang === 'id';
 
-  const titleRef = useScrollReveal();
   const photoRef = useScrollReveal({ rootMargin: '0px 0px -40px 0px' });
   const copyRef = useScrollReveal({ rootMargin: '0px 0px -40px 0px' });
 
