@@ -7,12 +7,14 @@ import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { CONTACT } from '../data/contact';
+import { projectCounts, techCount } from '../data/stats';
 import Button from '../components/ui/Button';
 
+// Angka di kartu About dihitung dari data proyek & stack yang sebenarnya.
 const STAT_ITEMS = [
-  { value: '10+', icon: 'fa-solid fa-briefcase', label: { en: 'Projects', id: 'Proyek' } },
-  { value: '3+',  icon: 'fa-solid fa-award',     label: { en: 'Yrs. Exp', id: 'Thn. Pengalaman' } },
-  { value: '100%',icon: 'fa-solid fa-mobile-screen-button', label: { en: 'Responsive', id: 'Responsif' } },
+  { value: `${projectCounts.total}`, icon: 'fa-solid fa-briefcase', label: { en: 'Projects', id: 'Proyek' } },
+  { value: `${projectCounts.mobile}`, icon: 'fa-solid fa-mobile-screen-button', label: { en: 'Android Apps', id: 'Aplikasi Android' } },
+  { value: `${techCount}`, icon: 'fa-solid fa-code', label: { en: 'Technologies', id: 'Teknologi' } },
 ];
 
 const SKILLS = [

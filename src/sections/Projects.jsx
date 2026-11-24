@@ -12,7 +12,7 @@ import ProjectPoster from '../components/ui/ProjectPoster';
 import { DownloadButton } from '../components/ui/AppDownload';
 import { useLang } from '../hooks/useLang';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { projectsData, projectCategories, categoryLabel } from '../data/projects';
+import { projectsData, projectCategories, categoryLabel, appAccentVars } from '../data/projects';
 
 const CATEGORY_ICONS = {
   All: 'fa-solid fa-layer-group',
@@ -26,6 +26,7 @@ function ProjectCard({ project, lang, onClick, index }) {
   const summary = project.summary[lang] || project.summary.en;
   const isApp = Boolean(project.mobileApp);
   const canDownload = isApp && Boolean(project.downloadUrl);
+  const accentStyle = isApp ? appAccentVars(project) : undefined;
 
   return (
     <article
@@ -34,13 +35,14 @@ function ProjectCard({ project, lang, onClick, index }) {
         background: 'var(--color-surface)',
         border: '1px solid var(--color-border)',
         animationDelay: `${index * 60}ms`,
+        ...accentStyle,
       }}
       onClick={onClick}
     >
       {/* Thumbnail / app preview / editorial poster */}
       <div className="relative overflow-hidden" style={{ aspectRatio: '16/9' }}>
         {isApp ? (
-          <MobileAppPreview variant="card" icon={project.icon} />
+          <MobileAppPreview variant="card" theme={project.appTheme} appName={project.name} icon={project.icon} />
         ) : (
           <ProjectPoster project={project} />
         )}
@@ -51,15 +53,17 @@ function ProjectCard({ project, lang, onClick, index }) {
             className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold tracking-wide shadow-sm"
             style={{
               background: 'rgba(7,11,9,0.82)',
-              color: '#C9F7DD',
-              border: isApp ? '1px solid rgba(253,82,15,0.55)' : '1px solid rgba(79,209,154,0.38)',
+              color: isApp ? 'var(--app-accent-text, #C9F7DD)' : '#C9F7DD',
+              border: isApp
+                ? '1px solid var(--app-accent-border, rgba(253,82,15,0.55))'
+                : '1px solid rgba(79,209,154,0.38)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
             }}
           >
             {isApp ? (
               <>
-                <i className="fa-solid fa-mobile-screen-button text-[8px]" style={{ color: '#FF8A5B' }} aria-hidden="true" />
+                <i className="fa-solid fa-mobile-screen-button text-[8px]" style={{ color: 'var(--app-accent, #FF8A5B)' }} aria-hidden="true" />
                 {categoryLabel('Mobile App', lang)}
               </>
             ) : project.privateSystem ? (
@@ -76,9 +80,9 @@ function ProjectCard({ project, lang, onClick, index }) {
             <span
               className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-mono font-bold shadow-sm"
               style={{
-                background: 'rgba(199,67,11,0.92)',
+                background: 'rgba(var(--app-accent-rgb, 199,67,11), 0.92)',
                 color: '#FFF3EC',
-                border: '1px solid rgba(255,160,120,0.5)',
+                border: '1px solid rgba(255,255,255,0.34)',
                 backdropFilter: 'blur(10px)',
                 WebkitBackdropFilter: 'blur(10px)',
               }}

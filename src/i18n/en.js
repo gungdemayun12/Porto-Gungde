@@ -9,7 +9,7 @@ const en = {
     services: 'Services',
     projects: 'Projects',
     process: 'Process',
-    experience: 'Experience',
+    experience: 'Journey',
     contact: 'Contact',
     hireMe: 'Get In Touch',
   },
@@ -29,10 +29,10 @@ const en = {
 
   // Stats
   stats: {
-    experience: 'Years Experience',
     projects: 'Completed Projects',
-    clients: 'Satisfied Clients',
-    satisfaction: 'Satisfaction Rate',
+    categories: 'Service Categories',
+    technologies: 'Technologies Used',
+    years: 'Years Building',
   },
 
   // About
@@ -62,6 +62,7 @@ const en = {
     categories: {
       frontend: 'Frontend',
       backend: 'Backend',
+      mobile: 'Mobile',
       cms: 'CMS & Platforms',
       tools: 'Tools & Utilities',
     },
@@ -138,8 +139,8 @@ const en = {
 
   // Experience
   experience: {
-    sectionTitle: 'Experience & Education',
-    sectionSubtitle: 'My professional career milestones and educational foundation.',
+    sectionTitle: 'Learning Journey & Education',
+    sectionSubtitle: 'The learning milestones and educational foundation that shape how I build products.',
   },
 
   // Testimonials

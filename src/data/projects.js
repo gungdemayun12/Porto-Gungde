@@ -62,6 +62,40 @@ export const projectsData = [
       size: '16.9 MB',
       tracking: 'GPS',
     },
+    downloadBlurb: {
+      en: 'Download the APK and experience the full run-tracking flow — live GPS map, real-time metrics, and post-run summaries — on an Android phone.',
+      id: 'Unduh berkas APK dan rasakan langsung alur pelacakan lari, peta GPS, serta ringkasan sesi di ponsel Android.',
+    },
+    downloadChips: {
+      en: [
+        { icon: 'fa-brands fa-android', label: 'Android' },
+        { icon: 'fa-solid fa-file-arrow-down', label: 'APK' },
+        { icon: 'fa-solid fa-weight-hanging', label: '16.9 MB' },
+        { icon: 'fa-solid fa-location-crosshairs', label: 'GPS Tracking' },
+      ],
+      id: [
+        { icon: 'fa-brands fa-android', label: 'Android' },
+        { icon: 'fa-solid fa-file-arrow-down', label: 'APK' },
+        { icon: 'fa-solid fa-weight-hanging', label: '16.9 MB' },
+        { icon: 'fa-solid fa-location-crosshairs', label: 'Pelacakan GPS' },
+      ],
+    },
+    installSteps: {
+      en: [
+        'Tap Download App and wait for the APK file to finish downloading.',
+        'Open the file, then allow "Install unknown apps" for your browser if Android asks.',
+        'Launch Run Track, grant GPS permission, and start your first run.',
+      ],
+      id: [
+        'Ketuk Unduh Aplikasi dan tunggu berkas APK selesai diunduh.',
+        'Buka berkasnya, lalu izinkan "Instal aplikasi tidak dikenal" untuk browser jika diminta Android.',
+        'Jalankan Run Track, berikan izin GPS, dan mulai sesi lari pertama Anda.',
+      ],
+    },
+    downloadNote: {
+      en: 'The APK is shared for hands-on testing. Make sure your Android device has GPS enabled.',
+      id: 'Berkas APK dibagikan untuk pengujian langsung. Pastikan perangkat Android memiliki GPS aktif.',
+    },
     summaryEn: 'A Strava-inspired Android running companion that records every run with live GPS tracking, real-time pace, per-kilometer splits, calorie and elevation insights, and a personal training history.',
     summaryId: 'Aplikasi Android pendamping lari bergaya Strava yang merekam setiap sesi lari dengan GPS real-time, pace dan split per kilometer, estimasi kalori, elevasi, serta riwayat latihan pribadi.',
     detailEn: 'Run Track is an Android running companion built for runners who want the essentials without the noise. One tap starts a session: the app locks onto GPS, begins drawing the route on a live map, and streams distance, moving time, current pace, average pace, calories burned, and elevation gain in a clean, glanceable dashboard designed to be read mid-stride. Pause and resume keep the timer honest at traffic lights, while auto-pause quietly handles the short stops you would otherwise forget.\n\nEvery run closes with a summary that feels like a training log: a route replay, per-kilometer splits, fastest and slowest kilometers, total climb, calorie estimate, and a comparison against your recent average. Completed activities are stored in a personal history where weekly and monthly totals, streaks, and personal records build up over time, so progress is visible instead of guessed. A lightweight account and onboarding flow keep each runner\'s history private, while settings let the experience be tuned to the device.\n\nThe interface follows a sporty dark theme with high-contrast numerals and an orange accent borrowed from the Run Track identity, keeping the screen readable under Bali\'s midday sun and at dusk. Permission flows for precise location and background tracking are handled explicitly, GPS accuracy is surfaced to the runner, and battery-conscious sampling keeps long runs practical. Run Track is packaged as an installable Android APK, so the complete tracking flow can be tried on a real device directly from this portfolio.',
@@ -81,6 +115,91 @@ export const projectsData = [
       'Split per kilometer serta ringkasan setelah lari dengan replay rute dan perbandingan',
       'Riwayat lari pribadi dengan progres mingguan, streak, dan rekor pribadi',
       'Antarmuka gelap sporty dengan angka kontras tinggi dan APK Android siap dipasang',
+    ],
+  }),
+
+  project({
+    slug: 'catatku',
+    name: 'CatatKu',
+    location: 'Bali, Indonesia',
+    role: { en: 'Android App Developer', id: 'Android App Developer' },
+    year: 2026,
+    mobileApp: true,
+    icon: '/images/project/catatku.png',
+    thumbnail: '/images/project/catatku.png',
+    accent: '#0F9B8E',
+    appTheme: 'notes',
+    downloadUrl: '/downloads/catatku.apk',
+    downloadFileName: 'CatatKu-2.0-release.apk',
+    downloadSize: '11.36 MB',
+    appMeta: {
+      platform: 'Android',
+      format: 'APK',
+      size: '11.36 MB',
+      version: '2.0',
+      minAndroid: '8.0 (API 26)',
+    },
+    downloadBlurb: {
+      en: 'Download the signed release APK and try the full CatatKu experience — tasks, subtasks, wallets, budgets, recurring bills, and CSV/PDF reports — on an Android phone.',
+      id: 'Unduh APK release yang sudah ditandatangani dan coba langsung pengalaman CatatKu — tugas, subtask, dompet, anggaran, tagihan berulang, hingga ekspor laporan CSV/PDF — di ponsel Android.',
+    },
+    downloadChips: {
+      en: [
+        { icon: 'fa-brands fa-android', label: 'Android 8.0+' },
+        { icon: 'fa-solid fa-file-arrow-down', label: 'Signed APK' },
+        { icon: 'fa-solid fa-weight-hanging', label: '11.36 MB' },
+        { icon: 'fa-solid fa-code-branch', label: 'v2.0' },
+        { icon: 'fa-solid fa-cloud', label: 'Firebase Sync' },
+      ],
+      id: [
+        { icon: 'fa-brands fa-android', label: 'Android 8.0+' },
+        { icon: 'fa-solid fa-file-arrow-down', label: 'APK Signed' },
+        { icon: 'fa-solid fa-weight-hanging', label: '11,36 MB' },
+        { icon: 'fa-solid fa-code-branch', label: 'v2.0' },
+        { icon: 'fa-solid fa-cloud', label: 'Sinkron Firebase' },
+      ],
+    },
+    installSteps: {
+      en: [
+        'Tap Download App and wait for the signed APK to finish downloading.',
+        'Open the file, then allow "Install unknown apps" for your browser if Android asks.',
+        'Launch CatatKu, create an account or sign in with Google, and your data syncs to the cloud.',
+      ],
+      id: [
+        'Ketuk Unduh Aplikasi dan tunggu berkas APK signed selesai diunduh.',
+        'Buka berkasnya, lalu izinkan "Instal aplikasi tidak dikenal" untuk browser jika diminta Android.',
+        'Jalankan CatatKu, buat akun atau masuk dengan Google, dan data Anda tersinkron ke cloud.',
+      ],
+    },
+    downloadNote: {
+      en: 'The APK is the signed v2.0 release, shared for hands-on testing. An internet connection is required for cloud sync and sign-in.',
+      id: 'Berkas APK adalah release v2.0 yang sudah ditandatangani, dibagikan untuk pengujian langsung. Koneksi internet diperlukan untuk sinkronisasi cloud dan masuk akun.',
+    },
+    summaryEn: 'A native Android app (Java + Firebase) that unifies daily task management and personal finance tracking in one place — with real-time cloud sync, per-user data isolation, and bilingual support.',
+    summaryId: 'Aplikasi Android native (Java + Firebase) yang menyatukan manajemen tugas harian dan pencatatan keuangan pribadi dalam satu tempat — dengan sinkronisasi cloud real-time, isolasi data per pengguna, dan dukungan dua bahasa.',
+    detailEn:
+      'CatatKu is a native Android application that combines two everyday needs that usually live in separate apps: managing what you have to do, and keeping track of what you spend. A single authentication flow opens both modules, so a task list and a financial ledger share one account, one visual language, and the same real-time cloud backend.\n\nThe To-Do module covers the full lifecycle of a task: title, description, custom category, priority, deadline with time, and optional estimated duration. Tasks can be broken into subtasks with a progress ratio, and once every subtask is ticked off the app offers to close the parent task automatically. A search field is paired with ten different views — All, Today, Upcoming, Overdue, Completed, Today\'s Focus, Starred, Stale, Quick Wins, and Has Steps — plus category, priority, and custom date-range filters. A monthly calendar marks every day that holds work, statistics show completion rate, a trend chart and a per-category distribution, and scheduled reminders survive a device reboot. Long-pressing the floating action button opens Quick Capture for recording a task without the full form.\n\nThe Finance module goes well beyond a simple expense log. Wallets can be cash, bank, or e-wallet, each with a custom colour, an opening balance, and its own currency. Transactions carry coloured categories with icons and group by day with a daily net. Transfers between wallets are stored as a pair of linked transaction legs, so the overall balance can never drift, and they are excluded from monthly spending totals. On top of that sit monthly category budgets with progress bars and warnings, recurring bills anchored to their original day, savings goals with deposit progress, and debts and receivables with staged payments and clear status. Reports render a donut chart per category and a trend line, and export to both CSV for spreadsheets and PDF for printing, over the current month, all time, or any custom date range.\n\nUnder the hood the app follows a Repository–ViewModel–LiveData architecture across 105 Java files, with data held in Firebase Firestore and authenticated through Firebase Auth. Security is enforced at the database level: Firestore rules use an isOwner() check so every user can only read and write their own documents. The interface adapts to light and dark themes, scales cleanly up to a 150% system font size, and is fully localised in Indonesian and English with 960 strings per language. The build is covered by 84 unit tests across 13 classes, and a signed release APK is available to install directly from this page.',
+    detailId:
+      'CatatKu adalah aplikasi Android native yang menggabungkan dua kebutuhan sehari-hari yang biasanya terpisah di aplikasi berbeda: mengelola apa yang harus dikerjakan, dan memantau apa yang dikeluarkan. Satu alur autentikasi membuka kedua modul, sehingga daftar tugas dan catatan keuangan berbagi satu akun, satu bahasa visual, dan backend cloud real-time yang sama.\n\nModul To-Do mencakup siklus penuh sebuah tugas: judul, deskripsi, kategori kustom, prioritas, tenggat beserta jam, dan estimasi durasi. Tugas dapat dipecah menjadi subtask dengan rasio progres, dan ketika seluruh subtask selesai aplikasi menawarkan untuk menutup tugas utamanya secara otomatis. Kolom pencarian dipasangkan dengan sepuluh tampilan berbeda — Semua, Hari ini, Mendatang, Terlambat, Selesai, Fokus hari ini, Berbintang, Mengendap, Cepat selesai, dan Punya langkah — plus filter kategori, prioritas, dan rentang tanggal kustom. Kalender bulanan menandai setiap tanggal yang memiliki pekerjaan, statistik menampilkan completion rate, grafik tren dan distribusi per kategori, dan pengingat terjadwal tetap berfungsi setelah perangkat di-reboot. Menekan lama tombol FAB membuka Quick Capture untuk mencatat tugas tanpa membuka form penuh.\n\nModul Keuangan melangkah jauh melampaui catatan pengeluaran biasa. Dompet dapat berupa tunai, bank, atau e-wallet, masing-masing dengan warna kustom, saldo awal, dan mata uangnya sendiri. Transaksi membawa kategori berwarna dengan ikon dan dikelompokkan per tanggal beserta net harian. Transfer antar dompet disimpan sebagai sepasang transaksi yang saling terhubung, sehingga total saldo tidak mungkin melenceng, dan keduanya dikecualikan dari total pengeluaran bulanan. Di atasnya tersedia anggaran bulanan per kategori dengan progress bar dan peringatan, tagihan berulang yang terikat pada tanggal aslinya, target tabungan dengan progres setoran, serta utang dan piutang dengan pembayaran bertahap dan status yang jelas. Laporan menghadirkan donut chart per kategori dan grafik tren, serta dapat diekspor ke CSV untuk spreadsheet maupun PDF siap cetak, untuk bulan ini, seluruh transaksi, atau rentang tanggal kustom.\n\nDi balik layar, aplikasi mengikuti arsitektur Repository–ViewModel–LiveData pada 105 file Java, dengan data tersimpan di Firebase Firestore dan autentikasi melalui Firebase Auth. Keamanan ditegakkan di tingkat database: aturan Firestore memakai pemeriksaan isOwner() sehingga setiap pengguna hanya dapat membaca dan menulis dokumennya sendiri. Antarmuka beradaptasi dengan tema terang dan gelap, menyesuaikan diri hingga ukuran font sistem 150%, dan terlokalisasi penuh dalam bahasa Indonesia dan Inggris dengan 960 string per bahasa. Build-nya dilindungi 84 unit test pada 13 kelas, dan APK release yang sudah ditandatangani tersedia untuk dipasang langsung dari halaman ini.',
+    resultsEn: [
+      'Dual modules — To-Do List and Finance — behind a single authentication flow',
+      'Real-time cloud sync on Firebase Firestore with per-user data isolation via isOwner() rules',
+      'Subtasks with progress tracking and an automatic completion prompt for the parent task',
+      'Ten task views plus category, priority, and custom date-range filters, with a monthly calendar',
+      'Advanced finance: wallet transfers, multi-currency with live rates, budgets, recurring bills, savings goals, and debts',
+      'CSV and PDF report export with custom date ranges, shared through the Android share sheet',
+      'Bilingual UI (Indonesian and English, 960 strings each) with light and dark themes',
+      'Account deletion with re-authentication and typed confirmation, plus 84 unit tests across 13 classes',
+    ],
+    resultsId: [
+      'Modul ganda — To-Do List dan Keuangan — di balik satu alur autentikasi',
+      'Sinkronisasi cloud real-time di Firebase Firestore dengan isolasi data per pengguna lewat aturan isOwner()',
+      'Subtask dengan pelacakan progres dan penawaran penyelesaian otomatis untuk tugas induk',
+      'Sepuluh tampilan tugas plus filter kategori, prioritas, dan rentang tanggal, dengan kalender bulanan',
+      'Keuangan lanjutan: transfer antar dompet, multi-mata uang dengan kurs otomatis, anggaran, tagihan berulang, target tabungan, dan utang-piutang',
+      'Ekspor laporan CSV dan PDF dengan rentang tanggal kustom melalui lembar berbagi Android',
+      'Antarmuka dua bahasa (Indonesia dan Inggris, 960 string masing-masing) dengan tema terang dan gelap',
+      'Hapus akun dengan re-autentikasi dan konfirmasi ketik, serta 84 unit test pada 13 kelas',
     ],
   }),
 
@@ -588,6 +707,27 @@ export const projectsData = [
     liveUrl: 'https://maikebalitour.com/',
   }),
 ];
+
+/**
+ * Accent CSS variables for a mobile project, derived from its `accent` colour.
+ * Lets each app card/badge carry its own brand colour (Run Track orange,
+ * CatatKu teal) instead of a single hard-coded orange.
+ * Returns undefined when the project has no accent, so the global defaults apply.
+ */
+export const appAccentVars = (project, { text, bg, border } = {}) => {
+  const hex = project?.accent;
+  if (!hex || !/^#[0-9a-f]{6}$/i.test(hex)) return undefined;
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return {
+    '--app-accent': hex,
+    '--app-accent-rgb': `${r}, ${g}, ${b}`,
+    '--app-accent-text': text || hex,
+    '--app-accent-bg': bg || `rgba(${r}, ${g}, ${b}, 0.12)`,
+    '--app-accent-border': border || `rgba(${r}, ${g}, ${b}, 0.34)`,
+  };
+};
 
 export const projectCategories = ['All', 'Web', 'Mobile App', 'Private System'];
 

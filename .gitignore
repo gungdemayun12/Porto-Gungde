@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Aset sumber resolusi tinggi (tidak dipakai langsung oleh aplikasi)
+project-originals/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { useReducedMotion } from '../hooks/useReducedMotion';
+import { statsData } from '../data/stats';
 
 /**
  * CountUpNumber — angka yang naik dari 0 ke target saat terlihat
@@ -51,13 +52,8 @@ function CountUpNumber({ end, suffix = '', duration = 2000 }) {
   );
 }
 
-// Data statistik
-const STATS_DATA = [
-  { value: 3, suffix: '+', key: 'experience' },
-  { value: 25, suffix: '+', key: 'projects' },
-  { value: 15, suffix: '+', key: 'clients' },
-  { value: 98, suffix: '%', key: 'satisfaction' },
-];
+// Data statistik — dihitung dari projectsData (lihat src/data/stats.js),
+// jadi angkanya selalu sama dengan jumlah proyek yang benar-benar tampil.
 
 export default function Stats() {
   const { t } = useLang();
@@ -66,7 +62,7 @@ export default function Stats() {
     <section className="py-16 lg:py-20 border-y border-border bg-surface/50" aria-label="Statistics">
       <div className="container-main">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {STATS_DATA.map((stat) => (
+          {statsData.map((stat) => (
             <div key={stat.key} className="text-center">
               <CountUpNumber end={stat.value} suffix={stat.suffix} />
               <p className="text-muted text-sm font-medium mt-2">{t.stats[stat.key]}</p>

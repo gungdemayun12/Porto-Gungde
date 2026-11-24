@@ -9,6 +9,7 @@ import { stackData } from '../data/stack';
 import {
   SiReact, SiJavascript, SiTailwindcss, SiHtml5, SiCss,
   SiLaravel, SiPhp, SiMysql, SiPostman,
+  SiOpenjdk, SiAndroid, SiFirebase,
   SiWordpress, SiElementor, SiWoocommerce,
   SiGit, SiLinux, SiN8N, SiGoogleads, SiGooglesearchconsole,
 } from 'react-icons/si';
@@ -18,6 +19,7 @@ const iconMap = {
   SiReact, SiJavascript, SiTailwindcss, SiHtml5, SiCss,
   SiCss3: SiCss,
   SiLaravel, SiPhp, SiMysql, SiPostman,
+  SiOpenjdk, SiAndroid, SiFirebase,
   SiWordpress, SiElementor, SiWoocommerce,
   SiGit, SiLinux,
   SiN8N,
@@ -89,12 +91,13 @@ export default function Stack() {
   const { ref, isInView } = useInView({ triggerOnce: true });
 
   // Gabungkan semua tech untuk marquee
-  const row1 = [...stackData.frontend, ...stackData.backend];
+  const row1 = [...stackData.frontend, ...stackData.backend, ...stackData.mobile];
   const row2 = [...stackData.cms, ...stackData.tools];
 
   const categoryNames = {
     frontend: t.stack.categories.frontend,
     backend: t.stack.categories.backend,
+    mobile: t.stack.categories.mobile,
     cms: t.stack.categories.cms,
     tools: t.stack.categories.tools,
   };
@@ -114,7 +117,7 @@ export default function Stack() {
         </div>
 
         {/* Grid kategori */}
-        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6
+        <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6
           transition-all duration-700 ${isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           {Object.entries(stackData).map(([category, techs]) => (
             <div key={category}>

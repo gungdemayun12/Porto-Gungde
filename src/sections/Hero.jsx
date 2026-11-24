@@ -21,9 +21,12 @@ function LanyardFallback() {
   );
 }
 
+import { projectCounts } from '../data/stats';
+
+// Statistik hero — angka proyek mengikuti projectsData, bukan diketik manual.
 const STATS = [
-  { value: '3+', label: { en: 'Years Experience', id: 'Tahun Pengalaman' } },
-  { value: '10+', label: { en: 'Projects Delivered', id: 'Proyek Selesai' } },
+  { value: `${projectCounts.total}`, label: { en: 'Projects Delivered', id: 'Proyek Selesai' } },
+  { value: `${projectCounts.mobile}`, label: { en: 'Android Apps', id: 'Aplikasi Android' } },
   { value: '100%', label: { en: 'Responsive Builds', id: 'Build Responsif' } },
 ];
 

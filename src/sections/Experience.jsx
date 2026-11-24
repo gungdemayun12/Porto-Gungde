@@ -7,7 +7,7 @@ import SectionTitle from '../components/ui/SectionTitle';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { experienceData } from '../data/experience';
+import { learningData } from '../data/experience';
 
 const EDUCATION = [
   {
@@ -109,16 +109,16 @@ export default function Experience() {
       <div className="container-main">
         <div ref={titleRef} className="sr-fade-up">
           <SectionTitle
-            label={isId ? 'RIWAYAT' : 'HISTORY'}
-            title={isId ? 'Pengalaman & Pendidikan.' : 'Experience & Education.'}
+            label={isId ? 'PERJALANAN' : 'JOURNEY'}
+            title={isId ? 'Perjalanan Belajar & Pendidikan.' : 'Learning Journey & Education.'}
             subtitle={isId
-              ? 'Perjalanan karir profesional dan latar belakang pendidikan saya.'
-              : 'My professional journey and educational foundation.'}
+              ? 'Tahapan belajar yang membentuk cara saya membangun produk, berdampingan dengan latar pendidikan formal.'
+              : 'The learning milestones that shaped how I build products, alongside my formal education.'}
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* ── WORK EXPERIENCE ── */}
+          {/* ── LEARNING JOURNEY ── */}
           <div ref={workRef} className="sr-slide-left">
             {/* Column header */}
             <div className="flex items-center gap-3 mb-6">
@@ -126,13 +126,13 @@ export default function Experience() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center border shadow-2xs"
                 style={{ background: 'var(--color-surface)', borderColor: 'var(--color-gold)' }}
               >
-                <i className="fa-solid fa-briefcase text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
+                <i className="fa-solid fa-seedling text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
               </div>
               <span
                 className="text-xs font-mono uppercase tracking-[0.2em] font-bold"
                 style={{ color: 'var(--color-text)' }}
               >
-                {isId ? 'Pengalaman Kerja' : 'Work Experience'}
+                {isId ? 'Perjalanan Belajar' : 'Learning Journey'}
               </span>
             </div>
 
@@ -144,9 +144,9 @@ export default function Experience() {
               />
 
               <div className="space-y-0">
-                {experienceData.map((item, i) => (
+                {learningData.map((item, i) => (
                   <div
-                    key={i}
+                    key={`${item.year}-${i}`}
                     className="relative pl-9 pb-8 last:pb-0"
                     style={{ transitionDelay: `${i * 100}ms` }}
                   >
@@ -162,13 +162,13 @@ export default function Experience() {
                         className="text-base font-semibold mb-1"
                         style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
                       >
-                        {item.position[lang] || item.position.en}
+                        {item.phase[lang] || item.phase.en}
                       </h3>
                       <p
                         className="text-xs font-mono font-bold mb-3"
                         style={{ color: 'var(--color-gold-text)' }}
                       >
-                        {item.company}
+                        {item.focus}
                       </p>
                       <p className="text-xs sm:text-sm leading-relaxed mb-3" style={{ color: 'var(--color-muted)' }}>
                         {item.description[lang] || item.description.en}

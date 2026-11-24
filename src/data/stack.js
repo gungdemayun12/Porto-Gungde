@@ -17,6 +17,11 @@ export const stackData = {
     { name: 'MySQL', icon: 'SiMysql', color: '#4479A1' },
     { name: 'REST API', icon: 'SiPostman', color: '#FF6C37' },
   ],
+  mobile: [
+    { name: 'Java', icon: 'SiOpenjdk', color: '#F89820' },
+    { name: 'Android', icon: 'SiAndroid', color: '#3DDC84' },
+    { name: 'Firebase', icon: 'SiFirebase', color: '#FFCA28' },
+  ],
   cms: [
     { name: 'WordPress', icon: 'SiWordpress', color: '#21759B' },
     { name: 'Elementor', icon: 'SiElementor', color: '#92003B' },
@@ -35,6 +40,7 @@ export const stackData = {
 export const allTechLogos = [
   ...stackData.frontend,
   ...stackData.backend,
+  ...stackData.mobile,
   ...stackData.cms,
   ...stackData.tools,
 ];

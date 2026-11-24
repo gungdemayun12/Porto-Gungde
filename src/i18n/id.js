@@ -9,7 +9,7 @@ const id = {
     services: 'Layanan',
     projects: 'Proyek',
     process: 'Proses',
-    experience: 'Pengalaman',
+    experience: 'Perjalanan',
     contact: 'Kontak',
     hireMe: 'Hubungi Saya',
   },
@@ -29,10 +29,10 @@ const id = {
 
   // Stats
   stats: {
-    experience: 'Tahun Pengalaman',
     projects: 'Proyek Selesai',
-    clients: 'Klien Puas',
-    satisfaction: 'Tingkat Kepuasan',
+    categories: 'Kategori Layanan',
+    technologies: 'Teknologi Dipakai',
+    years: 'Tahun Berkarya',
   },
 
   // About
@@ -62,6 +62,7 @@ const id = {
     categories: {
       frontend: 'Frontend',
       backend: 'Backend',
+      mobile: 'Mobile',
       cms: 'CMS & Platform',
       tools: 'Alat & Utilitas',
     },
@@ -138,8 +139,8 @@ const id = {
 
   // Experience
   experience: {
-    sectionTitle: 'Pengalaman & Pendidikan',
-    sectionSubtitle: 'Jejak langkah profesional dan fondasi keilmuan saya.',
+    sectionTitle: 'Perjalanan Belajar & Pendidikan',
+    sectionSubtitle: 'Tahapan belajar dan fondasi keilmuan yang membentuk cara saya membangun produk.',
   },
 
   // Testimonials

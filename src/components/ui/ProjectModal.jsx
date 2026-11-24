@@ -163,7 +163,7 @@ export default function ProjectModal({ project, onClose }) {
               style={{ background: 'var(--color-bg)', borderColor: 'var(--color-border)' }}
             >
               {project.mobileApp ? (
-                <MobileAppPreview variant="hero" icon={project.icon} />
+                <MobileAppPreview variant="hero" theme={project.appTheme} appName={project.name} icon={project.icon} />
               ) : project.video ? (
                 <video
                   src={project.video}

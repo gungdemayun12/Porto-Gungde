@@ -1,21 +1,31 @@
 /**
  * AppDownload — shared download CTA + install guide for mobile projects.
  * The APK ships from /public/downloads so visitors can test on a real device.
+ *
+ * Copy is generic (driven by the project object) so every mobile project —
+ * Run Track, CatatKu and future apps — reads correctly. Projects can override
+ * the defaults by supplying `installSteps` and `downloadNote`.
  */
 import { useLang } from '../../hooks/useLang';
 import Reveal from './Reveal';
 
+/** Fallback install steps when a project doesn't define its own. */
 const STEPS = {
   en: [
     'Tap Download App and wait for the APK file to finish downloading.',
     'Open the file, then allow "Install unknown apps" for your browser if Android asks.',
-    'Launch Run Track, grant GPS permission, and start your first run.',
+    'Launch the app, sign in or create an account, and start exploring.',
   ],
   id: [
     'Ketuk Unduh Aplikasi dan tunggu berkas APK selesai diunduh.',
     'Buka berkasnya, lalu izinkan "Instal aplikasi tidak dikenal" untuk browser jika diminta Android.',
-    'Jalankan Run Track, berikan izin GPS, dan mulai sesi lari pertama Anda.',
+    'Jalankan aplikasinya, masuk atau buat akun, lalu mulai menjelajah.',
   ],
+};
+
+const NOTE = {
+  en: 'The APK is shared for hands-on testing on a real Android device.',
+  id: 'Berkas APK dibagikan untuk pengujian langsung pada perangkat Android.',
 };
 
 export function DownloadButton({ project, compact = false, showMeta = true, className = '', onClick }) {
@@ -53,9 +63,24 @@ export function DownloadButton({ project, compact = false, showMeta = true, clas
 export default function AppDownloadPanel({ project }) {
   const { lang } = useLang();
   const isId = lang === 'id';
-  const steps = STEPS[lang] || STEPS.en;
 
   if (!project?.downloadUrl) return null;
+
+  const steps = project.installSteps?.[lang] || project.installSteps?.en || STEPS[lang] || STEPS.en;
+  const note = project.downloadNote?.[lang] || project.downloadNote?.en || NOTE[lang] || NOTE.en;
+  const blurb =
+    project.downloadBlurb?.[lang] ||
+    project.downloadBlurb?.en ||
+    (isId
+      ? `Unduh berkas APK dan rasakan langsung pengalaman ${project.name} di ponsel Android Anda.`
+      : `Download the APK and experience ${project.name} first-hand on an Android phone.`);
+
+  // Chips are derived from the project so they never claim features it lacks.
+  const chips = project.downloadChips?.[lang] || project.downloadChips?.en || [
+    { icon: 'fa-brands fa-android', label: 'Android' },
+    { icon: 'fa-solid fa-file-arrow-down', label: 'APK' },
+    { icon: 'fa-solid fa-weight-hanging', label: project.downloadSize || 'APK' },
+  ];
 
   return (
     <Reveal className="app-download mb-12" amount={0.15}>
@@ -77,11 +102,7 @@ export default function AppDownloadPanel({ project }) {
             <h2 className="app-download__title" id="app-download-title">
               {isId ? `Coba ${project.name} di perangkat Anda.` : `Try ${project.name} on your device.`}
             </h2>
-            <p className="app-download__desc">
-              {isId
-                ? 'Unduh berkas APK dan rasakan langsung alur pelacakan lari, peta GPS, serta ringkasan sesi di ponsel Android.'
-                : 'Download the APK and experience the full run-tracking flow — live GPS map, real-time metrics, and post-run summaries — on an Android phone.'}
-            </p>
+            <p className="app-download__desc">{blurb}</p>
           </div>
         </div>
 
@@ -89,10 +110,12 @@ export default function AppDownloadPanel({ project }) {
       </div>
 
       <div className="app-download__chips">
-        <span><i className="fa-brands fa-android" aria-hidden="true" />Android</span>
-        <span><i className="fa-solid fa-file-arrow-down" aria-hidden="true" />APK</span>
-        <span><i className="fa-solid fa-weight-hanging" aria-hidden="true" />{project.downloadSize || '16.9 MB'}</span>
-        <span><i className="fa-solid fa-location-crosshairs" aria-hidden="true" />GPS Tracking</span>
+        {chips.map((chip) => (
+          <span key={chip.label}>
+            <i className={chip.icon} aria-hidden="true" />
+            {chip.label}
+          </span>
+        ))}
       </div>
 
       <div className="app-download__install">
@@ -112,9 +135,7 @@ export default function AppDownloadPanel({ project }) {
 
       <p className="app-download__note">
         <i className="fa-solid fa-circle-info" aria-hidden="true" />
-        {isId
-          ? 'Berkas APK dibagikan untuk pengujian langsung. Pastikan perangkat Android memiliki GPS aktif.'
-          : 'The APK is shared for hands-on testing. Make sure your Android device has GPS enabled.'}
+        {note}
       </p>
     </Reveal>
   );

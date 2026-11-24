@@ -163,7 +163,7 @@ export default function ProjectDetail() {
           style={{ background: 'var(--color-surface)' }}
         >
           {project.mobileApp ? (
-            <MobileAppPreview variant="hero" icon={project.icon} />
+            <MobileAppPreview variant="hero" theme={project.appTheme} appName={project.name} icon={project.icon} />
           ) : project.video ? (
             <video
               src={project.video}

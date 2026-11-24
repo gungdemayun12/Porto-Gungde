@@ -1,34 +1,57 @@
 /**
- * Data pengalaman kerja — timeline vertikal
+ * Data "Learning Journey" — pengganti timeline pengalaman kerja.
+ *
+ * Catatan penting: ini BUKAN klaim pengalaman kerja profesional.
+ * Isinya tahapan belajar nyata yang bisa dibuktikan lewat proyek di portofolio
+ * ini, jadi jujur sekaligus tetap menunjukkan progres dan kompetensi.
+ *
+ * Kalau nanti sudah ada pengalaman kerja/magang formal, tambahkan entri baru
+ * dengan `type: 'work'` dan section akan menampilkannya pada kolom kanan.
  */
 
-export const experienceData = [
+export const learningData = [
   {
-    year: '2025 — Sekarang',
-    yearId: '2025 — Sekarang',
-    position: {
-      en: 'Freelance Web Developer',
-      id: 'Web Developer Freelance',
-    },
-    company: 'Freelance — Remote',
+    year: '2026',
+    yearId: '2026',
+    phase: { en: 'Native Android & Cloud', id: 'Android Native & Cloud' },
+    focus: 'Java · Firebase · MVVM',
     description: {
-      en: 'Building websites and web apps for clients in Bali and beyond — from company profiles and landing pages to QR ordering systems and POS software. I handle the full cycle: scoping, design, development, and deployment.',
-      id: 'Membangun website dan aplikasi web untuk klien di Bali dan luar daerah — mulai dari profil perusahaan, landing page, sistem pemesanan QR, hingga software POS. Saya menangani seluruh siklus proyek: perencanaan, desain, pengembangan, dan deployment.',
+      en: 'Stepped into native Android development by building CatatKu end to end — a Java app with Firebase Firestore sync, MVVM layering, Firestore security rules, bilingual localisation, and 84 unit tests. This is where architecture and data modelling started to matter more than just making screens work.',
+      id: 'Masuk ke pengembangan Android native dengan membangun CatatKu dari nol — aplikasi Java dengan sinkronisasi Firebase Firestore, arsitektur MVVM, Firestore security rules, lokalisasi dua bahasa, dan 84 unit test. Di tahap ini arsitektur dan pemodelan data mulai lebih penting daripada sekadar membuat layar berjalan.',
     },
-    tags: ['React', 'Laravel', 'MySQL', 'WordPress', 'Tailwind'],
+    tags: ['Java', 'Android', 'Firebase', 'MVVM', 'JUnit'],
   },
   {
-    year: 'Magang — 2024',
-    yearId: 'Magang — 2024',
-    position: {
-      en: 'Web Developer & Digital Marketing Intern',
-      id: 'Intern Web Developer & Digital Marketing',
-    },
-    company: 'Artsyana.id',
+    year: '2025',
+    yearId: '2025',
+    phase: { en: 'Full-Stack & Private Systems', id: 'Full-Stack & Sistem Privat' },
+    focus: 'Laravel · MySQL · RBAC',
     description: {
-      en: 'Assisted with website development and digital marketing tasks at Artsyana.id — a creative digital agency in Bali. Worked on client landing pages, WordPress setups, and social media content.',
-      id: 'Membantu pengembangan website dan tugas pemasaran digital di Artsyana.id — agensi digital kreatif di Bali. Mengerjakan landing page klien, setup WordPress, dan konten media sosial.',
+      en: 'Moved from static websites into systems people actually operate daily: a multi-branch POS, a QR food-ordering platform, and a stock and cash-reconciliation dashboard. Learned to model roles and permissions, keep stock consistent with sales, and design flows for staff who have no time to read instructions.',
+      id: 'Beralih dari website statis ke sistem yang benar-benar dipakai sehari-hari: POS multi-cabang, platform pemesanan QR, dan dashboard stok serta rekonsiliasi kas. Di sini saya belajar memodelkan peran dan izin akses, menjaga stok tetap konsisten dengan penjualan, dan merancang alur untuk staf yang tidak punya waktu membaca instruksi.',
     },
-    tags: ['WordPress', 'HTML/CSS', 'SEO'],
+    tags: ['Laravel', 'MySQL', 'RBAC', 'POS', 'REST API'],
+  },
+  {
+    year: '2024',
+    yearId: '2024',
+    phase: { en: 'Web Foundations & Client Work', id: 'Dasar Web & Pekerjaan Klien' },
+    focus: 'React · WordPress · SEO',
+    description: {
+      en: 'Started with client websites — tour operators, a spa, and digital invitations — learning responsive layout, content structure, and local SEO. This was the first taste of turning a real business need into something that works on a phone and can be found on Google.',
+      id: 'Dimulai dari website klien — operator tour, spa, dan undangan digital — sambil mempelajari tata letak responsif, struktur konten, dan SEO lokal. Ini pengalaman pertama mengubah kebutuhan bisnis nyata menjadi sesuatu yang berjalan di ponsel dan bisa ditemukan di Google.',
+    },
+    tags: ['React', 'WordPress', 'SEO', 'HTML/CSS'],
+  },
+  {
+    year: '2023',
+    yearId: '2023',
+    phase: { en: 'Learning the Fundamentals', id: 'Mempelajari Dasar-Dasar' },
+    focus: 'HTML · CSS · JavaScript',
+    description: {
+      en: 'The starting point: HTML, CSS, and JavaScript fundamentals through self-directed practice and small experiments. No clients yet — just building things, breaking them, and figuring out why they broke.',
+      id: 'Titik awal: dasar HTML, CSS, dan JavaScript melalui latihan mandiri dan eksperimen kecil. Belum ada klien — hanya membangun sesuatu, merusaknya, lalu mencari tahu penyebabnya.',
+    },
+    tags: ['HTML', 'CSS', 'JavaScript'],
   },
 ];

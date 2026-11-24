@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { id: 'about',      en: 'About',      id_: 'Tentang' },
   { id: 'projects',   en: 'Projects',   id_: 'Proyek' },
   { id: 'arcade',     en: 'Arcade',     id_: 'Arcade' },
-  { id: 'experience', en: 'Experience', id_: 'Pengalaman' },
+  { id: 'experience', en: 'Journey',    id_: 'Perjalanan' },
   { id: 'contact',    en: 'Contact',    id_: 'Kontak' },
 ];
 
