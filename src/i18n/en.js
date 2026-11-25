@@ -139,8 +139,8 @@ const en = {
 
   // Experience
   experience: {
-    sectionTitle: 'Learning Journey & Education',
-    sectionSubtitle: 'The learning milestones and educational foundation that shape how I build products.',
+    sectionTitle: 'Experience & Education',
+    sectionSubtitle: 'Professional experience as a web developer and digital marketer, alongside my formal education.',
   },
 
   // Testimonials

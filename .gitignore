@@ -9,8 +9,13 @@ lerna-debug.log*
 
 node_modules
 dist
+dist-debug
 dist-ssr
 *.local
+
+# Hasil pemeriksaan otomatis (screenshot & laporan audit)
+scripts/shots/
+scripts/_*
 
 # Aset sumber resolusi tinggi (tidak dipakai langsung oleh aplikasi)
 project-originals/

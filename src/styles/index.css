@@ -4,6 +4,7 @@
    ========================================================= */
 
 @import "tailwindcss";
+@import "./fonts.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -96,12 +97,12 @@
   --color-gold-light: var(--color-gold-light);
   --color-gold-dark:  var(--color-gold-dark);
 
-  --font-heading: 'Jost', 'Futura', 'Avenir Next', sans-serif;
-  --font-body:    'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-mono:    'JetBrains Mono', 'Courier New', ui-monospace, monospace;
-  --font-serif:   'Instrument Serif', Georgia, serif;
-  --font-sans:    'Inter', 'Helvetica Neue', Arial, sans-serif;
-  --font-display: 'Jost', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  --font-serif:   'Instrument Serif', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-sans:    'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 /* =========================================================
@@ -1173,9 +1174,8 @@ button:disabled {
    LANYARD CANVAS
    ========================================================= */
 .lanyard-container { touch-action: pan-y; overflow: visible; }
-@media (max-width: 767px) {
-  .lanyard-container { min-height: 360px; }
-}
+/* Tinggi wadah diatur inline oleh HeroLanyard (mobile/tablet/desktop),
+   jadi tidak perlu menimpanya dengan min-height di sini. */
 
 @media (prefers-reduced-motion: reduce) {
   button:not(:disabled),

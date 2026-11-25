@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 import cardGLB from '../../assets/lanyard/card.glb';
 import lanyard from '../../assets/lanyard/lanyard.png';
-import gungdePhoto from '../../assets/gungde.jpeg';
+import gungdePhoto from '../../assets/gungde.webp';
 import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });

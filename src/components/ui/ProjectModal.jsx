@@ -6,9 +6,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useLang } from '../../hooks/useLang';
-import { categoryLabel } from '../../data/projects';
+import { categoryLabel } from '../../data/projectMeta';
 import MobileAppPreview from './MobileAppPreview';
 import BrowserFrame from './BrowserFrame';
+import ProjectVideo from './ProjectVideo';
 import { DownloadButton } from './AppDownload';
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -124,7 +125,7 @@ export default function ProjectModal({ project, onClose }) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 rounded-[2px] border border-border flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs"
+            className="w-11 h-11 rounded-[2px] border border-border flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs"
             style={{
               background: 'var(--color-surface)',
               color: 'var(--color-text)',
@@ -165,14 +166,10 @@ export default function ProjectModal({ project, onClose }) {
               {project.mobileApp ? (
                 <MobileAppPreview variant="hero" theme={project.appTheme} appName={project.name} icon={project.icon} />
               ) : project.video ? (
-                <video
+                <ProjectVideo
                   src={project.video}
-                  className="w-full h-full object-cover"
-                  controls
-                  muted
-                  playsInline
-                  preload="metadata"
-                  poster={project.thumbnail || undefined}
+                  poster={project.coverThumb || project.thumbnail}
+                  title={title}
                 />
               ) : gallery.length > 0 ? (
                 <BrowserFrame

@@ -113,7 +113,7 @@ export default function Navbar() {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="flex items-center gap-2 sm:gap-3 group"
+            className="flex items-center gap-2 sm:gap-3 group min-h-11"
           >
             <div className="relative h-8 w-8 sm:h-10 sm:w-10 shrink-0">
               <img
@@ -122,8 +122,9 @@ export default function Navbar() {
                 className="brand-logo h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            {/* Nama Brand */}
-            <div className="hidden min-[380px]:flex flex-col">
+            {/* Nama Brand — hanya tampil bila ruang navbar cukup lega (>=430px),
+                agar tidak pernah bertabrakan dengan tombol kontrol di kanan. */}
+            <div className="hidden min-[430px]:flex flex-col">
               <span className="font-heading font-semibold text-text text-sm tracking-wide group-hover:text-gold-text transition-colors sm:text-base">
                 GUNGDEV<span className="text-gold font-serif">.</span>
               </span>
@@ -193,7 +194,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={mobileMenuOpen}
-              className="relative w-9 h-9 sm:w-10 sm:h-10 rounded-[2px] border border-border bg-surface/90
+              className="relative w-11 h-11 rounded-[2px] border border-border bg-surface/90
                 flex items-center justify-center text-text
                 hover:border-gold hover:bg-gold/10
                 transition-[border-color,background-color,transform] duration-400

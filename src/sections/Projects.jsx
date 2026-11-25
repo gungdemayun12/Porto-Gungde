@@ -12,7 +12,8 @@ import ProjectPoster from '../components/ui/ProjectPoster';
 import { DownloadButton } from '../components/ui/AppDownload';
 import { useLang } from '../hooks/useLang';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { projectsData, projectCategories, categoryLabel, appAccentVars } from '../data/projects';
+import { projectsData } from '../data/projects';
+import { projectCategories, categoryLabel, appAccentVars } from '../data/projectMeta';
 
 const CATEGORY_ICONS = {
   All: 'fa-solid fa-layer-group',
@@ -171,8 +172,8 @@ function ProjectCard({ project, lang, onClick, index }) {
               event.stopPropagation();
               onClick();
             }}
-            className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold cursor-pointer shrink-0 transition-colors duration-200 hover:text-gold"
-            style={{ color: 'var(--color-muted)', background: 'transparent', border: 0, padding: 0 }}
+            className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold cursor-pointer shrink-0 transition-colors duration-200 hover:text-gold -my-3 py-3.5 -mr-2 pr-2"
+            style={{ color: 'var(--color-muted)', background: 'transparent', border: 0 }}
             aria-label={`${lang === 'id' ? 'Lihat detail' : 'View details'}: ${title}`}
           >
             {lang === 'id' ? 'Lihat detail' : 'View details'}
@@ -225,7 +226,7 @@ export default function Projects() {
                 key={cat}
                 type="button"
                 onClick={() => setActiveFilter(cat)}
-                className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-[2px] text-[11px] sm:text-xs font-mono font-semibold tracking-wide transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 min-h-11 rounded-[2px] text-[11px] sm:text-xs font-mono font-semibold tracking-wide transition-all duration-200 cursor-pointer"
                 style={{
                   background: isActive ? 'var(--color-gold)' : 'var(--color-surface)',
                   color: isActive ? 'var(--color-on-accent)' : 'var(--color-text)',

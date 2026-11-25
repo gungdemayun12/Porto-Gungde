@@ -156,7 +156,7 @@ export default function MobileMenu({
                 type="button"
                 onClick={onClose}
                 aria-label="Close menu"
-                className="w-9 h-9 rounded-[2px] border border-border bg-surface
+                className="w-11 h-11 rounded-[2px] border border-border bg-surface
                   flex items-center justify-center text-text
                   hover:text-gold-text hover:border-gold hover:bg-gold/10
                   transition-all duration-300 ease-out
@@ -270,6 +270,7 @@ export default function MobileMenu({
                 <div className="flex items-center gap-2">
                   {[
                     { href: CONTACT.github, label: 'GitHub', icon: 'fa-brands fa-github' },
+                    { href: CONTACT.linkedin, label: 'LinkedIn', icon: 'fa-brands fa-linkedin' },
                     { href: CONTACT.instagram, label: 'Instagram', icon: 'fa-brands fa-instagram' },
                   ].map(({ href, label, icon }) => (
                     <a
@@ -278,7 +279,7 @@ export default function MobileMenu({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={label}
-                      className="w-8 h-8 rounded-[2px] border border-border bg-surface
+                      className="w-11 h-11 rounded-[2px] border border-border bg-surface
                         flex items-center justify-center text-text
                         hover:text-gold-text hover:border-gold hover:bg-gold/10 transition-all duration-300"
                     >

@@ -9,6 +9,7 @@ export const CONTACT = {
   locationShort: 'Batubulan, Bali',
   github: 'https://github.com/gungdemayun12',
   instagram: 'https://www.instagram.com/_gungde/',
+  linkedin: 'https://www.linkedin.com/in/gungde-mayun-363798388/',
 };
 
 export function whatsappLink(message) {

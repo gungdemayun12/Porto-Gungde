@@ -866,9 +866,10 @@
     display: none;
   }
 
+  /* Di layar kecil kartu memenuhi panggung, sehingga label koordinat akan
+     menabrak nameplate. Info lokasi sudah tampil di bagian lain halaman. */
   .hero-stage__meta--br {
-    right: 0.35rem;
-    bottom: 0.45rem;
+    display: none;
   }
 
   .hero-stage__corner {
@@ -891,10 +892,18 @@
   flex-direction: column;
   align-items: center;
   gap: 0.18rem;
-  margin-top: -0.35rem;
+  margin-top: 0.9rem;
   padding-top: 1rem;
   text-align: center;
   pointer-events: none;
+}
+
+@media (max-width: 1023px) {
+  /* Di layar kecil kartu statis nyaris memenuhi panggung; beri jarak tegas
+     agar nameplate tidak menimpa tulisan di dalam kartu. */
+  .hero-stage__caption {
+    margin-top: 1.4rem;
+  }
 }
 
 .hero-stage__caption::before {
@@ -1054,16 +1063,23 @@
 }
 
 @media (max-width: 639px) {
+  /* Hero ponsel: rapatkan jarak vertikal agar judul, deskripsi, dan CTA
+     terlihat tanpa perlu menggulir terlalu jauh. */
+  .hero-section {
+    padding-top: 5.5rem;
+    padding-bottom: 2rem;
+  }
+
   .static-badge {
-    padding-top: 3.2rem;
+    padding-top: 2.4rem;
   }
 
   .static-badge__strap {
-    height: 3.75rem;
+    height: 3rem;
   }
 
   .static-badge__card {
-    width: 10.75rem;
+    width: 9.5rem;
   }
 }
 

@@ -19,9 +19,9 @@ export default function ThemeToggle({ showLabel = false }) {
           ? (isId ? 'Beralih ke mode terang' : 'Switch to light mode')
           : (isId ? 'Beralih ke mode gelap' : 'Switch to dark mode')}
         aria-pressed={isDark}
-        className="flex h-9 w-9 items-center justify-center rounded-[2px] border border-border bg-surface/80
+        className="flex h-11 w-11 items-center justify-center rounded-[2px] border border-border bg-surface/80
           text-gold-text shadow-xs transition-all duration-300 hover:border-gold hover:bg-gold/10
-          hover:text-gold active:scale-95 sm:h-10 sm:w-10"
+          hover:text-gold active:scale-95"
       >
         <i className={`fa-solid ${isDark ? 'fa-sun' : 'fa-moon'} text-sm`} aria-hidden="true" />
       </button>

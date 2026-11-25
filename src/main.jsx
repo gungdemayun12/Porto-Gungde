@@ -4,8 +4,10 @@
  */
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 import App from './App';
+// Ikon Font Awesome versi subset — hanya glyph yang dipakai (dibuat oleh
+// `npm run icons`). Jauh lebih ringan daripada `all.min.css`.
+import './styles/fontawesome-subset.css';
 import './styles/index.css';
 import './styles/enhancements.css';
 

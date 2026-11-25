@@ -1,0 +1,398 @@
+{
+  "absensi.jpg": {
+    "card": "/images/project/opt/absensi-card.webp",
+    "detail": "/images/project/opt/absensi-detail.webp"
+  },
+  "balibrucetour (1).jpg": {
+    "card": "/images/project/opt/balibrucetour-1-card.webp",
+    "detail": "/images/project/opt/balibrucetour-1-detail.webp"
+  },
+  "balibrucetour (2).jpg": {
+    "card": "/images/project/opt/balibrucetour-2-card.webp",
+    "detail": "/images/project/opt/balibrucetour-2-detail.webp"
+  },
+  "balibrucetour (3).jpg": {
+    "card": "/images/project/opt/balibrucetour-3-card.webp",
+    "detail": "/images/project/opt/balibrucetour-3-detail.webp"
+  },
+  "balibrucetour (4).jpg": {
+    "card": "/images/project/opt/balibrucetour-4-card.webp",
+    "detail": "/images/project/opt/balibrucetour-4-detail.webp"
+  },
+  "balibrucetour (5).jpg": {
+    "card": "/images/project/opt/balibrucetour-5-card.webp",
+    "detail": "/images/project/opt/balibrucetour-5-detail.webp"
+  },
+  "balibrucetour (6).jpg": {
+    "card": "/images/project/opt/balibrucetour-6-card.webp",
+    "detail": "/images/project/opt/balibrucetour-6-detail.webp"
+  },
+  "balicharming (1).jpg": {
+    "card": "/images/project/opt/balicharming-1-card.webp",
+    "detail": "/images/project/opt/balicharming-1-detail.webp"
+  },
+  "balicharming (2).jpg": {
+    "card": "/images/project/opt/balicharming-2-card.webp",
+    "detail": "/images/project/opt/balicharming-2-detail.webp"
+  },
+  "balicharming (3).jpg": {
+    "card": "/images/project/opt/balicharming-3-card.webp",
+    "detail": "/images/project/opt/balicharming-3-detail.webp"
+  },
+  "balicharming (4).jpg": {
+    "card": "/images/project/opt/balicharming-4-card.webp",
+    "detail": "/images/project/opt/balicharming-4-detail.webp"
+  },
+  "balicharming (5).jpg": {
+    "card": "/images/project/opt/balicharming-5-card.webp",
+    "detail": "/images/project/opt/balicharming-5-detail.webp"
+  },
+  "balicharming (6).jpg": {
+    "card": "/images/project/opt/balicharming-6-card.webp",
+    "detail": "/images/project/opt/balicharming-6-detail.webp"
+  },
+  "balicharming (7).jpg": {
+    "card": "/images/project/opt/balicharming-7-card.webp",
+    "detail": "/images/project/opt/balicharming-7-detail.webp"
+  },
+  "balicharming (8).jpg": {
+    "card": "/images/project/opt/balicharming-8-card.webp",
+    "detail": "/images/project/opt/balicharming-8-detail.webp"
+  },
+  "balicharming (9).jpg": {
+    "card": "/images/project/opt/balicharming-9-card.webp",
+    "detail": "/images/project/opt/balicharming-9-detail.webp"
+  },
+  "baliplaygolf (1).jpg": {
+    "card": "/images/project/opt/baliplaygolf-1-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-1-detail.webp"
+  },
+  "baliplaygolf (2).jpg": {
+    "card": "/images/project/opt/baliplaygolf-2-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-2-detail.webp"
+  },
+  "baliplaygolf (3).jpg": {
+    "card": "/images/project/opt/baliplaygolf-3-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-3-detail.webp"
+  },
+  "baliplaygolf (4).jpg": {
+    "card": "/images/project/opt/baliplaygolf-4-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-4-detail.webp"
+  },
+  "baliplaygolf (5).jpg": {
+    "card": "/images/project/opt/baliplaygolf-5-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-5-detail.webp"
+  },
+  "baliplaygolf (6).jpg": {
+    "card": "/images/project/opt/baliplaygolf-6-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-6-detail.webp"
+  },
+  "baliplaygolf (7).jpg": {
+    "card": "/images/project/opt/baliplaygolf-7-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-7-detail.webp"
+  },
+  "baliplaygolf (8).jpg": {
+    "card": "/images/project/opt/baliplaygolf-8-card.webp",
+    "detail": "/images/project/opt/baliplaygolf-8-detail.webp"
+  },
+  "catatku.jpg": {
+    "card": "/images/project/opt/catatku-card.webp",
+    "detail": "/images/project/opt/catatku-detail.webp"
+  },
+  "kakluna (1).jpg": {
+    "card": "/images/project/opt/kakluna-1-card.webp",
+    "detail": "/images/project/opt/kakluna-1-detail.webp"
+  },
+  "kakluna (2).jpg": {
+    "card": "/images/project/opt/kakluna-2-card.webp",
+    "detail": "/images/project/opt/kakluna-2-detail.webp"
+  },
+  "kakluna (3).jpg": {
+    "card": "/images/project/opt/kakluna-3-card.webp",
+    "detail": "/images/project/opt/kakluna-3-detail.webp"
+  },
+  "kakluna (4).jpg": {
+    "card": "/images/project/opt/kakluna-4-card.webp",
+    "detail": "/images/project/opt/kakluna-4-detail.webp"
+  },
+  "kakluna (5).jpg": {
+    "card": "/images/project/opt/kakluna-5-card.webp",
+    "detail": "/images/project/opt/kakluna-5-detail.webp"
+  },
+  "kakluna (6).jpg": {
+    "card": "/images/project/opt/kakluna-6-card.webp",
+    "detail": "/images/project/opt/kakluna-6-detail.webp"
+  },
+  "maikebalitour1 (1).jpg": {
+    "card": "/images/project/opt/maikebalitour1-1-card.webp",
+    "detail": "/images/project/opt/maikebalitour1-1-detail.webp"
+  },
+  "maikebalitour1 (2).jpg": {
+    "card": "/images/project/opt/maikebalitour1-2-card.webp",
+    "detail": "/images/project/opt/maikebalitour1-2-detail.webp"
+  },
+  "maikebalitour1 (3).jpg": {
+    "card": "/images/project/opt/maikebalitour1-3-card.webp",
+    "detail": "/images/project/opt/maikebalitour1-3-detail.webp"
+  },
+  "maikebalitour1 (4).jpg": {
+    "card": "/images/project/opt/maikebalitour1-4-card.webp",
+    "detail": "/images/project/opt/maikebalitour1-4-detail.webp"
+  },
+  "maikebalitour1 (5).jpg": {
+    "card": "/images/project/opt/maikebalitour1-5-card.webp",
+    "detail": "/images/project/opt/maikebalitour1-5-detail.webp"
+  },
+  "maikebalitour6.jpg": {
+    "card": "/images/project/opt/maikebalitour6-card.webp",
+    "detail": "/images/project/opt/maikebalitour6-detail.webp"
+  },
+  "maikebalitour7.jpg": {
+    "card": "/images/project/opt/maikebalitour7-card.webp",
+    "detail": "/images/project/opt/maikebalitour7-detail.webp"
+  },
+  "meru 1 (1).jpg": {
+    "card": "/images/project/opt/meru-1-1-card.webp",
+    "detail": "/images/project/opt/meru-1-1-detail.webp"
+  },
+  "meru1 (2).jpg": {
+    "card": "/images/project/opt/meru1-2-card.webp",
+    "detail": "/images/project/opt/meru1-2-detail.webp"
+  },
+  "meru1 (3).jpg": {
+    "card": "/images/project/opt/meru1-3-card.webp",
+    "detail": "/images/project/opt/meru1-3-detail.webp"
+  },
+  "meru1 (4).jpg": {
+    "card": "/images/project/opt/meru1-4-card.webp",
+    "detail": "/images/project/opt/meru1-4-detail.webp"
+  },
+  "meru1 (5).jpg": {
+    "card": "/images/project/opt/meru1-5-card.webp",
+    "detail": "/images/project/opt/meru1-5-detail.webp"
+  },
+  "meru1 (6).jpg": {
+    "card": "/images/project/opt/meru1-6-card.webp",
+    "detail": "/images/project/opt/meru1-6-detail.webp"
+  },
+  "posbigtree (1).jpg": {
+    "card": "/images/project/opt/posbigtree-1-card.webp",
+    "detail": "/images/project/opt/posbigtree-1-detail.webp"
+  },
+  "posbigtree (10).jpg": {
+    "card": "/images/project/opt/posbigtree-10-card.webp",
+    "detail": "/images/project/opt/posbigtree-10-detail.webp"
+  },
+  "posbigtree (2).jpg": {
+    "card": "/images/project/opt/posbigtree-2-card.webp",
+    "detail": "/images/project/opt/posbigtree-2-detail.webp"
+  },
+  "posbigtree (3).jpg": {
+    "card": "/images/project/opt/posbigtree-3-card.webp",
+    "detail": "/images/project/opt/posbigtree-3-detail.webp"
+  },
+  "posbigtree (4).jpg": {
+    "card": "/images/project/opt/posbigtree-4-card.webp",
+    "detail": "/images/project/opt/posbigtree-4-detail.webp"
+  },
+  "posbigtree (5).jpg": {
+    "card": "/images/project/opt/posbigtree-5-card.webp",
+    "detail": "/images/project/opt/posbigtree-5-detail.webp"
+  },
+  "posbigtree (6).jpg": {
+    "card": "/images/project/opt/posbigtree-6-card.webp",
+    "detail": "/images/project/opt/posbigtree-6-detail.webp"
+  },
+  "posbigtree (7).jpg": {
+    "card": "/images/project/opt/posbigtree-7-card.webp",
+    "detail": "/images/project/opt/posbigtree-7-detail.webp"
+  },
+  "posbigtree (8).jpg": {
+    "card": "/images/project/opt/posbigtree-8-card.webp",
+    "detail": "/images/project/opt/posbigtree-8-detail.webp"
+  },
+  "posbigtree (9).jpg": {
+    "card": "/images/project/opt/posbigtree-9-card.webp",
+    "detail": "/images/project/opt/posbigtree-9-detail.webp"
+  },
+  "receipt generator1 (1).jpg": {
+    "card": "/images/project/opt/receipt-generator1-1-card.webp",
+    "detail": "/images/project/opt/receipt-generator1-1-detail.webp"
+  },
+  "receipt generator1 (2).jpg": {
+    "card": "/images/project/opt/receipt-generator1-2-card.webp",
+    "detail": "/images/project/opt/receipt-generator1-2-detail.webp"
+  },
+  "receipt generator1 (3).jpg": {
+    "card": "/images/project/opt/receipt-generator1-3-card.webp",
+    "detail": "/images/project/opt/receipt-generator1-3-detail.webp"
+  },
+  "receipt generator1 (4).jpg": {
+    "card": "/images/project/opt/receipt-generator1-4-card.webp",
+    "detail": "/images/project/opt/receipt-generator1-4-detail.webp"
+  },
+  "receipt generator1 (5).jpg": {
+    "card": "/images/project/opt/receipt-generator1-5-card.webp",
+    "detail": "/images/project/opt/receipt-generator1-5-detail.webp"
+  },
+  "runtrack-icon.jpg": {
+    "card": "/images/project/opt/runtrack-icon-card.webp",
+    "detail": "/images/project/opt/runtrack-icon-detail.webp"
+  },
+  "sarirasa (1).jpg": {
+    "card": "/images/project/opt/sarirasa-1-card.webp",
+    "detail": "/images/project/opt/sarirasa-1-detail.webp"
+  },
+  "sarirasa (10).jpg": {
+    "card": "/images/project/opt/sarirasa-10-card.webp",
+    "detail": "/images/project/opt/sarirasa-10-detail.webp"
+  },
+  "sarirasa (11).jpg": {
+    "card": "/images/project/opt/sarirasa-11-card.webp",
+    "detail": "/images/project/opt/sarirasa-11-detail.webp"
+  },
+  "sarirasa (12).jpg": {
+    "card": "/images/project/opt/sarirasa-12-card.webp",
+    "detail": "/images/project/opt/sarirasa-12-detail.webp"
+  },
+  "sarirasa (2).jpg": {
+    "card": "/images/project/opt/sarirasa-2-card.webp",
+    "detail": "/images/project/opt/sarirasa-2-detail.webp"
+  },
+  "sarirasa (3).jpg": {
+    "card": "/images/project/opt/sarirasa-3-card.webp",
+    "detail": "/images/project/opt/sarirasa-3-detail.webp"
+  },
+  "sarirasa (4).jpg": {
+    "card": "/images/project/opt/sarirasa-4-card.webp",
+    "detail": "/images/project/opt/sarirasa-4-detail.webp"
+  },
+  "sarirasa (5).jpg": {
+    "card": "/images/project/opt/sarirasa-5-card.webp",
+    "detail": "/images/project/opt/sarirasa-5-detail.webp"
+  },
+  "sarirasa (6).jpg": {
+    "card": "/images/project/opt/sarirasa-6-card.webp",
+    "detail": "/images/project/opt/sarirasa-6-detail.webp"
+  },
+  "sarirasa (7).jpg": {
+    "card": "/images/project/opt/sarirasa-7-card.webp",
+    "detail": "/images/project/opt/sarirasa-7-detail.webp"
+  },
+  "sarirasa (8).jpg": {
+    "card": "/images/project/opt/sarirasa-8-card.webp",
+    "detail": "/images/project/opt/sarirasa-8-detail.webp"
+  },
+  "sarirasa (9).jpg": {
+    "card": "/images/project/opt/sarirasa-9-card.webp",
+    "detail": "/images/project/opt/sarirasa-9-detail.webp"
+  },
+  "spa1 (1).jpg": {
+    "card": "/images/project/opt/spa1-1-card.webp",
+    "detail": "/images/project/opt/spa1-1-detail.webp"
+  },
+  "spa1 (2).jpg": {
+    "card": "/images/project/opt/spa1-2-card.webp",
+    "detail": "/images/project/opt/spa1-2-detail.webp"
+  },
+  "spa1 (3).jpg": {
+    "card": "/images/project/opt/spa1-3-card.webp",
+    "detail": "/images/project/opt/spa1-3-detail.webp"
+  },
+  "spa1 (4).jpg": {
+    "card": "/images/project/opt/spa1-4-card.webp",
+    "detail": "/images/project/opt/spa1-4-detail.webp"
+  },
+  "spa1 (5).jpg": {
+    "card": "/images/project/opt/spa1-5-card.webp",
+    "detail": "/images/project/opt/spa1-5-detail.webp"
+  },
+  "ubuddigitalcreative1 (1).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-1-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-1-detail.webp"
+  },
+  "ubuddigitalcreative1 (2).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-2-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-2-detail.webp"
+  },
+  "ubuddigitalcreative1 (3).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-3-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-3-detail.webp"
+  },
+  "ubuddigitalcreative1 (4).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-4-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-4-detail.webp"
+  },
+  "ubuddigitalcreative1 (5).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-5-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-5-detail.webp"
+  },
+  "ubuddigitalcreative1 (6).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-6-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-6-detail.webp"
+  },
+  "ubuddigitalcreative1 (7).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-7-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-7-detail.webp"
+  },
+  "ubuddigitalcreative1 (8).jpg": {
+    "card": "/images/project/opt/ubuddigitalcreative1-8-card.webp",
+    "detail": "/images/project/opt/ubuddigitalcreative1-8-detail.webp"
+  },
+  "undangan digital (1).jpg": {
+    "card": "/images/project/opt/undangan-digital-1-card.webp",
+    "detail": "/images/project/opt/undangan-digital-1-detail.webp"
+  },
+  "undangan digital (2).jpg": {
+    "card": "/images/project/opt/undangan-digital-2-card.webp",
+    "detail": "/images/project/opt/undangan-digital-2-detail.webp"
+  },
+  "undangan digital (3).jpg": {
+    "card": "/images/project/opt/undangan-digital-3-card.webp",
+    "detail": "/images/project/opt/undangan-digital-3-detail.webp"
+  },
+  "undangan digital (4).jpg": {
+    "card": "/images/project/opt/undangan-digital-4-card.webp",
+    "detail": "/images/project/opt/undangan-digital-4-detail.webp"
+  },
+  "undangan digital (5).jpg": {
+    "card": "/images/project/opt/undangan-digital-5-card.webp",
+    "detail": "/images/project/opt/undangan-digital-5-detail.webp"
+  },
+  "warunglestari (1).jpg": {
+    "card": "/images/project/opt/warunglestari-1-card.webp",
+    "detail": "/images/project/opt/warunglestari-1-detail.webp"
+  },
+  "warunglestari (2).jpg": {
+    "card": "/images/project/opt/warunglestari-2-card.webp",
+    "detail": "/images/project/opt/warunglestari-2-detail.webp"
+  },
+  "warunglestari (3).jpg": {
+    "card": "/images/project/opt/warunglestari-3-card.webp",
+    "detail": "/images/project/opt/warunglestari-3-detail.webp"
+  },
+  "warunglestari (4).jpg": {
+    "card": "/images/project/opt/warunglestari-4-card.webp",
+    "detail": "/images/project/opt/warunglestari-4-detail.webp"
+  },
+  "warunglestari (5).jpg": {
+    "card": "/images/project/opt/warunglestari-5-card.webp",
+    "detail": "/images/project/opt/warunglestari-5-detail.webp"
+  },
+  "warunglestari (6).jpg": {
+    "card": "/images/project/opt/warunglestari-6-card.webp",
+    "detail": "/images/project/opt/warunglestari-6-detail.webp"
+  },
+  "warunglestari (7).jpg": {
+    "card": "/images/project/opt/warunglestari-7-card.webp",
+    "detail": "/images/project/opt/warunglestari-7-detail.webp"
+  },
+  "warunglestari (8).jpg": {
+    "card": "/images/project/opt/warunglestari-8-card.webp",
+    "detail": "/images/project/opt/warunglestari-8-detail.webp"
+  },
+  "warunglestari (9).jpg": {
+    "card": "/images/project/opt/warunglestari-9-card.webp",
+    "detail": "/images/project/opt/warunglestari-9-detail.webp"
+  }
+}

@@ -7,6 +7,8 @@ import { lazy, Suspense } from 'react';
 import { ArrowUpRight, ChevronDown, Sparkles } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
+import { useBreakpoint } from '../hooks/useBreakpoint';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 import './Hero.css';
 
 const HeroLanyard = lazy(() => import('../components/lanyard/HeroLanyard'));
@@ -33,6 +35,13 @@ const STATS = [
 export default function Hero() {
   const { t, lang } = useLang();
   const isId = lang === 'id';
+  const { isMobile, isTablet } = useBreakpoint();
+  const { shouldUseFallback, webglAvailable, prefersReducedMotion } = useDeviceCapability();
+
+  // Label "Interactive 3D" hanya jujur bila kartu 3D benar-benar dimuat —
+  // kondisinya harus sama dengan allow3D di HeroLanyard.
+  const showInteractiveLabel =
+    webglAvailable && !prefersReducedMotion && !shouldUseFallback && !isMobile && !isTablet;
 
   return (
     <section id="hero" className="hero-section" aria-label="Hero">
@@ -176,10 +185,12 @@ export default function Hero() {
                 <span className="hero-stage__corner hero-stage__corner--br" />
               </div>
 
-              <span className="hero-stage__meta hero-stage__meta--tl">
-                <Sparkles size={11} strokeWidth={2} aria-hidden="true" />
-                Interactive 3D
-              </span>
+              {showInteractiveLabel && (
+                <span className="hero-stage__meta hero-stage__meta--tl">
+                  <Sparkles size={11} strokeWidth={2} aria-hidden="true" />
+                  Interactive 3D
+                </span>
+              )}
 
               {/* Lanyard asli — jangan diubah */}
               <div className="hero-stage__lanyard">

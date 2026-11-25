@@ -7,7 +7,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "images": "node scripts/optimize-images.mjs",
+    "photos": "node scripts/optimize-photo.mjs",
+    "icons": "node scripts/subset-fontawesome.mjs",
+    "fonts": "node scripts/fetch-fonts.mjs && node scripts/build-fonts-css.mjs",
+    "audit": "node scripts/audit-page.cjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
@@ -35,6 +40,9 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
+    "puppeteer-core": "^25.18.1",
+    "sharp": "^0.35.5",
+    "subset-font": "^2.9.0",
     "vite": "^8.3.0"
   }
 }

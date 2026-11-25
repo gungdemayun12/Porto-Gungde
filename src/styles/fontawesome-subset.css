@@ -1,0 +1,110 @@
+/* =========================================================
+   FONT AWESOME — subset (dibuat otomatis oleh scripts/subset-fontawesome.mjs)
+   Hanya ikon yang dipakai di src/. Jangan mengedit manual.
+   Ikon terpakai: 73
+   ========================================================= */
+
+@font-face {
+  font-family: "Font Awesome 7 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url('/fonts/fa-solid-900.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "Font Awesome 7 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/fa-regular-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "Font Awesome 7 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/fa-brands-400.woff2') format('woff2');
+}
+
+.fa-solid, .fas,
+.fa-regular, .far { font-family: 'Font Awesome 7 Free'; font-style: normal; line-height: 1; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; display: var(--fa-display, inline-block); font-variant: normal; text-rendering: auto; }
+.fa-solid, .fas { font-weight: 900; }
+.fa-regular, .far { font-weight: 400; }
+
+.fa-brands, .fab { font-family: 'Font Awesome 7 Brands'; font-weight: 400; font-style: normal; line-height: 1; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; display: var(--fa-display, inline-block); font-variant: normal; text-rendering: auto; }
+
+.fa-solid.fa-arrow-left::before { content: "\f060"; }
+.fa-solid.fa-arrow-right::before { content: "\f061"; }
+.fa-solid.fa-arrow-right-long::before { content: "\f178"; }
+.fa-solid.fa-arrow-rotate-right::before { content: "\f01e"; }
+.fa-solid.fa-arrow-up::before { content: "\f062"; }
+.fa-solid.fa-arrow-up-right-from-square::before { content: "\f08e"; }
+.fa-solid.fa-bolt::before { content: "\f0e7"; }
+.fa-solid.fa-brain::before { content: "\f5dc"; }
+.fa-solid.fa-briefcase::before { content: "\f0b1"; }
+.fa-solid.fa-bullhorn::before { content: "\f0a1"; }
+.fa-solid.fa-check::before { content: "\f00c"; }
+.fa-solid.fa-check-double::before { content: "\f560"; }
+.fa-solid.fa-chevron-left::before { content: "\f053"; }
+.fa-solid.fa-chevron-right::before { content: "\f054"; }
+.fa-solid.fa-circle::before { content: "\f111"; }
+.fa-solid.fa-circle-check::before { content: "\f058"; }
+.fa-solid.fa-circle-info::before { content: "\f05a"; }
+.fa-solid.fa-clipboard-check::before { content: "\f46c"; }
+.fa-solid.fa-cloud::before { content: "\f0c2"; }
+.fa-solid.fa-code::before { content: "\f121"; }
+.fa-solid.fa-code-branch::before { content: "\f126"; }
+.fa-solid.fa-comment-dots::before { content: "\f4ad"; }
+.fa-solid.fa-copy::before { content: "\f0c5"; }
+.fa-solid.fa-cubes-stacked::before { content: "\e4e6"; }
+.fa-solid.fa-database::before { content: "\f1c0"; }
+.fa-solid.fa-download::before { content: "\f019"; }
+.fa-solid.fa-envelope::before { content: "\f0e0"; }
+.fa-solid.fa-envelope-open-text::before { content: "\f658"; }
+.fa-solid.fa-file-arrow-down::before { content: "\f56d"; }
+.fa-solid.fa-file-lines::before { content: "\f15c"; }
+.fa-solid.fa-folder::before { content: "\f07b"; }
+.fa-solid.fa-gamepad::before { content: "\f11b"; }
+.fa-solid.fa-globe::before { content: "\f0ac"; }
+.fa-solid.fa-graduation-cap::before { content: "\f19d"; }
+.fa-solid.fa-hand-pointer::before { content: "\f25a"; }
+.fa-solid.fa-heart::before { content: "\f004"; }
+.fa-solid.fa-key::before { content: "\f084"; }
+.fa-solid.fa-keyboard::before { content: "\f11c"; }
+.fa-solid.fa-layer-group::before { content: "\f5fd"; }
+.fa-solid.fa-list-check::before { content: "\f0ae"; }
+.fa-solid.fa-location-crosshairs::before { content: "\f601"; }
+.fa-solid.fa-location-dot::before { content: "\f3c5"; }
+.fa-solid.fa-lock::before { content: "\f023"; }
+.fa-solid.fa-magnifying-glass::before { content: "\f002"; }
+.fa-solid.fa-mobile-screen-button::before { content: "\f3cd"; }
+.fa-solid.fa-moon::before { content: "\f186"; }
+.fa-solid.fa-paper-plane::before { content: "\f1d8"; }
+.fa-solid.fa-play::before { content: "\f04b"; }
+.fa-solid.fa-rotate-left::before { content: "\f2ea"; }
+.fa-solid.fa-rotate-right::before { content: "\f2f9"; }
+.fa-solid.fa-route::before { content: "\f4d7"; }
+.fa-solid.fa-screwdriver-wrench::before { content: "\f7d9"; }
+.fa-solid.fa-shield-halved::before { content: "\f3ed"; }
+.fa-solid.fa-shoe-prints::before { content: "\f54b"; }
+.fa-solid.fa-shuffle::before { content: "\f074"; }
+.fa-solid.fa-sun::before { content: "\f185"; }
+.fa-solid.fa-trophy::before { content: "\f091"; }
+.fa-solid.fa-video::before { content: "\f03d"; }
+.fa-solid.fa-weight-hanging::before { content: "\f5cd"; }
+.fa-solid.fa-xmark::before { content: "\f00d"; }
+.fa-brands.fa-android::before { content: "\f17b"; }
+.fa-brands.fa-css3-alt::before { content: "\f38b"; }
+.fa-brands.fa-github::before { content: "\f09b"; }
+.fa-brands.fa-instagram::before { content: "\f16d"; }
+.fa-brands.fa-js::before { content: "\f3b8"; }
+.fa-brands.fa-laravel::before { content: "\f3bd"; }
+.fa-brands.fa-linkedin::before { content: "\f08c"; }
+.fa-brands.fa-php::before { content: "\f457"; }
+.fa-brands.fa-react::before { content: "\f41b"; }
+.fa-brands.fa-whatsapp::before { content: "\f232"; }
+.fa-brands.fa-wordpress::before { content: "\f19a"; }
+.fa-regular.fa-clock::before { content: "\f017"; }
+.fa-regular.fa-images::before { content: "\f302"; }

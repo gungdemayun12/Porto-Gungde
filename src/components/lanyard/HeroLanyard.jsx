@@ -1,11 +1,20 @@
 /**
- * HeroLanyard — lazy 3D lanyard + fallback ringan
+ * HeroLanyard — kartu ID 3D dengan fallback statis yang ringan.
+ *
+ * Strategi pemuatan (penting untuk performa):
+ * 1. Semua perangkat langsung melihat `StaticBadge` (foto + CSS) sehingga
+ *    Hero tampil utuh tanpa menunggu WebGL/Three.js.
+ * 2. Bundle 3D (three + drei + rapier, ±3 MB) hanya diunduh bila perangkat
+ *    layak: WebGL tersedia, bukan perangkat hemat data/lemah, bukan layar
+ *    sentuh kecil, dan pengguna tidak meminta reduced-motion.
+ * 3. Di layar sentuh, kartu tetap berbentuk 3D secara visual memakai fallback
+ *    statis — jadi tampilan mobile konsisten tanpa biaya unduhan besar.
  */
 import { lazy, Suspense, useState, useEffect, useRef, Component } from 'react';
 import { useBreakpoint } from '../../hooks/useBreakpoint';
 import { useDeviceCapability } from '../../hooks/useDeviceCapability';
 import StaticBadge from './StaticBadge';
-import gungdePhoto from '../../assets/gungde.jpeg';
+import gungdePhoto from '../../assets/gungde.webp';
 
 const Lanyard3D = lazy(() => import('../ui/Lanyard'));
 
@@ -29,6 +38,7 @@ class WebGLErrorBoundary extends Component {
   }
 }
 
+/** Placeholder saat kartu 3D sedang dimuat — menjaga tinggi layout. */
 function LanyardSkeleton() {
   return (
     <div className="flex flex-col items-center justify-center h-full w-full min-h-[380px]">
@@ -39,7 +49,9 @@ function LanyardSkeleton() {
           src={gungdePhoto}
           alt=""
           className="w-full h-full object-cover object-top opacity-70"
-          loading="lazy"
+          width="208"
+          height="288"
+          loading="eager"
           decoding="async"
         />
       </div>
@@ -50,27 +62,28 @@ function LanyardSkeleton() {
 export default function HeroLanyard() {
   const { isMobile, isTablet } = useBreakpoint();
   const { shouldUseFallback, webglAvailable, prefersReducedMotion } = useDeviceCapability();
-  const useMobileFallback =
-    !webglAvailable ||
-    prefersReducedMotion ||
-    ((!isMobile && !isTablet) && shouldUseFallback);
-  const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(isMobile || isTablet);
 
-  // Di mobile/tablet, tunda mount 3D sampai thread utama selesai paint awal.
-  // Tampilan tetap lengkap (StaticBadge) lebih dulu, lalu 3D masuk saat idle.
-  const [readyFor3D, setReadyFor3D] = useState(() => !isMobile && !isTablet);
+  const containerRef = useRef(null);
+  const [inView, setInView] = useState(false);
+
+  // Muat 3D hanya pada perangkat pointer presisi dengan viewport memadai.
+  // Layar sentuh kecil memakai fallback statis agar unduhan tetap ringan.
+  const allow3D =
+    webglAvailable && !prefersReducedMotion && !shouldUseFallback && !isMobile && !isTablet;
+
+  // Tunda beberapa saat agar paint pertama (Hero + foto) selesai lebih dulu.
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    if (!isMobile && !isTablet) return undefined;
+    if (!allow3D) return undefined;
 
     let idleId;
     let timerId;
-    const start = () => setReadyFor3D(true);
+    const start = () => setReady(true);
     if (typeof window.requestIdleCallback === 'function') {
-      idleId = window.requestIdleCallback(start, { timeout: 1600 });
+      idleId = window.requestIdleCallback(start, { timeout: 2200 });
     } else {
-      timerId = window.setTimeout(start, 1100);
+      timerId = window.setTimeout(start, 1400);
     }
 
     return () => {
@@ -79,36 +92,38 @@ export default function HeroLanyard() {
       }
       if (timerId) window.clearTimeout(timerId);
     };
-  }, [isMobile, isTablet]);
+  }, [allow3D]);
 
-  const containerHeight = isMobile ? '375px' : isTablet ? '460px' : '570px';
-
+  // Jangan buat canvas WebGL saat panggung tidak terlihat.
   useEffect(() => {
+    if (!allow3D) return undefined;
     const el = containerRef.current;
-    if (!el) return;
+    if (!el) return undefined;
 
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { rootMargin: '80px', threshold: 0.05 }
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: '120px', threshold: 0.05 }
     );
 
     observer.observe(el);
-    return () => observer.unobserve(el);
-  }, []);
+    return () => observer.disconnect();
+  }, [allow3D]);
 
-  if (useMobileFallback || (!readyFor3D && (isMobile || isTablet))) {
-    return (
-      <div
-        ref={containerRef}
-        className="lanyard-container w-full flex items-center justify-center"
-        style={{ height: containerHeight, minHeight: '360px' }}
-      >
-        <StaticBadge />
-      </div>
-    );
-  }
+  // Kartu statis butuh ruang untuk tali + kartu (3:4) + nameplate, sehingga
+  // tingginya sedikit lebih besar dari kanvas 3D pada layar kecil.
+  const containerHeight = isMobile ? '360px' : isTablet ? '430px' : '570px';
+
+  const fallback = (
+    <div
+      ref={containerRef}
+      className="lanyard-container w-full flex items-center justify-center"
+      style={{ height: containerHeight, minHeight: isMobile ? '360px' : '360px' }}
+    >
+      <StaticBadge />
+    </div>
+  );
+
+  if (!allow3D) return fallback;
 
   return (
     <div
@@ -116,25 +131,25 @@ export default function HeroLanyard() {
       className="lanyard-container w-full relative flex flex-col items-center justify-center"
       style={{ height: containerHeight, minHeight: '360px' }}
     >
-      <div className="absolute top-2 z-20 pointer-events-none flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface/90 border border-gold/35 backdrop-blur-md shadow-xs text-text">
-        <i className="fa-solid fa-hand-pointer text-xs text-gold animate-bounce" aria-hidden="true" />
+      <div className="lanyard-hint absolute top-2 z-20 pointer-events-none flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface/90 border border-gold/35 backdrop-blur-md shadow-xs text-text">
+        <i className="fa-solid fa-hand-pointer text-xs text-gold" aria-hidden="true" />
         <span className="text-[11px] font-mono uppercase tracking-wider text-gold-text font-bold">
           Drag the card
         </span>
       </div>
 
-      {isVisible ? (
+      {inView && ready ? (
         <WebGLErrorBoundary fallback={<StaticBadge />}>
-          <Suspense fallback={<StaticBadge />}>
+          <Suspense fallback={<LanyardSkeleton />}>
             <Lanyard3D
-              position={[0, 0, isMobile ? 15 : 17.5]}
-              gravity={[0, isMobile ? -32 : -40, 0]}
-              fov={isMobile ? 16 : 19}
+              position={[0, 0, 17.5]}
+              gravity={[0, -40, 0]}
+              fov={19}
               transparent
               frontImage={gungdePhoto}
               backImage={gungdePhoto}
               imageFit="cover"
-              lanyardWidth={isMobile ? 0.78 : 0.82}
+              lanyardWidth={0.82}
             />
           </Suspense>
         </WebGLErrorBoundary>

@@ -2,19 +2,20 @@
  * About — dual-mode safe, Font Awesome icons, matched dual button pair.
  */
 import { MapPin, CheckCircle2 } from 'lucide-react';
-import gungdePhoto from '../assets/gungde.jpeg';
+import gungdePhoto from '../assets/gungde.webp';
 import { useLang } from '../hooks/useLang';
 import { useInView } from '../hooks/useInView';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { CONTACT } from '../data/contact';
-import { projectCounts, techCount } from '../data/stats';
+import { projectCounts, firstProjectYear } from '../data/stats';
 import Button from '../components/ui/Button';
 
-// Angka di kartu About dihitung dari data proyek & stack yang sebenarnya.
+// Angka di kartu About dihitung dari data proyek & pengalaman yang sebenarnya.
+const yearsBuilding = new Date().getFullYear() - firstProjectYear + 1;
 const STAT_ITEMS = [
   { value: `${projectCounts.total}`, icon: 'fa-solid fa-briefcase', label: { en: 'Projects', id: 'Proyek' } },
   { value: `${projectCounts.mobile}`, icon: 'fa-solid fa-mobile-screen-button', label: { en: 'Android Apps', id: 'Aplikasi Android' } },
-  { value: `${techCount}`, icon: 'fa-solid fa-code', label: { en: 'Technologies', id: 'Teknologi' } },
+  { value: `${yearsBuilding}+`, icon: 'fa-solid fa-route', label: { en: 'Years Building', id: 'Tahun Berkarya' } },
 ];
 
 const SKILLS = [
@@ -48,58 +49,64 @@ export default function About() {
           {/* ── Photo column ── */}
           <div ref={photoRef} className="sr-slide-left lg:col-span-5 flex justify-center lg:justify-start">
             <div className="relative w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[350px]">
-              {/* Decorative offset frame */}
-              <div
-                className="absolute inset-0 translate-x-3.5 translate-y-3.5 rounded-2xl pointer-events-none"
-                style={{
-                  border: '1px solid color-mix(in srgb, var(--color-gold) 35%, transparent)',
-                  background: 'color-mix(in srgb, var(--color-gold) 4%, var(--color-surface))',
-                }}
-              />
-              {/* Corner decorations */}
-              <span
-                className="absolute -top-2 -left-2 w-4 h-4 pointer-events-none"
-                style={{
-                  borderTop: '2px solid var(--color-gold)',
-                  borderLeft: '2px solid var(--color-gold)',
-                  borderRadius: '2px 0 0 0',
-                }}
-              />
-              <span
-                className="absolute -bottom-2 -right-2 w-4 h-4 pointer-events-none"
-                style={{
-                  borderBottom: '2px solid var(--color-gold)',
-                  borderRight: '2px solid var(--color-gold)',
-                  borderRadius: '0 0 2px 0',
-                }}
-              />
-
-              {/* Photo */}
-              <div
-                className="relative rounded-2xl overflow-hidden border shadow-xl aspect-[4/5]"
-                style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
-              >
-                <img
-                  src={gungdePhoto}
-                  alt="Gungde Mayun, web developer dan digital marketing"
-                  className="w-full h-full object-cover object-top"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
-                {/* Location badge */}
+              {/* Photo + decorative offset frame.
+                  Frame dibungkus bersama foto agar tingginya selalu mengikuti
+                  foto, bukan ikut memanjang mengikuti baris statistik. */}
+              <div className="relative">
                 <div
-                  className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full px-3.5 py-1.5"
+                  className="absolute inset-0 translate-x-3.5 translate-y-3.5 rounded-2xl pointer-events-none"
                   style={{
-                    background: 'rgba(7,11,9,0.80)',
-                    border: '1px solid rgba(255,255,255,0.15)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    color: '#fff',
+                    border: '1px solid color-mix(in srgb, var(--color-gold) 35%, transparent)',
+                    background: 'color-mix(in srgb, var(--color-gold) 4%, var(--color-surface))',
                   }}
+                />
+                {/* Corner decorations */}
+                <span
+                  className="absolute -top-2 -left-2 w-4 h-4 pointer-events-none"
+                  style={{
+                    borderTop: '2px solid var(--color-gold)',
+                    borderLeft: '2px solid var(--color-gold)',
+                    borderRadius: '2px 0 0 0',
+                  }}
+                />
+                <span
+                  className="absolute -bottom-2 -right-2 w-4 h-4 pointer-events-none"
+                  style={{
+                    borderBottom: '2px solid var(--color-gold)',
+                    borderRight: '2px solid var(--color-gold)',
+                    borderRadius: '0 0 2px 0',
+                  }}
+                />
+
+                {/* Photo */}
+                <div
+                  className="relative rounded-2xl overflow-hidden border shadow-xl aspect-[4/5]"
+                  style={{ borderColor: 'var(--color-border)', background: 'var(--color-surface)' }}
                 >
-                  <MapPin size={12} style={{ color: 'var(--color-gold)' }} />
-                  <span className="text-[11px] font-mono font-medium">{CONTACT.locationShort}</span>
+                  <img
+                    src={gungdePhoto}
+                    alt="Gungde Mayun, web developer dan digital marketing"
+                    width="480"
+                    height="600"
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent pointer-events-none" />
+                  {/* Location badge */}
+                  <div
+                    className="absolute bottom-4 left-4 flex items-center gap-2 rounded-full px-3.5 py-1.5"
+                    style={{
+                      background: 'rgba(7,11,9,0.80)',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      color: '#fff',
+                    }}
+                  >
+                    <MapPin size={12} style={{ color: 'var(--color-gold)' }} />
+                    <span className="text-[11px] font-mono font-medium">{CONTACT.locationShort}</span>
+                  </div>
                 </div>
               </div>
 

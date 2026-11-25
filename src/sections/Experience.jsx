@@ -7,7 +7,7 @@ import SectionTitle from '../components/ui/SectionTitle';
 import Button from '../components/ui/Button';
 import { useLang } from '../hooks/useLang';
 import { useScrollReveal } from '../hooks/useScrollReveal';
-import { learningData } from '../data/experience';
+import { experienceData } from '../data/experience';
 
 const EDUCATION = [
   {
@@ -110,10 +110,10 @@ export default function Experience() {
         <div ref={titleRef} className="sr-fade-up">
           <SectionTitle
             label={isId ? 'PERJALANAN' : 'JOURNEY'}
-            title={isId ? 'Perjalanan Belajar & Pendidikan.' : 'Learning Journey & Education.'}
+            title={isId ? 'Pengalaman & Pendidikan.' : 'Experience & Education.'}
             subtitle={isId
-              ? 'Tahapan belajar yang membentuk cara saya membangun produk, berdampingan dengan latar pendidikan formal.'
-              : 'The learning milestones that shaped how I build products, alongside my formal education.'}
+              ? 'Pengalaman kerja sebagai web developer dan digital marketer, berdampingan dengan latar pendidikan formal.'
+              : 'Professional experience as a web developer and digital marketer, alongside my formal education.'}
           />
         </div>
 
@@ -126,13 +126,13 @@ export default function Experience() {
                 className="w-8 h-8 rounded-lg flex items-center justify-center border shadow-2xs"
                 style={{ background: 'var(--color-surface)', borderColor: 'var(--color-gold)' }}
               >
-                <i className="fa-solid fa-seedling text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
+                <i className="fa-solid fa-briefcase text-xs" style={{ color: 'var(--color-gold)' }} aria-hidden="true" />
               </div>
               <span
                 className="text-xs font-mono uppercase tracking-[0.2em] font-bold"
                 style={{ color: 'var(--color-text)' }}
               >
-                {isId ? 'Perjalanan Belajar' : 'Learning Journey'}
+                {isId ? 'Pengalaman Kerja' : 'Work Experience'}
               </span>
             </div>
 
@@ -144,7 +144,7 @@ export default function Experience() {
               />
 
               <div className="space-y-0">
-                {learningData.map((item, i) => (
+                {experienceData.map((item, i) => (
                   <div
                     key={`${item.year}-${i}`}
                     className="relative pl-9 pb-8 last:pb-0"
@@ -162,33 +162,27 @@ export default function Experience() {
                         className="text-base font-semibold mb-1"
                         style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text)' }}
                       >
-                        {item.phase[lang] || item.phase.en}
+                        {item.role[lang] || item.role.en}
                       </h3>
                       <p
                         className="text-xs font-mono font-bold mb-3"
                         style={{ color: 'var(--color-gold-text)' }}
                       >
-                        {item.focus}
+                        {item.company[lang] || item.company.en}
                       </p>
                       <p className="text-xs sm:text-sm leading-relaxed mb-3" style={{ color: 'var(--color-muted)' }}>
                         {item.description[lang] || item.description.en}
                       </p>
-                      {/* Skill tags */}
-                      {item.tags?.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5">
-                          {item.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-mono font-semibold"
-                              style={{
-                                background: 'color-mix(in srgb, var(--color-gold) 8%, var(--color-bg))',
-                                color: 'var(--color-gold-text)',
-                                border: '1px solid color-mix(in srgb, var(--color-gold) 20%, transparent)',
-                              }}
-                            >
-                              {tag}
-                            </span>
-                          ))}
+                      {/* Location */}
+                      {item.location && (
+                        <div className="flex items-center gap-1.5 mt-3">
+                          <MapPin size={12} style={{ color: 'var(--color-gold)' }} />
+                          <span
+                            className="text-xs font-mono font-medium"
+                            style={{ color: 'var(--color-muted)' }}
+                          >
+                            {item.location}
+                          </span>
                         </div>
                       )}
                     </TimelineCard>

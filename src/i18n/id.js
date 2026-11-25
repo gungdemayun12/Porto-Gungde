@@ -139,8 +139,8 @@ const id = {
 
   // Experience
   experience: {
-    sectionTitle: 'Perjalanan Belajar & Pendidikan',
-    sectionSubtitle: 'Tahapan belajar dan fondasi keilmuan yang membentuk cara saya membangun produk.',
+    sectionTitle: 'Pengalaman & Pendidikan',
+    sectionSubtitle: 'Pengalaman kerja sebagai web developer dan digital marketer, berdampingan dengan latar pendidikan formal.',
   },
 
   // Testimonials

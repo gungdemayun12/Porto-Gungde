@@ -2,7 +2,7 @@
  * StaticBadge — fallback ringan untuk Lanyard (tanpa Three.js)
  * Kartu ID ala galeri: tali emas, frame tipis, dan nameplate.
  */
-import gungdePhoto from '../../assets/gungde.jpeg';
+import gungdePhoto from '../../assets/gungde.webp';
 
 export default function StaticBadge() {
   return (

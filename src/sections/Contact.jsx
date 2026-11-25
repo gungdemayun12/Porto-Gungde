@@ -207,7 +207,7 @@ export default function Contact() {
                     type="button"
                     onClick={handleCopyEmail}
                     aria-label="Copy email"
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-[2px] text-[11px] font-mono font-semibold cursor-pointer transition-colors shadow-2xs"
+                    className="flex items-center gap-1.5 px-3.5 min-h-11 rounded-[2px] text-[11px] font-mono font-semibold cursor-pointer transition-colors shadow-2xs"
                     style={{
                       background: 'var(--color-bg)',
                       border: '1px solid var(--color-border)',
@@ -232,7 +232,7 @@ export default function Contact() {
                 </h3>
                 <a
                   href={`mailto:${CONTACT.email}`}
-                  className="text-xs sm:text-sm font-mono font-semibold break-all transition-colors hover:underline"
+                  className="inline-flex items-center text-xs sm:text-sm font-mono font-semibold break-all transition-colors hover:underline min-h-11"
                   style={{ color: 'var(--color-gold-text)' }}
                 >
                   {CONTACT.email}
@@ -243,7 +243,7 @@ export default function Contact() {
               </div>
               <a
                 href={`mailto:${CONTACT.email}`}
-                className="group/link flex items-center justify-between pt-4 mt-4 text-xs sm:text-sm font-semibold transition-colors"
+                className="group/link flex items-center justify-between pt-4 pb-2.5 mt-4 min-h-11 text-xs sm:text-sm font-semibold transition-colors"
                 style={{ borderTop: '1px solid var(--color-border)', color: 'var(--color-gold-text)' }}
               >
                 <span>{isId ? 'Kirim Pesan Email' : 'Send An Email'}</span>
@@ -325,6 +325,7 @@ export default function Contact() {
             <div className="flex items-center gap-3">
               {[
                 { icon: 'fa-brands fa-github',    href: CONTACT.github,    label: 'GitHub' },
+                { icon: 'fa-brands fa-linkedin',  href: CONTACT.linkedin,  label: 'LinkedIn' },
                 { icon: 'fa-brands fa-instagram', href: CONTACT.instagram, label: 'Instagram' },
                 { icon: 'fa-brands fa-whatsapp',  href: waLink,            label: 'WhatsApp' },
               ].map(({ icon, href, label }) => (
@@ -335,7 +336,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   title={label}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-2xs"
+                  className="w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-105 shadow-2xs"
                   style={{
                     background: 'var(--color-bg)',
                     border: '1px solid var(--color-border)',

@@ -66,6 +66,22 @@
   padding: 2.35rem 0.35rem 0.8rem 0.95rem;
 }
 
+/* Lapisan gelap di belakang kolom teks agar judul tetap terbaca saat
+   jendela browser miring sedikit menutupi area kiri. */
+.project-poster__copy::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    90deg,
+    rgba(5, 9, 7, 0.92) 0%,
+    rgba(5, 9, 7, 0.78) 55%,
+    rgba(5, 9, 7, 0) 100%
+  );
+  pointer-events: none;
+}
+
 .project-poster__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -82,9 +98,12 @@
   margin-top: 0.42rem;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: clamp(0.82rem, 4.5cqw, 1.16rem);
-  line-height: 1.04;
-  letter-spacing: -0.015em;
+  font-size: clamp(0.82rem, 4.2cqw, 1.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
   text-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
 }
 
@@ -186,10 +205,10 @@
 .project-poster__shot {
   position: absolute;
   z-index: 1;
-  top: 15%;
-  right: -8%;
-  width: 60%;
-  height: 92%;
+  top: 18%;
+  right: -6%;
+  width: 54%;
+  height: 88%;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -309,7 +328,7 @@
 
 @container (max-width: 320px) {
   .project-poster__copy {
-    width: 54%;
+    width: 52%;
     padding-left: 0.75rem;
   }
 
@@ -323,7 +342,7 @@
   }
 
   .project-poster__shot {
-    width: 58%;
+    width: 52%;
   }
 }
 

@@ -6,7 +6,7 @@
  * stays sharp on every screen and needs no extra image assets.
  */
 import { useLang } from '../../hooks/useLang';
-import { categoryLabel } from '../../data/projects';
+import { categoryLabel } from '../../data/projectMeta';
 import './ProjectPoster.css';
 
 /* One accent per project, so the grid reads as a set but each card is distinct. */

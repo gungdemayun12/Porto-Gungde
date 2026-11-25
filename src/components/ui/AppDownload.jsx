@@ -55,7 +55,7 @@ export function DownloadButton({ project, compact = false, showMeta = true, clas
       {showMeta && project.downloadSize && (
         <span className="btn-square__meta">{project.downloadSize}</span>
       )}
-      <i className="fa-solid fa-arrow-down-to-line btn-square__arrow" aria-hidden="true" />
+      <i className="fa-solid fa-download btn-square__arrow" aria-hidden="true" />
     </a>
   );
 }

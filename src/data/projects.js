@@ -9,15 +9,44 @@ const resolveCategory = (item) => {
   return 'Web';
 };
 
-// Cover card memakai versi JPEG ringan dari thumbnail (gambar asli tetap dipakai
-// untuk galeri/detail). File hasil kompresi ada di /images/project/thumbs/.
-const toCoverThumb = (src) =>
-  src && src.includes('/images/project/')
-    ? src.replace('/images/project/', '/images/project/thumbs/').replace(/\.png$/i, '.jpg')
-    : null;
+// ---------------------------------------------------------------------------
+// PIPELINE GAMBAR
+// File sumber tetap JPEG di /images/project/web/ (maks 1600px). Turunan WebP
+// yang ringan dibuat oleh `npm run images` dan disimpan di
+// /images/project/opt/ dengan dua ukuran:
+//
+//   -card.webp    → 640px, untuk thumbnail kartu proyek (rata-rata ±16 KB)
+//   -detail.webp  → 1200px, untuk hero & galeri halaman detail
+//
+// Pemetaan dilakukan dari daftar proyek yang sebenarnya dipakai, jadi bundle
+// tidak perlu memuat manifest gambar yang tidak terpakai.
+// ---------------------------------------------------------------------------
 
-// Hero & galeri memakai versi JPEG teroptimasi (maks 1600px) di /images/project/web/
-// agar halaman detail tidak mengunduh PNG multi-MB. File asli tetap tersimpan.
+const slugifyFile = (value) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+/** Nama dasar file dari sebuah path gambar proyek, mis. "balicharming (1)". */
+const imageBaseName = (src) => {
+  if (!src || !src.includes('/images/project/')) return null;
+  let file = src.split('/').pop();
+  if (!file) return null;
+  try {
+    file = decodeURIComponent(file);
+  } catch {
+    // Biarkan apa adanya bila escape sequence tidak valid.
+  }
+  return slugifyFile(file.replace(/\.(png|jpe?g|webp)$/i, ''));
+};
+
+const optimizedImage = (src, size) => {
+  const base = imageBaseName(src);
+  return base ? `/images/project/opt/${base}-${size}.webp` : src || null;
+};
+
+// Fallback untuk proyek yang gambarnya belum punya turunan WebP.
 const toWebImage = (src) =>
   src && src.includes('/images/project/')
     ? src.replace('/images/project/', '/images/project/web/').replace(/\.(png|jpe?g)$/i, '.jpg')
@@ -27,12 +56,18 @@ const project = (data) => {
   const item = { ...data };
   delete item.stack;
   const category = resolveCategory(item);
+  const webThumb = toWebImage(item.thumbnail || null);
+  const webGallery = Array.isArray(item.gallery) ? item.gallery.map(toWebImage) : item.gallery;
   return {
     year: item.year || 2025,
     ...item,
-    thumbnail: toWebImage(item.thumbnail || null),
-    gallery: Array.isArray(item.gallery) ? item.gallery.map(toWebImage) : item.gallery,
-    coverThumb: toCoverThumb(item.thumbnail || null),
+    thumbnail: webThumb,
+    gallery: webGallery,
+    // Turunan ringan untuk tampilan kartu & halaman detail.
+    coverThumb: optimizedImage(item.thumbnail, 'card') || webThumb,
+    galleryDetail: Array.isArray(webGallery)
+      ? webGallery.map((src) => optimizedImage(src, 'detail') || src)
+      : webGallery,
     category,
     displayCategory: category,
     title: { en: item.name, id: item.name },
@@ -51,7 +86,7 @@ export const projectsData = [
     role: { en: 'Android App Developer', id: 'Android App Developer' },
     year: 2026,
     mobileApp: true,
-    icon: '/images/project/runtrack-icon.png',
+    icon: '/images/project/opt/runtrack-icon-icon.webp',
     accent: '#FD520F',
     downloadUrl: '/downloads/runtrack.apk',
     downloadFileName: 'RunTrack.apk',
@@ -125,7 +160,7 @@ export const projectsData = [
     role: { en: 'Android App Developer', id: 'Android App Developer' },
     year: 2026,
     mobileApp: true,
-    icon: '/images/project/catatku.png',
+    icon: '/images/project/opt/catatku-icon.webp',
     thumbnail: '/images/project/catatku.png',
     accent: '#0F9B8E',
     appTheme: 'notes',
@@ -356,21 +391,25 @@ export const projectsData = [
       '/images/project/spa1%20(4).png',
       '/images/project/spa1%20(5).png',
     ],
-    summaryEn: 'A tranquil, luxury spa website in Seminyak, Bali, showcasing traditional Balinese massage rituals, body treatments, transparent pricing tiers, and direct WhatsApp reservation flows.',
-    summaryId: 'Website spa dan wellness mewah di Seminyak, Bali, yang menyajikan paket pijat tradisional Bali, perawatan tubuh, daftar harga transparan, dan reservasi cepat via WhatsApp.',
-    detailEn: 'Zeisa Spa Seminyak is a wellness sanctuary nestled in the heart of Seminyak, Bali, offering authentic Balinese healing therapies, holistic body scrubs, natural facial rejuvenation, and relaxing couple rituals.\n\nThe website was designed to evoke calm, relaxation, and luxury from the very first impression, using warm earthy tones, organic textures, and peaceful imagery. Visitors can explore detailed treatment descriptions with clear 60, 90, and 120-minute pricing options. To maximize booking conversions for international tourists and local expatriates, the site features prominent one-click WhatsApp reservation buttons that automatically pre-fill the guest\'s desired treatment package, date, and time. Integrated Google Maps directions ensure guests can easily navigate to the Seminyak sanctuary.',
-    detailId: 'Zeisa Spa Seminyak adalah tempat peristirahatan dan perawatan tubuh mewah di pusat Seminyak, Bali, yang menawarkan terapi pijat tradisional Bali, lulur tubuh alami, peremajaan wajah, serta ritual relaksasi untuk pasangan.\n\nWebsite ini dirancang untuk menghadirkan ketenangan dan kenyamanan sejak pandangan pertama melalui palet warna tanah (earth tone) hangat, tipografi berkelas, dan fotografi suasana spa yang menenangkan. Pengunjung dapat membaca rincian paket perawatan dengan durasi 60, 90, dan 120 menit beserta transparansi tarif. Guna mempermudah wisatawan mancanegara maupun domestik dalam memesan jadwal, website ini dilengkapi tombol reservasi WhatsApp instan dengan format pesan otomatis yang mencantumkan nama perawatan dan jadwal yang dipilih, didukung integrasi Google Maps untuk petunjuk arah lokasi.',
+    summaryEn: 'A serene, editorial spa website in Seminyak, Bali, presenting eleven massage rituals, a dedicated nail menu, and two curated multi-hour packages with transparent 60/90/120-minute pricing, a mobile spa option, and one-tap WhatsApp reservations.',
+    summaryId: 'Website spa bernuansa tenang di Seminyak, Bali, yang menyajikan sebelas ritual pijat, menu kuku khusus, dan dua paket terkurasi berdurasi panjang dengan harga transparan 60/90/120 menit, opsi mobile spa, serta reservasi WhatsApp sekali klik.',
+    detailEn: 'Zeisa Spa Seminyak is a wellness sanctuary in the heart of Seminyak, Bali, offering authentic Balinese healing therapies, holistic body scrubs, natural facial rejuvenation, nail care, and relaxing couple rituals.\n\nThe site is structured to move a visitor from curiosity to a reservation with very few steps. Treatments are organised into clear groups: eleven massage and body rituals (Balinese, Swedish, Hotstone, Couple, Massage and Scrub, Lomi Lomi, Foot, Deep Tissue, Facial, Traditional, plus aromatherapy add-ons such as coconut oil and aloe vera), a dedicated nail menu of gel and classic manicure-pedicure services, and two curated multi-hour packages—Package I (massage, body scrub, and body mask, two hours) and Package II (which adds a traditional facial, two and a half hours).\n\nEvery treatment is documented with a short explanation of its benefits and a transparent three-tier duration menu at 60, 90, and 120 minutes, so guests know the price before they enquire. A mobile spa option extends selected treatments to private villas, which matters for travellers staying in Seminyak and Canggu. Every booking button opens WhatsApp with the treatment name, duration, and rate already filled in, so the guest only confirms a time—removing the friction of a long enquiry form. The visual identity leans on warm earth tones, editorial serif headings, soft natural textures, and unhurried photography to convey calm before the first treatment is even booked. The site is fully responsive and optimised for local search so travellers looking for a spa in Seminyak can find it easily.',
+    detailId: 'Zeisa Spa Seminyak adalah tempat peristirahatan dan perawatan tubuh di pusat Seminyak, Bali, yang menawarkan terapi pijat tradisional Bali, lulur tubuh alami, peremajaan wajah, perawatan kuku, serta ritual relaksasi untuk pasangan.\n\nStruktur situsnya dirancang untuk mengantar pengunjung dari rasa ingin tahu menuju reservasi dalam sedikit langkah. Perawatan dikelompokkan secara jelas: sebelas ritual pijat dan tubuh (Balinese, Swedish, Hotstone, Couple, Massage and Scrub, Lomi Lomi, Foot, Deep Tissue, Facial, Traditional, ditambah opsi aromaterapi seperti coconut oil dan aloe vera), menu kuku khusus berisi layanan manicure-pedicure gel dan klasik, serta dua paket terkurasi berdurasi panjang—Package I (pijat, body scrub, dan body mask, dua jam) dan Package II (menambahkan facial tradisional, dua setengah jam).\n\nSetiap perawatan dijelaskan manfaatnya secara singkat dan dilengkapi daftar harga tiga tingkat durasi yang transparan pada 60, 90, dan 120 menit, sehingga tamu mengetahui tarif sebelum bertanya. Opsi mobile spa memperluas perawatan tertentu ke vila privat, hal yang penting bagi wisatawan yang menginap di Seminyak dan Canggu. Setiap tombol pemesanan membuka WhatsApp dengan nama perawatan, durasi, dan tarif yang sudah terisi otomatis, sehingga tamu cukup mengonfirmasi waktu—menghilangkan hambatan formulir panjang. Identitas visualnya bertumpu pada warna tanah yang hangat, judul serif editorial, tekstur alami yang lembut, dan fotografi yang tidak terburu-buru untuk menghadirkan ketenangan sejak sebelum perawatan dipesan. Situs sepenuhnya responsif dan dioptimalkan untuk pencarian lokal agar wisatawan yang mencari spa di Seminyak mudah menemukannya.',
     resultsEn: [
-      'Serene luxury design tailored for wellness tourists in Seminyak, Bali',
-      'Transparent multi-duration treatment menus (60/90/120 min) with detailed benefits',
-      'High-conversion WhatsApp booking with pre-filled service inquiry templates',
-      'Integrated Google Maps geolocation and optimized local SEO for Seminyak visitors',
+      'Serene editorial design with warm earth tones tailored for wellness travellers in Seminyak',
+      'Treatment catalogue grouped into massage rituals, a dedicated nail menu, and two curated multi-hour packages',
+      'Transparent three-tier duration pricing (60/90/120 min) shown before the guest enquires',
+      'Mobile spa option extending selected treatments to private villas and hotels',
+      'One-tap WhatsApp booking that pre-fills treatment name, duration, and rate',
+      'Responsive layout with local SEO for travellers searching for a Seminyak spa',
     ],
     resultsId: [
-      'Desain visual mewah dan menenangkan yang disesuaikan untuk wisatawan wellness di Bali',
-      'Katalog menu perawatan transparan dengan pilihan durasi (60/90/120 menit) dan manfaatnya',
-      'Konversi reservasi tinggi melalui tombol WhatsApp dengan template data pesanan otomatis',
-      'Integrasi petunjuk arah Google Maps dan optimasi Local SEO pencarian spa Seminyak',
+      'Desain editorial yang menenangkan dengan warna tanah hangat untuk wisatawan wellness di Seminyak',
+      'Katalog perawatan terkelompok: ritual pijat, menu kuku khusus, dan dua paket terkurasi berdurasi panjang',
+      'Harga transparan tiga tingkat durasi (60/90/120 menit) yang terlihat sebelum tamu bertanya',
+      'Opsi mobile spa yang membawa perawatan pilihan ke vila dan hotel privat',
+      'Pemesanan WhatsApp sekali klik dengan nama perawatan, durasi, dan tarif yang sudah terisi',
+      'Tata letak responsif dengan SEO lokal bagi wisatawan yang mencari spa di Seminyak',
     ],
     liveUrl: 'https://zeisaspaseminyakbali.com/',
   }),
@@ -686,60 +725,35 @@ export const projectsData = [
       '/images/project/maikebalitour1%20(1).png',
       '/images/project/maikebalitour7.png',
     ],
-    summaryEn: 'A local Bali tour operator website for Mai Kebali Tour, presenting full-day, spiritual, cycling, night-market, wedding, and Nusa Penida experiences with transparent pricing and direct WhatsApp booking support.',
-    summaryId: 'Website operator tur lokal Mai Kebali Tour yang menampilkan paket full day, wisata spiritual, cycling, night market, pernikahan Bali, hingga Nusa Penida dengan harga transparan dan pemesanan langsung via WhatsApp.',
-    detailEn: 'Mai Kebali Tour is a local tour operator based in Bali, founded by Ngurah Oka—a native Balinese born and raised in Ubud who graduated from a Tourism High School and brings more than 15 years of experience in the tourism industry. Under the motto "Customer Satisfaction is our Goal", the company designs curated experiences together with partner restaurants, activity providers, and travel services.\n\nThe website organises its catalogue into clear categories—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Night Market Tour, Benoa Shore Excursion, and Balinese Wedding—so visitors can quickly find the experience that matches their trip. Signature itineraries are documented in detail, such as the Sala Sacred Waterfall Blessing & Customizable Tour, the Symbolic Balinese Wedding Ceremony at Puri Tegal Jaya, the Ubud Village Cycling tour through rice fields with a homemade Balinese lunch, the Kintamani morning and sunrise downhill cycling tours, the Lempuyang "Gate of Heaven" tour, the Jatiluwih UNESCO rice-terrace tour, and the Tanah Lot Temple & hidden waterfall tour.\n\nEach package lists what is included, its starting price, and practical highlights, while service guarantees—private car with driver, English-speaking drivers, hotel pickup, air-conditioned vehicles, flexible arrangements, 24/7 support, and secure payment options—are surfaced throughout the site. Booking is intentionally simple: travellers can request a quote or reach the team directly through WhatsApp for itinerary planning and confirmation, with TripAdvisor guest reviews providing extra social proof.',
-    detailId: 'Mai Kebali Tour adalah operator tur lokal yang berbasis di Bali, didirikan oleh Ngurah Oka—seorang Bali asli yang lahir dan besar di Ubud, lulusan SMK Pariwisata dengan pengalaman lebih dari 15 tahun di industri pariwisata. Dengan moto "Customer Satisfaction is our Goal", perusahaan ini merancang pengalaman terkurasi bersama restoran mitra, penyedia aktivitas, dan layanan travel lainnya.\n\nWebsite ini menata katalognya dalam kategori yang jelas—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Night Market Tour, Benoa Shore Excursion, dan Balinese Wedding—sehingga pengunjung dapat dengan cepat menemukan pengalaman yang sesuai. Paket andalan dijelaskan secara rinci, seperti Sala Sacred Waterfall Blessing & Customizable Tour, Upacara Pernikahan Bali simbolik di Puri Tegal Jaya, tur bersepeda Desa Ubud menembus sawah dengan makan siang Bali buatan rumah, tur sepeda menurun Kintamani (pagi & sunrise), tur Lempuyang "Gate of Heaven", tur sawah terasering Jatiluwih (situs UNESCO), serta tur Tanah Lot & air terjun tersembunyi.\n\nSetiap paket mencantumkan fasilitas yang termasuk, harga mulai, dan sorotan praktis, sementara jaminan layanan—mobil privat dengan supir, supir berbahasa Inggris, penjemputan hotel, kendaraan ber-AC, jadwal fleksibel, dukungan 24/7, serta opsi pembayaran yang aman—ditampilkan di seluruh situs. Proses pemesanan sengaja dibuat sederhana: wisatawan dapat meminta penawaran (Request a Quote) atau menghubungi tim langsung melalui WhatsApp untuk perencanaan itinerari dan konfirmasi, dengan ulasan tamu dari TripAdvisor sebagai bukti sosial tambahan.',
+    summaryEn: 'A local Bali tour operator platform for Mai Kebali Tour, combining a full online booking engine—live travel calendar, group size, hotel pick-up add-on, and card, PayPal, or bank transfer checkout—with full-day, spiritual, cycling, street-food, wedding, and Nusa Penida catalogue.',
+    summaryId: 'Platform operator tur lokal Mai Kebali Tour yang memadukan mesin pemesanan online lengkap—kalender tanggal live, jumlah peserta, tambahan antar-jemput hotel, dan pembayaran kartu, PayPal, atau transfer bank—dengan katalog full day, spiritual, cycling, street food, pernikahan Bali, hingga Nusa Penida.',
+    detailEn: 'Mai Kebali Tour is a local tour operator based in Bali, founded by Ngurah Oka—a native Balinese born and raised in Ubud who graduated from a Tourism High School and brings more than 15 years of experience in the tourism industry. Under the motto "Customer Satisfaction is our Goal", the company designs curated experiences together with partner restaurants, activity providers, and travel services.\n\nThe site is built as a self-service booking platform rather than a brochure. A secure checkout flow lets travellers select a package, pick their travel date from a live calendar, enter group size, optionally add hotel pick-up, pay by credit card, PayPal, or local bank transfer, and receive instant booking confirmation together with itinerary updates—while a small deposit secures the date and the balance is settled at the end of the trip. WhatsApp remains available for custom itineraries and quick questions, so guests can choose the channel that suits them.\n\nThe catalogue is organised into clear categories—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Street Food Tour, Shore Excursion, and Balinese Wedding—so visitors can quickly find the experience that matches their trip. Signature itineraries are documented in detail with published starting prices, such as the Sala Sacred Waterfall Blessing & Customizable Tour, the Symbolic Balinese Wedding Ceremony at Puri Tegal Jaya, the Ubud Village Cycling tour through rice fields with a homemade Balinese lunch, the Kintamani morning and sunrise downhill cycling tours, the Lempuyang "Gate of Heaven" tour, the Jatiluwih UNESCO rice-terrace tour, and the Tanah Lot Temple & hidden waterfall tour.\n\nEach package lists what is included, its starting price, and practical highlights, while service guarantees—private car with driver, English-speaking drivers, hotel pickup, air-conditioned vehicles, flexible arrangements, 24/7 support, and secure payment options—are surfaced throughout the site. TripAdvisor guest reviews provide social proof, and a dedicated custom-tour flow lets travellers build their own itinerary.',
+    detailId: 'Mai Kebali Tour adalah operator tur lokal yang berbasis di Bali, didirikan oleh Ngurah Oka—seorang Bali asli yang lahir dan besar di Ubud, lulusan SMK Pariwisata dengan pengalaman lebih dari 15 tahun di industri pariwisata. Dengan moto "Customer Satisfaction is our Goal", perusahaan ini merancang pengalaman terkurasi bersama restoran mitra, penyedia aktivitas, dan layanan travel lainnya.\n\nSitus ini dibangun sebagai platform pemesanan mandiri, bukan sekadar brosur. Alur checkout yang aman memungkinkan wisatawan memilih paket, menentukan tanggal perjalanan lewat kalender live, mengisi jumlah peserta, menambahkan antar-jemput hotel sebagai opsi, membayar dengan kartu kredit, PayPal, atau transfer bank lokal, lalu menerima konfirmasi pemesanan instan beserta pembaruan itinerary—dengan deposit kecil untuk mengunci tanggal dan pelunasan di akhir perjalanan. WhatsApp tetap tersedia untuk itinerary kustom dan pertanyaan cepat, sehingga tamu dapat memilih kanal yang paling nyaman.\n\nKatalognya ditata dalam kategori yang jelas—Bali Full Day Tour, Bali Activities Tour, Nusa Penida Tour, Spiritual Tour, Cycling Tour, Street Food Tour, Shore Excursion, dan Balinese Wedding—sehingga pengunjung dapat dengan cepat menemukan pengalaman yang sesuai. Paket andalan dijelaskan secara rinci lengkap dengan harga mulai, seperti Sala Sacred Waterfall Blessing & Customizable Tour, Upacara Pernikahan Bali simbolik di Puri Tegal Jaya, tur bersepeda Desa Ubud menembus sawah dengan makan siang Bali buatan rumah, tur sepeda menurun Kintamani (pagi & sunrise), tur Lempuyang "Gate of Heaven", tur sawah terasering Jatiluwih (situs UNESCO), serta tur Tanah Lot & air terjun tersembunyi.\n\nSetiap paket mencantumkan fasilitas yang termasuk, harga mulai, dan sorotan praktis, sementara jaminan layanan—mobil privat dengan supir, supir berbahasa Inggris, penjemputan hotel, kendaraan ber-AC, jadwal fleksibel, dukungan 24/7, serta opsi pembayaran yang aman—ditampilkan di seluruh situs. Ulasan tamu dari TripAdvisor menjadi bukti sosial, dan alur custom tour memungkinkan wisatawan menyusun itinerary sendiri.',
     resultsEn: [
-      'Category-based catalog covering Full Day, Activities, Nusa Penida, Spiritual, Cycling, Night Market, Shore Excursion, & Wedding tours',
+      'Online booking engine with live travel calendar, group size, and optional hotel pick-up add-on',
+      'Secure checkout via credit card, PayPal, or local bank transfer with instant booking confirmation',
+      'Category-based catalog covering Full Day, Activities, Nusa Penida, Spiritual, Cycling, Street Food, Shore Excursion, & Wedding tours',
       'Detailed signature itineraries such as the Sala Sacred Waterfall Blessing and the Puri Tegal Jaya Balinese wedding ceremony',
-      'Transparent inclusions, starting prices, and clear pricing across every package',
-      'Direct WhatsApp booking support and a "Request a Quote" flow with 24/7 assistance',
+      'Transparent inclusions and published starting prices alongside a "Request a Quote" flow for custom packages',
       'Local operator credibility backed by 15+ years of experience and TripAdvisor guest reviews',
     ],
     resultsId: [
-      'Katalog berbasis kategori: Full Day, Activities, Nusa Penida, Spiritual, Cycling, Night Market, Shore Excursion, & Wedding',
+      'Mesin pemesanan online dengan kalender tanggal live, jumlah peserta, dan opsi tambahan antar-jemput hotel',
+      'Checkout aman via kartu kredit, PayPal, atau transfer bank lokal dengan konfirmasi pemesanan instan',
+      'Katalog berbasis kategori: Full Day, Activities, Nusa Penida, Spiritual, Cycling, Street Food, Shore Excursion, & Wedding',
       'Itinerari andalan yang rinci seperti Sala Sacred Waterfall Blessing dan upacara pernikahan Bali di Puri Tegal Jaya',
-      'Fasilitas, harga mulai, dan penetapan harga yang transparan di setiap paket',
-      'Pemesanan langsung via WhatsApp dan alur "Request a Quote" dengan bantuan 24/7',
+      'Fasilitas dan harga mulai yang transparan, serta alur "Request a Quote" untuk paket kustom',
       'Kredibilitas operator lokal dengan pengalaman 15+ tahun dan ulasan tamu TripAdvisor',
     ],
     liveUrl: 'https://maikebalitour.com/',
   }),
 ];
 
-/**
- * Accent CSS variables for a mobile project, derived from its `accent` colour.
- * Lets each app card/badge carry its own brand colour (Run Track orange,
- * CatatKu teal) instead of a single hard-coded orange.
- * Returns undefined when the project has no accent, so the global defaults apply.
- */
-export const appAccentVars = (project, { text, bg, border } = {}) => {
-  const hex = project?.accent;
-  if (!hex || !/^#[0-9a-f]{6}$/i.test(hex)) return undefined;
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return {
-    '--app-accent': hex,
-    '--app-accent-rgb': `${r}, ${g}, ${b}`,
-    '--app-accent-text': text || hex,
-    '--app-accent-bg': bg || `rgba(${r}, ${g}, ${b}, 0.12)`,
-    '--app-accent-border': border || `rgba(${r}, ${g}, ${b}, 0.34)`,
-  };
-};
-
-export const projectCategories = ['All', 'Web', 'Mobile App', 'Private System'];
-
-export const CATEGORY_LABELS = {
-  All: { en: 'All', id: 'Semua' },
-  Web: { en: 'Web', id: 'Web' },
-  'Mobile App': { en: 'Mobile App', id: 'Aplikasi Mobile' },
-  'Private System': { en: 'Private System', id: 'Sistem Privat' },
-};
-
-export const categoryLabel = (category, lang = 'en') =>
-  CATEGORY_LABELS[category]?.[lang] || CATEGORY_LABELS[category]?.en || category;
-
 /** Proyek dengan berkas aplikasi yang bisa diunduh pengunjung. */
 export const downloadableProjects = projectsData.filter((p) => p.downloadUrl);
+
+// Metadata ringan tetap bisa diimpor dari sini untuk kompatibilitas, tetapi
+// komponen yang hanya butuh label kategori sebaiknya mengimpor
+// `data/projectMeta` agar tidak ikut memuat data proyek.
+export { appAccentVars, projectCategories, CATEGORY_LABELS, categoryLabel } from './projectMeta';
+

@@ -22,11 +22,13 @@ import {
 } from 'lucide-react';
 import { FaGithub } from 'react-icons/fa6';
 import { useLang } from '../hooks/useLang';
-import { projectsData, categoryLabel } from '../data/projects';
+import { projectsData } from '../data/projects';
+import { categoryLabel } from '../data/projectMeta';
 import Button from '../components/ui/Button';
 import MobileAppPreview from '../components/ui/MobileAppPreview';
 import AppDownloadPanel, { DownloadButton } from '../components/ui/AppDownload';
 import BrowserFrame from '../components/ui/BrowserFrame';
+import ProjectVideo from '../components/ui/ProjectVideo';
 import Reveal from '../components/ui/Reveal';
 
 export default function ProjectDetail() {
@@ -53,7 +55,9 @@ export default function ProjectDetail() {
   // Keyboard navigation untuk lightbox
   useEffect(() => {
     if (lightboxIndex === null) return;
-    const gallery = project?.gallery?.length ? project.gallery : [project?.thumbnail].filter(Boolean);
+    const gallery = project?.galleryDetail?.length
+      ? project.galleryDetail
+      : [project?.coverThumb].filter(Boolean);
 
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') {
@@ -91,7 +95,9 @@ export default function ProjectDetail() {
   const summary = project.summary[lang] || project.summary.en;
   const detail = project.detail[lang] || project.detail.en;
   const results = project.results[lang] || project.results.en;
-  const gallery = project.gallery?.length ? project.gallery : [project.thumbnail].filter(Boolean);
+  const gallery = project.galleryDetail?.length
+    ? project.galleryDetail
+    : [project.coverThumb].filter(Boolean);
 
   return (
     <main className="pt-24 pb-20">
@@ -165,19 +171,15 @@ export default function ProjectDetail() {
           {project.mobileApp ? (
             <MobileAppPreview variant="hero" theme={project.appTheme} appName={project.name} icon={project.icon} />
           ) : project.video ? (
-            <video
+            <ProjectVideo
               src={project.video}
-              controls
-              muted
-              playsInline
-              preload="metadata"
-              poster={project.thumbnail || undefined}
-              className="w-full h-full object-cover"
+              poster={project.coverThumb || project.thumbnail}
+              title={title}
             />
           ) : project.thumbnail ? (
             <div className="relative w-full h-full cursor-pointer" onClick={() => setLightboxIndex(0)}>
               <BrowserFrame
-                src={project.thumbnail}
+                src={gallery[0] || project.thumbnail}
                 project={project}
                 alt={`${title} preview`}
                 loading="eager"
@@ -200,39 +202,40 @@ export default function ProjectDetail() {
         {/* APK download + install guide */}
         {project.mobileApp && <AppDownloadPanel project={project} />}
 
-        {/* Meta Info Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-12">
-          <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
+        {/* Meta Info Bar — satu kolom di ponsel agar label panjang
+            (mis. "Web Developer & Digital Experience Designer") tetap terbaca. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-12">
+          <div className="p-4 rounded-xl border border-border bg-surface flex items-start gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
               <User size={18} />
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{t.projects.role}</span>
-              <span className="text-sm font-semibold text-text">
+              <span className="text-sm font-semibold text-text block leading-snug">
                 {project.role?.[lang] || project.role || 'Full-Stack Developer'}
               </span>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
+          <div className="p-4 rounded-xl border border-border bg-surface flex items-start gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
               {project.mobileApp ? <Smartphone size={18} /> : <Layers size={18} />}
             </div>
-            <div className="min-w-0">
+            <div className="min-w-0 flex-1">
               <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Kategori' : 'Category'}</span>
-              <span className="text-sm font-semibold text-text block">
+              <span className="text-sm font-semibold text-text block leading-snug">
                 {categoryLabel(project.category, lang)}
               </span>
             </div>
           </div>
 
-          <div className="p-4 rounded-xl border border-border bg-surface flex items-center gap-3">
+          <div className="p-4 rounded-xl border border-border bg-surface flex items-start gap-3">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-gold/10 text-gold shrink-0">
               {project.mobileApp ? <Smartphone size={18} /> : project.privateSystem ? <Lock size={18} /> : <Globe size={18} />}
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <span className="text-[11px] font-mono text-muted uppercase tracking-wider block">{isId ? 'Status Akses' : 'Access'}</span>
-              <span className="text-sm font-semibold text-text">
+              <span className="text-sm font-semibold text-text block leading-snug">
                 {project.mobileApp
                   ? (isId ? 'APK Android' : 'Android APK')
                   : project.privateSystem
